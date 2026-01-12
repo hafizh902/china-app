@@ -23,6 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role', // role untuk akses admin (user/admin)
     ];
 
     /**
@@ -58,7 +59,13 @@ class User extends Authenticatable
         return Str::of($this->name)
             ->explode(' ')
             ->take(2)
-            ->map(fn ($word) => Str::substr($word, 0, 1))
+            ->map(fn($word) => Str::substr($word, 0, 1))
             ->implode('');
+    }
+
+    // Relasi: User memiliki banyak Order
+    public function orders()
+    {
+        return $this->hasMany(\App\Models\Order::class);
     }
 }
