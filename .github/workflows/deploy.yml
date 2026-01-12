@@ -12,14 +12,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Deploy via FTP
+      - name: Deploy via FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: ${{ secrets.FTP_PATH }}/
-          protocol: ftp
-          passive: true
+          protocol: ftps
           security: loose
           timeout: 600000
