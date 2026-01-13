@@ -28,21 +28,21 @@
         <div class="p-8">
 
         <!-- Session Status -->
-        @if (session('status'))
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session('status')): ?>
             <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded-lg">
                 <div class="flex">
                     <div class="flex-shrink-0">
                         <i class="fas fa-check-circle text-green-400"></i>
                     </div>
                     <div class="ml-3">
-                        <p class="text-sm text-green-700">{{ session('status') }}</p>
+                        <p class="text-sm text-green-700"><?php echo e(session('status')); ?></p>
                     </div>
                 </div>
             </div>
-        @endif
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
         <!-- Validation Errors -->
-        @if ($errors->any())
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($errors->any()): ?>
             <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded-lg">
                 <div class="flex">
                     <div class="flex-shrink-0">
@@ -50,18 +50,18 @@
                     </div>
                     <div class="ml-3">
                         <ul class="text-sm text-red-700 space-y-1">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <li><?php echo e($error); ?></li>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                         </ul>
                     </div>
                 </div>
             </div>
-        @endif
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
         <!-- Forgot Password Form -->
-        <form method="POST" action="{{ route('password.email') }}" class="space-y-6">
-            @csrf
+        <form method="POST" action="<?php echo e(route('password.email')); ?>" class="space-y-6">
+            <?php echo csrf_field(); ?>
 
             <!-- Email -->
             <div>
@@ -74,7 +74,7 @@
                     type="email"
                     autocomplete="email"
                     required
-                    value="{{ old('email') }}"
+                    value="<?php echo e(old('email')); ?>"
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white"
                     placeholder="your@email.com"
                 >
@@ -94,7 +94,7 @@
         <div class="text-center">
             <p class="text-sm text-gray-600">
                 Ingat password Anda?
-                <a href="{{ route('login') }}" class="font-medium text-red-600 hover:text-red-500 transition-colors">
+                <a href="<?php echo e(route('login')); ?>" class="font-medium text-red-600 hover:text-red-500 transition-colors">
                     Kembali ke login
                 </a>
             </p>
@@ -102,9 +102,10 @@
 
         <!-- Back to Home -->
         <div class="text-center">
-            <a href="{{ route('home') }}" class="text-sm text-gray-500 hover:text-gray-700 transition-colors">
+            <a href="<?php echo e(route('home')); ?>" class="text-sm text-gray-500 hover:text-gray-700 transition-colors">
                 <i class="fas fa-arrow-left mr-1"></i>Kembali ke Beranda
             </a>
         </div>
     </div>
 </div>
+<?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/auth/forgot-password.blade.php ENDPATH**/ ?>
