@@ -33,6 +33,7 @@ class LoginModal extends Component
 
     protected $listeners = [
         'open-login-modal' => 'openModal',
+        'close-register-modal' => 'closeModal',
     ];
 
     public function login()

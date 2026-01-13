@@ -6,31 +6,55 @@ use Livewire\Component;
 use Livewire\Attributes\Url;
 use App\Models\Menu;
 
-// Komponen Livewire untuk halaman menu dengan fitur filter dan pencarian
 class MenuPage extends Component
 {
     protected $layout = 'app';
 
-    // Property untuk filter kategori (tersimpan di URL)
     #[Url]
-    public $category = 'all';
+    public string $category = 'all';
 
-    // Property untuk pencarian (tersimpan di URL)
     #[Url]
-    public $search = '';
+    public string $search = '';
 
-    // Property untuk sorting (tersimpan di URL)
     #[Url]
-    public $sort = 'popular';
+    public string $sort = 'popular';
 
-    // Method render untuk menampilkan menu dengan filter
+    public function setSort(string $value): void
+    {
+        $this->sort = $value;
+    }
+
     public function render()
     {
-        // Query menu dengan filter kategori dan pencarian
-        $items = Menu::when($this->category !== 'all', fn($q) => $q->where('category', $this->category))
-            ->when($this->search, fn($q) => $q->where('name', 'like', "%{$this->search}%"))
+        $items = Menu::query()
+            ->when(
+                $this->category !== 'all',
+                fn ($q) => $q->where('category', $this->category)
+            )
+            ->when(
+                $this->search,
+                fn ($q) => $q->where('name', 'like', '%' . $this->search . '%')
+            )
+            ->when(
+                $this->sort === 'price-low',
+                fn ($q) => $q->orderBy('price')
+            )
+            ->when(
+                $this->sort === 'price-high',
+                fn ($q) => $q->orderByDesc('price')
+            )
+            ->when(
+                $this->sort === 'name',
+                fn ($q) => $q->orderBy('name')
+            )
+            ->when(
+                $this->sort === 'popular',
+                fn ($q) => $q->latest() // atau orderBy('sold_count')
+            )
             ->get();
 
-        return view('livewire.pages.menu-page', ['menuItems' => $items]);
+        return view('livewire.pages.menu-page', [
+            'menuItems' => $items,
+        ]);
     }
 }

@@ -1,13 +1,11 @@
 <!-- Register Modal -->
-<div id="register-modal" 
-     class="fixed inset-0 z-[9999] overflow-y-auto flex items-center justify-center"
-     style="display: {{ $showModal ? 'flex' : 'none' }}; background-color: rgba(0, 0, 0, {{ $showModal ? '0.5' : '0' }});"
-     @click.self="$wire.closeModal()"
-     @keydown.escape="$wire.closeModal()">
+<div id="register-modal" class="fixed inset-0 z-[9999] overflow-y-auto flex items-center justify-center"
+    style="display: {{ $showModal ? 'flex' : 'none' }}; background-color: rgba(0, 0, 0, {{ $showModal ? '0.5' : '0' }});"
+    @click.self="$wire.closeModal()" @keydown.escape="$wire.closeModal()">
 
     <!-- Modal Content -->
     <div class="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden mx-4">
-        
+
         <!-- Chinese Pattern Header -->
         <div class="relative bg-gradient-to-r from-red-600 via-red-700 to-red-800 p-8 text-center">
             <!-- Decorative Chinese Pattern -->
@@ -20,13 +18,14 @@
 
             <!-- Close Button -->
             <button wire:click="closeModal"
-                    class="absolute top-6 right-6 text-white hover:text-yellow-300 transition-colors z-20 bg-red-700 rounded-full w-10 h-10 flex items-center justify-center">
+                class="absolute top-6 right-6 text-white hover:text-yellow-300 transition-colors z-20 bg-red-700 rounded-full w-10 h-10 flex items-center justify-center">
                 <i class="fas fa-times text-lg"></i>
             </button>
 
             <!-- Header Content -->
             <div class="relative z-10">
-                <div class="w-20 h-20 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg border-4 border-white">
+                <div
+                    class="w-20 h-20 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg border-4 border-white">
                     <i class="fas fa-user-plus text-red-600 text-3xl"></i>
                 </div>
                 <h2 class="text-3xl font-bold text-white mb-2" style="font-family: 'Noto Sans SC', sans-serif;">
@@ -66,14 +65,9 @@
                         <i class="fas fa-user mr-2 text-red-500"></i>Nama Lengkap
                     </label>
                     <div class="relative">
-                        <input
-                            wire:model="name"
-                            type="text"
-                            id="register-name"
+                        <input wire:model="name" type="text" id="register-name"
                             class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-gray-50 focus:bg-white text-gray-900 placeholder-gray-500"
-                            placeholder="Masukkan nama lengkap Anda"
-                            required
-                        >
+                            placeholder="Masukkan nama lengkap Anda" required>
                         <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
                             <i class="fas fa-user"></i>
                         </div>
@@ -91,14 +85,9 @@
                         <i class="fas fa-envelope mr-2 text-red-500"></i>Email Address
                     </label>
                     <div class="relative">
-                        <input
-                            wire:model="email"
-                            type="email"
-                            id="register-email"
+                        <input wire:model="email" type="email" id="register-email"
                             class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-gray-50 focus:bg-white text-gray-900 placeholder-gray-500"
-                            placeholder="your@email.com"
-                            required
-                        >
+                            placeholder="your@email.com" required>
                         <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
                             <i class="fas fa-envelope"></i>
                         </div>
@@ -116,14 +105,9 @@
                         <i class="fas fa-lock mr-2 text-red-500"></i>Password
                     </label>
                     <div class="relative">
-                        <input
-                            wire:model="password"
-                            type="password"
-                            id="register-password"
+                        <input wire:model="password" type="password" id="register-password"
                             class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-gray-50 focus:bg-white text-gray-900 placeholder-gray-500"
-                            placeholder="Minimal 8 karakter"
-                            required
-                        >
+                            placeholder="Minimal 8 karakter" required>
                         <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
                             <i class="fas fa-lock"></i>
                         </div>
@@ -141,14 +125,9 @@
                         <i class="fas fa-lock mr-2 text-red-500"></i>Konfirmasi Password
                     </label>
                     <div class="relative">
-                        <input
-                            wire:model="password_confirmation"
-                            type="password"
-                            id="register-password_confirmation"
+                        <input wire:model="password_confirmation" type="password" id="register-password_confirmation"
                             class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-gray-50 focus:bg-white text-gray-900 placeholder-gray-500"
-                            placeholder="Ulangi password Anda"
-                            required
-                        >
+                            placeholder="Ulangi password Anda" required>
                         <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
                             <i class="fas fa-lock"></i>
                         </div>
@@ -161,11 +140,8 @@
                 </div>
 
                 <!-- Submit Button -->
-                <button
-                    type="submit"
-                    wire:loading.attr="disabled"
-                    class="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
-                >
+                <button type="submit" wire:loading.attr="disabled"
+                    class="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed">
                     <span wire:loading.remove>
                         <i class="fas fa-user-plus mr-2"></i>Buat Akun Sekarang
                     </span>
@@ -179,8 +155,11 @@
             <div class="mt-6 text-center">
                 <p class="text-sm text-gray-600">
                     Sudah punya akun?
-                    <button wire:click="$dispatch('open-login-modal')" type="button"
-                            class="font-semibold text-red-600 hover:text-red-700 transition-colors underline">
+                    <button type="button"
+                        wire:click=" 
+                        $dispatch('close-register-modal');
+                        $dispatch('open-login-modal');"
+                        class="font-semibold text-red-600 hover:text-red-700 transition-colors underline">
                         Masuk di sini
                     </button>
                 </p>
@@ -189,7 +168,8 @@
             <!-- Chinese Food Benefits -->
             <div class="mt-6 bg-gradient-to-r from-yellow-50 to-red-50 p-4 rounded-xl border border-yellow-200">
                 <div class="text-center">
-                    <h4 class="text-sm font-semibold text-gray-800 mb-2" style="font-family: 'Noto Sans SC', sans-serif;">
+                    <h4 class="text-sm font-semibold text-gray-800 mb-2"
+                        style="font-family: 'Noto Sans SC', sans-serif;">
                         🎉 Bergabunglah & Dapatkan:
                     </h4>
                     <div class="flex justify-center space-x-4 text-xs text-gray-600">
