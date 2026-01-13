@@ -5,10 +5,12 @@ use Illuminate\Support\Facades\Route;
 // Route untuk halaman utama
 Route::get('/', \App\Livewire\Pages\HomePage::class)->name('home');
 
-// Route dashboard default Laravel (tidak digunakan)
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+// Route settings user
+Route::middleware(['auth'])->group(function () {
+    Route::get('/settings', function () {
+        return view('settings');
+    })->name('user.settings');
+});
 
 // Route Public - dapat diakses semua orang
 Route::get('/', \App\Livewire\Pages\HomePage::class)->name('home'); // Halaman utama
