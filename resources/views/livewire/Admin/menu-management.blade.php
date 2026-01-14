@@ -12,29 +12,18 @@
         </button>
     </div>
 
-    <div class="bg-white rounded-lg shadow overflow-hidden mx-2">
-        <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-                <tr>
-                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
-                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Gambar</th>
-                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
-                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Deskripsi</th>
-                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kategori</th>
-                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Harga</th>
-                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                    <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
-                </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-                @foreach($items as $index => $item)
-                <tr class="hover:bg-gray-50">
-                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ $index + 1 }}</td>
-                    <td class="px-4 py-3 whitespace-nowrap">
-                        <div class="w-16 h-16 bg-gray-100 rounded overflow-hidden">
-                            @if($item->image)
-                            <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}" class="w-full h-full object-cover">
-                            @else
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        @foreach($items as $item)
+            <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow duration-200 overflow-hidden relative border border-gray-100 mx-4">
+                <span class="absolute top-2 right-2 z-10 px-2.5 py-1 rounded text-white text-xs font-medium shadow-sm {{ $item->is_available ? 'bg-green-600' : 'bg-gray-500' }}">
+                    {{ $item->is_available ? 'Available' : 'Unavailable' }}
+                </span>
+                
+                <div class="flex">
+                    <div class="w-24 h-24 flex-shrink-0 bg-gray-100 overflow-hidden">
+                        @if($item->image)
+                            <img src="{{ $item->image_url }}" alt="{{ $item->name }}" class="w-full h-full object-cover">
+                        @else
                             <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
                                 <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
@@ -84,6 +73,54 @@
             </div>
 
             <div class="space-y-4">
+
+                {{-- Image Upload --}}
+<div class="mb-5">
+    <label class="block text-sm font-medium text-gray-700 mb-2">
+        Menu Image
+    </label>
+
+    <div class="flex items-start gap-4">
+        {{-- Preview --}}
+        <div class="w-28 h-28 rounded border border-dashed border-gray-300 flex items-center justify-center bg-white overflow-hidden">
+            @if ($image)
+                <img
+                    src="{{ $image->temporaryUrl() }}"
+                    class="w-full h-full object-cover"
+                >
+            @else
+                <span class="text-xs text-gray-400 text-center px-2">
+                    No image selected
+                </span>
+            @endif
+        </div>
+
+        {{-- Input --}}
+        <div class="flex-1">
+            <input
+                type="file"
+                wire:model="image"
+                accept="image/*"
+                class="block w-full text-sm text-gray-700
+                       file:mr-3 file:py-2 file:px-4
+                       file:rounded file:border-0
+                       file:text-sm file:font-semibold
+                       file:bg-red-50 file:text-red-600
+                       hover:file:bg-red-100"
+            >
+
+            <div wire:loading wire:target="image" class="text-xs text-gray-500 mt-1">
+                Uploading preview...
+            </div>
+
+            @error('image')
+                <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+    </div>
+</div>
+
+
                 <div>
                     <flux:input
                         label="Item Name"

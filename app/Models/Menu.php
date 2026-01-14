@@ -20,6 +20,22 @@ class Menu extends Model
         'is_available'
     ];
 
+    protected $appends = ['image_url'];
+
+    public function getImageUrlAttribute(): ?string
+    {
+        if (! $this->image) {
+            return null;
+        }
+
+        return rtrim(config('services.supabase.url'), '/')
+            . '/storage/v1/object/public/'
+            . config('services.supabase.bucket')
+            . '/'
+            . $this->image;
+    }
+
+
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class);
