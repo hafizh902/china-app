@@ -47,14 +47,12 @@
 <body class="bg-gray-50 font-sans">
     {{-- Navbar --}}
     <livewire:navbar />
-
-    {{-- Konten halaman --}}
-    {{ $slot }}
-
+    {{ $slot }} {{-- Isi halaman akan dimuat di sini --}}
+    
     {{-- Modals --}}
     <livewire:auth.login-modal />
     <livewire:auth.register-modal />
-
+    
     {{-- Alert --}}
     <livewire:alert-manager />
 
