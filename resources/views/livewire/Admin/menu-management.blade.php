@@ -23,7 +23,7 @@
                 <div class="flex">
                     <div class="w-24 h-24 flex-shrink-0 bg-gray-100 overflow-hidden">
                         @if($item->image)
-                            <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}" class="w-full h-full object-cover">
+                            <img src="{{ $item->image_url }}" alt="{{ $item->name }}" class="w-full h-full object-cover">
                         @else
                             <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
                                 <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -63,6 +63,54 @@
             </div>
             
             <div class="space-y-4">
+
+                {{-- Image Upload --}}
+<div class="mb-5">
+    <label class="block text-sm font-medium text-gray-700 mb-2">
+        Menu Image
+    </label>
+
+    <div class="flex items-start gap-4">
+        {{-- Preview --}}
+        <div class="w-28 h-28 rounded border border-dashed border-gray-300 flex items-center justify-center bg-white overflow-hidden">
+            @if ($image)
+                <img
+                    src="{{ $image->temporaryUrl() }}"
+                    class="w-full h-full object-cover"
+                >
+            @else
+                <span class="text-xs text-gray-400 text-center px-2">
+                    No image selected
+                </span>
+            @endif
+        </div>
+
+        {{-- Input --}}
+        <div class="flex-1">
+            <input
+                type="file"
+                wire:model="image"
+                accept="image/*"
+                class="block w-full text-sm text-gray-700
+                       file:mr-3 file:py-2 file:px-4
+                       file:rounded file:border-0
+                       file:text-sm file:font-semibold
+                       file:bg-red-50 file:text-red-600
+                       hover:file:bg-red-100"
+            >
+
+            <div wire:loading wire:target="image" class="text-xs text-gray-500 mt-1">
+                Uploading preview...
+            </div>
+
+            @error('image')
+                <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+    </div>
+</div>
+
+
                 <div>
                     <flux:input 
                         label="Item Name" 
@@ -71,6 +119,8 @@
                         class="w-full"
                     />
                 </div>
+
+
                 
                 <div>
                     <flux:input 

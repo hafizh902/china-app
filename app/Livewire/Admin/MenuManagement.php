@@ -2,11 +2,17 @@
 
 namespace App\Livewire\Admin;
 
+use Livewire\WithFileUploads;
 use Livewire\Component;
 use App\Models\Menu;
+use App\Services\SupabaseStorageService;
+
 
 class MenuManagement extends Component
 {
+    use WithFileUploads;
+
+    public $image; // file upload
     public ?int $menuId = null;
     public bool $showCreateModal = false;
     public bool $showEditModal = false;
@@ -35,21 +41,32 @@ class MenuManagement extends Component
         $this->showCreateModal = true;
     }
 
-    public function store()
+    public function store(SupabaseStorageService $storage)
     {
         $this->validate();
-
+    
+        $imagePath = null;
+    
+        if ($this->image) {
+            $filename = 'menu-' . uniqid() . '.' . $this->image->extension();
+            $imagePath = "menus/{$filename}";
+    
+            $storagePath = $storage->upload($this->image, $imagePath);
+        }
+    
         Menu::create([
             'name' => $this->name,
             'description' => $this->description,
             'category' => $this->category,
             'price' => $this->price,
             'is_available' => $this->is_available,
+            'image' => $storagePath,
         ]);
-
+    
         $this->resetForm();
         $this->showCreateModal = false;
     }
+    
 
     public function edit(int $id)
     {
