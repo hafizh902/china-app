@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 
 use App\Livewire\Pages;
 use App\Livewire\Admin;
-
+Route::get('resto' , function () {
+    return view('resto_app');
+});
 // Public
 Route::get('/', Pages\HomePage::class)->name('home');
 Route::get('/menu', Pages\MenuPage::class)->name('menu');

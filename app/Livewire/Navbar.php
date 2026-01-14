@@ -7,43 +7,26 @@ use Livewire\Component;
 
 class Navbar extends Component
 {
-    public $showLogoutConfirm = false;
+    public $showLogoutConfirm = false; // Variabel untuk kontrol tampilan modal logout
 
+    // Fungsi untuk membuka login modal
     public function openLoginModal()
     {
         $this->dispatch('open-login-modal');
     }
 
+    // Fungsi untuk membuka register modal
     public function openRegisterModal()
     {
         $this->dispatch('open-register-modal');
     }
 
-    public function confirmLogout()
+    public function openLogoutModal()
     {
-        $this->showLogoutConfirm = true;
+        // Mengirim event browser ke client untuk membuka modal logout
+        $this->dispatch('open-logout-modal');
     }
-
-    public function cancelLogout()
-    {
-        $this->showLogoutConfirm = false;
-    }
-
-    public function logout()
-    {
-        Auth::logout();
-        $this->showLogoutConfirm = false;
-
-        // Dispatch success alert
-        $this->dispatch('alert', [
-            'type' => 'success',
-            'message' => 'Anda telah berhasil logout. Sampai jumpa lagi!',
-            'title' => 'Logout Berhasil'
-        ]);
-
-        return redirect('/');
-    }
-
+    // Render tampilan navbar
     public function render()
     {
         return view('livewire.navbar');
