@@ -5,42 +5,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>China Street Food</title>
-
-    
+    <!-- Tailwind CSS dari CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    >
-
-    
+    <!-- Font Awesome untuk icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts untuk font Chinese dan Inter -->
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
+        rel="stylesheet">
 
     <script>
+        // Konfigurasi Tailwind CSS custom
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'chinese-red': '#C41E3A',
-                        'chinese-black': '#1A1A1A',
-                        'chinese-gold': '#D4AF37',
-                        'chinese-gold-light': '#F0D878',
+                        'chinese-red': '#C41E3A', // Warna merah khas China
+                        'chinese-black': '#1A1A1A', // Warna hitam khas China
+                        'chinese-gold': '#D4AF37', // Warna emas khas China
+                        'chinese-gold-light': '#F0D878', // Warna emas terang
                     },
                     fontFamily: {
-                        chinese: ['Noto Sans SC', 'sans-serif'],
-                        sans: ['Inter', 'sans-serif'],
+                        'chinese': ['Noto Sans SC', 'sans-serif'], // Font untuk teks Chinese
+                        'sans': ['Inter', 'sans-serif'], // Font untuk teks umum
                     }
                 }
             }
         }
     </script>
-
-    
     <?php echo \Livewire\Mechanisms\FrontendAssets\FrontendAssets::styles(); ?>
 
 </head>
@@ -67,11 +59,12 @@ unset($__params);
 unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
-
     
-    <?php echo e($slot); ?>
+    <main class="relative overflow-visible">
+        <?php echo e($slot); ?>
 
-
+    </main>
+    
     
     <?php
 $__split = function ($name, $params = []) {
@@ -113,7 +106,7 @@ unset($__params);
 unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
-
+    
     
     <?php
 $__split = function ($name, $params = []) {
@@ -159,4 +152,5 @@ if (isset($__slots)) unset($__slots);
         });
     </script>
 </body>
-</html><?php /**PATH E:\12 RPL\china-app\resources\views/components/layouts/app.blade.php ENDPATH**/ ?>
+</html>
+<?php /**PATH E:\12 RPL\china-app\resources\views/components/layouts/app.blade.php ENDPATH**/ ?>
