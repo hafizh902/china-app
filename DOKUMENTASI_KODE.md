@@ -236,7 +236,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
 ## 🎨 Views (Blade Templates)
 
-### Layout Utama (`resources/views/layouts/app.blade.php`)
+### Layout Utama (`resources/views/components/layouts/app.blade.php`)
 ```blade
 <!DOCTYPE html>
 <html lang="en">
@@ -247,11 +247,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 <body>
     <!-- Navbar dengan: Logo, Menu Links, Cart Component, Auth Links -->
     <nav class="bg-white shadow-md sticky top-0 z-50">
-        <!-- Navigation bar lengkap -->
+        <!-- Navigation bar lengkap dengan login/register -->
     </nav>
 
-    {{ $slot }} <!-- Konten halaman dimuat di sini -->
-
+    {{ $slot }} {{-- Konten halaman dimuat di sini --}}
     @livewireScripts
 </body>
 </html>
@@ -260,7 +259,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 **Penggunaan:**
 - Layout utama untuk semua halaman Livewire
 - Navbar sticky dengan responsive design
-- Conditional rendering berdasarkan status login
+- Link login dan register mengarah ke `resources/views/livewire/auth/`
 
 ### Home Page (`resources/views/livewire/pages/home-page.blade.php`)
 ```blade
@@ -304,6 +303,42 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 - Sidebar keranjang dengan animasi Alpine.js
 - Real-time update via Livewire events
 - Kalkulasi otomatis subtotal, tax, total
+
+### Authentication Views
+
+#### Login Page (`resources/views/livewire/auth/login.blade.php`)
+```blade
+<div class="min-h-screen flex items-center justify-center bg-gray-50">
+    <!-- Form login dengan styling konsisten -->
+    <form method="POST" action="{{ route('login.store') }}">
+        <!-- Input email, password, remember me -->
+        <!-- Link ke register dan forgot password -->
+    </form>
+</div>
+```
+
+**Fitur:**
+- Form login dengan validasi
+- Remember me checkbox
+- Link ke forgot password dan register
+- Error handling dan session status
+
+#### Register Page (`resources/views/livewire/auth/register.blade.php`)
+```blade
+<div class="min-h-screen flex items-center justify-center bg-gray-50">
+    <!-- Form register dengan styling konsisten -->
+    <form method="POST" action="{{ route('register.store') }}">
+        <!-- Input name, email, password, confirm password -->
+        <!-- Link ke login -->
+    </form>
+</div>
+```
+
+**Fitur:**
+- Form registrasi lengkap
+- Validasi password confirmation
+- Link ke halaman login
+- Error handling
 
 ## 🗃️ Migration Database
 
