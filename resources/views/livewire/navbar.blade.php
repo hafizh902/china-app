@@ -103,7 +103,8 @@
                                 x-transition:leave="transition ease-in duration-75"
                                 x-transition:leave-start="transform opacity-100 scale-100"
                                 x-transition:leave-end="transform opacity-0 scale-95"
-                                class="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
+                                class="fixed right-4 top-16 w-56  bg-white rounded-xl shadow-2xl border border-gray-100 py-2 z-[9999]">
+
                                 <!-- User Info Header -->
                                 <div class="px-4 py-3 border-b border-gray-100">
                                     <div class="flex items-center space-x-3">
@@ -120,7 +121,7 @@
                                 </div>
 
                                 <!-- Menu Items -->
-                                <div class="py-2">
+                                <div class="py-2 ">
                                     <a href="{{ route('user.settings') }}"
                                         class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
                                         <i class="fas fa-user-cog mr-3 text-gray-400"></i>

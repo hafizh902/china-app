@@ -129,12 +129,19 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
 
                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(Route::has('password.request')): ?>
                         <div class="text-sm">
-                            <a href="<?php echo e(route('password.request')); ?>"
+                            <!-- Menggunakan $dispatch untuk membuka modal reset password -->
+                            <a href="javascript:void(0);"
+                                wire:click="
+            $dispatch('close-login-modal'); 
+            $dispatch('open-reset-password-modal');"
                                 class="font-medium text-red-600 hover:text-red-500 transition-colors">
                                 Lupa password?
                             </a>
                         </div>
                     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+
+
+
                 </div>
 
                 <!-- Submit Button -->

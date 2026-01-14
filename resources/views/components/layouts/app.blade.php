@@ -47,6 +47,7 @@
     {{-- Modals --}}
     <livewire:auth.login-modal />
     <livewire:auth.register-modal />
+    <<livewire:auth.reset-password-modal/>
     
     {{-- Alert --}}
     <livewire:alert-manager />
