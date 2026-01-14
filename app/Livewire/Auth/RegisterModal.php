@@ -38,8 +38,9 @@ class RegisterModal extends Component
 
     protected $listeners = [
         'open-register-modal' => 'openModal',
+        'close-register-modal' => 'closeModal',
     ];
-
+    
     public function register()
     {
         $this->validate();

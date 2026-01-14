@@ -13,7 +13,7 @@ Route::get('/checkout', Pages\CheckoutPage::class)->name('checkout');
 Route::get('/orders', Pages\OrderHistoryPage::class)
     ->middleware('auth')
     ->name('orders');
-
+    
 // Route settings user
 Route::middleware(['auth'])->group(function () {
     Route::get('/settings', function () {

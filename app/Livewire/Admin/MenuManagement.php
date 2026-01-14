@@ -123,7 +123,7 @@ class MenuManagement extends Component
     public function render()
     {
         return view('livewire.admin.menu-management', [
-            'items' => Menu::all(),
+            'items' => Menu::simplePaginate(10),
         ]);
     }
 }

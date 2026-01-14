@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 // Model untuk menyimpan data menu makanan
 class Menu extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'name',
         'description',
