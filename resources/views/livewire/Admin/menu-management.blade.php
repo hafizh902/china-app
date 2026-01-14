@@ -72,7 +72,7 @@
         </table>
     </div>
 
-    <div class="mt-4 mx-2">
+    <div class="mt-4 mx-2 flex justify-center">
         {{ $items->links() }}
     </div>
 
