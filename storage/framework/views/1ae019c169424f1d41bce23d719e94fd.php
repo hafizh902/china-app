@@ -67,11 +67,8 @@ unset($__params);
 unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
-
+    <?php echo e($slot); ?> 
     
-    <?php echo e($slot); ?>
-
-
     
     <?php
 $__split = function ($name, $params = []) {
@@ -113,7 +110,7 @@ unset($__params);
 unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
-
+    
     
     <?php
 $__split = function ($name, $params = []) {
