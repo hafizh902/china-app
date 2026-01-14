@@ -9,18 +9,21 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-public function up()
-{
-    Schema::create('order_items', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('order_id')->constrained()->onDelete('cascade');
-        $table->foreignId('menu_id')->constrained()->onDelete('cascade');
-        $table->string('menu_name'); // snapshot nama saat order
-        $table->decimal('price', 10, 2); // snapshot harga saat order
-        $table->integer('quantity');
-        $table->timestamps();
-    });
-}
+    public function up()
+    {
+        Schema::create('order_items', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('order_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('menu_id')->constrained()->restrictOnDelete();
+
+            $table->string('menu_name'); // snapshot nama menu
+            $table->decimal('menu_price', 10, 2); // snapshot harga
+            $table->integer('quantity');
+            $table->decimal('subtotal', 10, 2);
+
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.

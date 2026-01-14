@@ -2,9 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Route untuk halaman utama
-Route::get('/', \App\Livewire\Pages\HomePage::class)->name('home');
+use App\Livewire\Pages;
+use App\Livewire\Admin;
 
+// Public
+Route::get('/', Pages\HomePage::class)->name('home');
+Route::get('/menu', Pages\MenuPage::class)->name('menu');
+Route::get('/cart', Pages\CartPage::class)->name('cart');
+Route::get('/checkout', Pages\CheckoutPage::class)->name('checkout');
+Route::get('/orders', Pages\OrderHistoryPage::class)
+    ->middleware('auth')
+    ->name('orders');
+    
 // Route settings user
 Route::middleware(['auth'])->group(function () {
     Route::get('/settings', function () {
@@ -12,21 +21,14 @@ Route::middleware(['auth'])->group(function () {
     })->name('user.settings');
 });
 
-// Route Public - dapat diakses semua orang
-Route::get('/', \App\Livewire\Pages\HomePage::class)->name('home'); // Halaman utama
-Route::get('/menu', \App\Livewire\Pages\MenuPage::class)->name('menu'); // Halaman menu
-Route::get('/cart', \App\Livewire\Pages\CartPage::class)->name('cart'); // Halaman keranjang
-Route::get('/checkout', \App\Livewire\Pages\CheckoutPage::class)->name('checkout'); // Halaman checkout
-Route::get('/orders', \App\Livewire\Pages\OrderHistoryPage::class)->name('orders'); // Riwayat pesanan
-
-// Route Admin - hanya untuk user dengan role admin
-Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', \App\Livewire\Admin\Dashboard::class)->name('admin.dashboard'); // Dashboard admin
-    Route::get('/menu', \App\Livewire\Admin\MenuManagement::class)->name('admin.menu'); // Management menu
-    Route::get('/orders', \App\Livewire\Admin\OrderManagement::class)->name('admin.orders'); // Management pesanan
-});
-
-// Route untuk tampilan frontend acuan
-Route::view('resto', 'resto_app')->name('resto_app');
+// Admin
+Route::middleware(['auth', 'admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::get('/dashboard', Admin\Dashboard::class)->name('dashboard');
+        Route::get('/menu', Admin\MenuManagement::class)->name('menu');
+        Route::get('/orders', Admin\OrderManagement::class)->name('orders');
+    });
 
 require __DIR__.'/settings.php';

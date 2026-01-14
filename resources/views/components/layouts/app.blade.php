@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,21 +45,35 @@
 </head>
 
 <body class="bg-gray-50 font-sans">
-
     {{-- Navbar --}}
     <livewire:navbar />
-
-    {{-- Konten halaman --}}
-    {{ $slot }}
-
+    {{ $slot }} {{-- Isi halaman akan dimuat di sini --}}
+    
     {{-- Modals --}}
     <livewire:auth.login-modal />
     <livewire:auth.register-modal />
-
+    
     {{-- Alert --}}
     <livewire:alert-manager />
 
     {{-- LIVEWIRE SCRIPTS WAJIB --}}
+    @fluxScripts
     @livewireScripts
+    <script>
+        window.addEventListener('debug-modal', () => {
+            console.log('Add New Item clicked')
+        })
+
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('toast', (message) => {
+                // Tambahkan notifikasi toast sederhana
+                const toast = document.createElement('div');
+                toast.className = 'fixed top-4 right-4 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                toast.textContent = message;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+            });
+        });
+    </script>
 </body>
 </html>

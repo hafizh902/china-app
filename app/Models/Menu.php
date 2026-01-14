@@ -8,19 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 // Model untuk menyimpan data menu makanan
 class Menu extends Model
 {
-    use HasFactory;
-
-    // Kolom yang bisa diisi massal
     protected $fillable = [
-        'name', // nama menu
-        'description', // deskripsi menu
-        'category', // kategori menu (makanan/minuman)
-        'price', // harga menu
-        'image', // path gambar menu
-        'is_available' // status ketersediaan menu
+        'name',
+        'description',
+        'category',
+        'price',
+        'image',
+        'prep_time_minutes',
+        'is_available'
     ];
 
-    // Relasi: Menu memiliki banyak OrderItem
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class);
