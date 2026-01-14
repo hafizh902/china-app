@@ -10,6 +10,10 @@ class CartComponent extends Component
     // Array untuk menyimpan item di keranjang
     public $cart = [];
 
+    protected $listeners = [
+        'add-to-cart' => 'addToCart',
+    ];
+
     // Method yang dipanggil saat komponen pertama kali dimuat
     public function mount()
     {
@@ -18,23 +22,34 @@ class CartComponent extends Component
     }
 
     // Method untuk menambah item ke keranjang
-    public function addToCart($item)
+    public function addToCart($id, $name, $price, $image = null)
     {
-        $cart = session()->get('cart', []);
+        static $processing = false;
 
-        // Jika item sudah ada, tambah quantity
-        if (isset($cart[$item['id']])) {
-            $cart[$item['id']]['quantity']++;
-        } else {
-            // Jika belum ada, tambah item baru dengan quantity 1
-            $cart[$item['id']] = array_merge($item, ['quantity' => 1]);
+        if ($processing) {
+            return;
         }
 
-        // Simpan ke session dan update property
+        $processing = true;
+
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$id])) {
+            $cart[$id]['quantity']++;
+        } else {
+            $cart[$id] = [
+                'id' => $id,
+                'name' => $name,
+                'price' => $price,
+                'image' => $image,
+                'quantity' => 1,
+            ];
+        }
+
         session()->put('cart', $cart);
         $this->cart = $cart;
-        // Kirim event ke komponen lain
-        $this->dispatch('cart-updated');
+
+        $processing = false;
     }
 
     // Method untuk menghapus item dari keranjang

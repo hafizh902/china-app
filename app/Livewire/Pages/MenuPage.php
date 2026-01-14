@@ -51,7 +51,7 @@ class MenuPage extends Component
                 $this->sort === 'popular',
                 fn ($q) => $q->latest() // atau orderBy('sold_count')
             )
-            ->get();
+            ->paginate(4);
 
         return view('livewire.pages.menu-page', [
             'menuItems' => $items,
