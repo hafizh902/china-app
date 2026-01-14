@@ -59,15 +59,14 @@ return [
             'throw' => false,
             'report' => false,
         ],
-        'b2' => [
-            'driver' => 's3',
-            'key' => env('B2_KEY_ID'),
-            'secret' => env('B2_APPLICATION_KEY'),
-            'region' => env('B2_REGION'),
-            'bucket' => env('B2_BUCKET'),
-            'endpoint' => env('B2_ENDPOINT'),
-            'use_path_style_endpoint' => true, // wajib untuk B2
-        ],
+
+        // 'supabase' => [
+        //     'url' => env('SUPABASE_URL'),
+        //     'service_key' => env('SUPABASE_SERVICE_KEY'),
+        //     'bucket' => env('SUPABASE_BUCKET'),
+        //     'public_url' => env('SUPABASE_PUBLIC_URL'),
+        // ],
+
     ],
 
     /*

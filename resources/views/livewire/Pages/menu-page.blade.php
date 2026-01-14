@@ -78,18 +78,13 @@
     {{-- Menu Grid --}}
     <div class="px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         @foreach($menuItems as $item)
-        <!-- Card menu item - klik untuk tambah ke keranjang -->
-        <div class="relative bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
-            <img
-                src="{{ $item['image'] }}"
-                alt="{{ $item['name'] }}"
-                class="w-full h-48 object-cover rounded-t-lg">
-
-            <div class="p-4">
-                <h3 class="font-semibold text-lg">{{ $item['name'] }}</h3>
-                <p class="text-red-600 font-bold mt-2">
-                    Rp{{ number_format($item['price'], 0, ',', '.') }}
-                </p>
+            <!-- Card menu item - klik untuk tambah ke keranjang -->
+            <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer" wire:click="$dispatch('add-to-cart', {{ json_encode($item) }})">
+                <img src="{{ $item->image_url }}" alt="{{ $item->name }}" class="w-full h-48 object-cover rounded-t-lg">
+                <div class="p-4">
+                    <h3 class="font-semibold text-lg">{{ $item->name }}</h3>
+                    <p class="text-red-600 font-bold mt-2">Rp{{ number_format($item['price'], 0, ',', '.') }}</p>
+                </div>
             </div>
 
             {{-- Tombol Add to Cart --}}
