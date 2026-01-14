@@ -38,7 +38,7 @@
 </head>
 
 <body class="bg-gray-50 font-sans">
-    <!-- Navbar -->
+    
     <?php
 $__split = function ($name, $params = []) {
     return [$name, $params];
@@ -59,18 +59,18 @@ unset($__params);
 unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
-
-      <main class="relative overflow-visible">
+    
+    <main class="relative overflow-visible">
         <?php echo e($slot); ?>
 
     </main>
-
-    <!-- Authentication Modals -->
+    
+    
     <?php
 $__split = function ($name, $params = []) {
     return [$name, $params];
 };
-[$__name, $__params] = $__split('auth.login-modal');
+[$__name, $__params] = $__split('auth.login-modal', []);
 
 $key = null;
 
@@ -90,7 +90,7 @@ if (isset($__slots)) unset($__slots);
 $__split = function ($name, $params = []) {
     return [$name, $params];
 };
-[$__name, $__params] = $__split('auth.register-modal');
+[$__name, $__params] = $__split('auth.register-modal', []);
 
 $key = null;
 
@@ -106,13 +106,13 @@ unset($__params);
 unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
-
-    <!-- Alert Manager -->
+    
+    
     <?php
 $__split = function ($name, $params = []) {
     return [$name, $params];
 };
-[$__name, $__params] = $__split('alert-manager');
+[$__name, $__params] = $__split('alert-manager', []);
 
 $key = null;
 
@@ -129,9 +129,28 @@ unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
 
+    
+    <?php app('livewire')->forceAssetInjection(); ?>
+<?php echo app('flux')->scripts(); ?>
+
     <?php echo \Livewire\Mechanisms\FrontendAssets\FrontendAssets::scripts(); ?>
 
-</body>
+    <script>
+        window.addEventListener('debug-modal', () => {
+            console.log('Add New Item clicked')
+        })
 
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('toast', (message) => {
+                // Tambahkan notifikasi toast sederhana
+                const toast = document.createElement('div');
+                toast.className = 'fixed top-4 right-4 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                toast.textContent = message;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+            });
+        });
+    </script>
+</body>
 </html>
 <?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/components/layouts/app.blade.php ENDPATH**/ ?>

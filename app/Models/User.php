@@ -66,6 +66,6 @@ class User extends Authenticatable
     // Relasi: User memiliki banyak Order
     public function orders()
     {
-        return $this->hasMany(\App\Models\Order::class);
+        return $this->hasMany(Order::class);
     }
 }

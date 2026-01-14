@@ -37,21 +37,38 @@
 </head>
 
 <body class="bg-gray-50 font-sans">
-    <!-- Navbar -->
+    {{-- Navbar --}}
     <livewire:navbar />
-
-      <main class="relative overflow-visible">
+    
+    <main class="relative overflow-visible">
         {{ $slot }}
     </main>
+    
+    {{-- Modals --}}
+    <livewire:auth.login-modal />
+    <livewire:auth.register-modal />
+    
+    {{-- Alert --}}
+    <livewire:alert-manager />
 
-    <!-- Authentication Modals -->
-    @livewire('auth.login-modal')
-    @livewire('auth.register-modal')
-
-    <!-- Alert Manager -->
-    @livewire('alert-manager')
-
+    {{-- LIVEWIRE SCRIPTS WAJIB --}}
+    @fluxScripts
     @livewireScripts
-</body>
+    <script>
+        window.addEventListener('debug-modal', () => {
+            console.log('Add New Item clicked')
+        })
 
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('toast', (message) => {
+                // Tambahkan notifikasi toast sederhana
+                const toast = document.createElement('div');
+                toast.className = 'fixed top-4 right-4 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                toast.textContent = message;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+            });
+        });
+    </script>
+</body>
 </html>
