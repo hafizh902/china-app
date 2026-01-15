@@ -14,6 +14,6 @@ class OrderHistoryPage extends Component
     {
         $orders = Auth::check() ? Order::where('user_id', Auth::id())->latest()->get() : collect();
 
-        return view('livewire.pages.order-history-page', compact('orders'));
+        return view('livewire.Pages.order-history-page', compact('orders'));
     }
 }

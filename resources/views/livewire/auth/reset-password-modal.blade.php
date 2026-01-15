@@ -24,7 +24,7 @@
                     <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
                         <i class="fas fa-envelope mr-2 text-red-500"></i>Email Address
                     </label>
-                    <input id="email" name="email" type="email" value="{{ request('email') }}" readonly class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-500 cursor-not-allowed">
+                    <input id="email" name="email" type="email" value="{{ request('email') }}" readonly class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-500 ">
                 </div>
 
                 <div>

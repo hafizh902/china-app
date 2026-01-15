@@ -53,7 +53,7 @@ class MenuPage extends Component
             )
             ->paginate(4);
 
-        return view('livewire.pages.menu-page', [
+        return view('livewire.Pages.menu-page', [
             'menuItems' => $items,
         ]);
     }
