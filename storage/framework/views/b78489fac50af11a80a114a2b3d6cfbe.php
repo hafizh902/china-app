@@ -4,8 +4,7 @@
         <button
             type="button"
             class="px-5 py-2.5 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200 font-medium flex items-center"
-            wire:click="openCreateModal(); $dispatch('debug-modal')"
-        >
+            wire:click="openCreateModal(); $dispatch('debug-modal')">
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
             </svg>
@@ -24,38 +23,51 @@
                 <div class="flex">
                     <div class="w-24 h-24 flex-shrink-0 bg-gray-100 overflow-hidden">
                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($item->image): ?>
-                            <img src="<?php echo e(asset('storage/' . $item->image)); ?>" alt="<?php echo e($item->name); ?>" class="w-full h-full object-cover">
+                            <img src="<?php echo e($item->image_url); ?>" alt="<?php echo e($item->name); ?>" class="w-full h-full object-cover">
                         <?php else: ?>
                             <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
-                                <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                 </svg>
                             </div>
-                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                    </div>
-                    
-                    <div class="flex-1 p-3 pr-2">
-                        <h3 class="font-bold text-sm text-gray-900 mb-0.5 line-clamp-1"><?php echo e($item->name); ?></h3>
-                        <p class="text-xs text-gray-500 mb-1 line-clamp-1"><?php echo e($item->description); ?></p>
-                        <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-700 text-xs rounded mb-1.5">
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                        </div>
+                    </td>
+                    <td class="px-4 py-3 text-sm font-medium text-gray-900"><?php echo e($item->name); ?></td>
+                    <td class="px-4 py-3 text-sm text-gray-500 max-w-xs truncate"><?php echo e($item->description); ?></td>
+                    <td class="px-4 py-3 whitespace-nowrap">
+                        <span class="inline-block px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">
                             <?php echo e(ucfirst($item->category)); ?>
 
                         </span>
-                        <p class="text-red-600 font-bold text-base mb-2">
-                            Rp<?php echo e(number_format($item->price, 0, ',', '.')); ?>
+                    </td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm font-semibold text-red-600">
+                        Rp<?php echo e(number_format($item->price, 0, ',', '.')); ?>
 
-                        </p>
+                    </td>
+                    <td class="px-4 py-3 whitespace-nowrap">
+                        <span class="px-2.5 py-1 rounded text-white text-xs font-medium <?php echo e($item->is_available ? 'bg-green-600' : 'bg-gray-500'); ?>">
+                            <?php echo e($item->is_available ? 'Available' : 'Unavailable'); ?>
+
+                        </span>
+                    </td>
+                    <td class="px-4 py-3 whitespace-nowrap text-center text-sm">
                         <button
                             type="button"
-                            class="w-full px-3 py-1.5 bg-gray-900 hover:bg-black text-white rounded text-xs font-medium transition-colors duration-150"
-                            wire:click="edit(<?php echo e($item->id); ?>)"
-                        >
-                            Edit Menu
+                            class="px-3 py-1.5 bg-gray-900 hover:bg-black text-white rounded text-xs font-medium transition-colors duration-150"
+                            wire:click="edit(<?php echo e($item->id); ?>)">
+                            Edit
                         </button>
-                    </div>
-                </div>
-            </div>
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                    </td>
+                </tr>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-4 mx-2 flex justify-center">
+        <?php echo e($items->links()); ?>
+
     </div>
 
     <?php if (isset($component)) { $__componentOriginal8cc9d3143946b992b324617832699c5f = $component; } ?>
@@ -91,8 +103,63 @@
 <?php unset($__componentOriginale0fd5b6a0986beffac17a0a103dfd7b9); ?>
 <?php endif; ?>
             </div>
-            
+
             <div class="space-y-4">
+
+                
+<div class="mb-5">
+    <label class="block text-sm font-medium text-gray-700 mb-2">
+        Menu Image
+    </label>
+
+    <div class="flex items-start gap-4">
+        
+        <div class="w-28 h-28 rounded border border-dashed border-gray-300 flex items-center justify-center bg-white overflow-hidden">
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($image): ?>
+                <img
+                    src="<?php echo e($image->temporaryUrl()); ?>"
+                    class="w-full h-full object-cover"
+                >
+            <?php else: ?>
+                <span class="text-xs text-gray-400 text-center px-2">
+                    No image selected
+                </span>
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+        </div>
+
+        
+        <div class="flex-1">
+            <input
+                type="file"
+                wire:model="image"
+                accept="image/*"
+                class="block w-full text-sm text-gray-700
+                       file:mr-3 file:py-2 file:px-4
+                       file:rounded file:border-0
+                       file:text-sm file:font-semibold
+                       file:bg-red-50 file:text-red-600
+                       hover:file:bg-red-100"
+            >
+
+            <div wire:loading wire:target="image" class="text-xs text-gray-500 mt-1">
+                Uploading preview...
+            </div>
+
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['image'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                <p class="text-xs text-red-600 mt-1"><?php echo e($message); ?></p>
+            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+        </div>
+    </div>
+</div>
+
+
                 <div>
                     <?php if (isset($component)) { $__componentOriginal26c546557cdc09040c8dd00b2090afd0 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal26c546557cdc09040c8dd00b2090afd0 = $attributes; } ?>
@@ -115,7 +182,7 @@
 <?php unset($__componentOriginal26c546557cdc09040c8dd00b2090afd0); ?>
 <?php endif; ?>
                 </div>
-                
+
                 <div>
                     <?php if (isset($component)) { $__componentOriginal26c546557cdc09040c8dd00b2090afd0 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal26c546557cdc09040c8dd00b2090afd0 = $attributes; } ?>
@@ -138,7 +205,7 @@
 <?php unset($__componentOriginal26c546557cdc09040c8dd00b2090afd0); ?>
 <?php endif; ?>
                 </div>
-                
+
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <?php if (isset($component)) { $__componentOriginal26c546557cdc09040c8dd00b2090afd0 = $component; } ?>
@@ -299,7 +366,7 @@
 <?php unset($__componentOriginale0fd5b6a0986beffac17a0a103dfd7b9); ?>
 <?php endif; ?>
             </div>
-            
+
             <div class="space-y-4">
                 <div>
                     <?php if (isset($component)) { $__componentOriginal26c546557cdc09040c8dd00b2090afd0 = $component; } ?>
@@ -323,7 +390,7 @@
 <?php unset($__componentOriginal26c546557cdc09040c8dd00b2090afd0); ?>
 <?php endif; ?>
                 </div>
-                
+
                 <div>
                     <?php if (isset($component)) { $__componentOriginal26c546557cdc09040c8dd00b2090afd0 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal26c546557cdc09040c8dd00b2090afd0 = $attributes; } ?>
@@ -346,7 +413,7 @@
 <?php unset($__componentOriginal26c546557cdc09040c8dd00b2090afd0); ?>
 <?php endif; ?>
                 </div>
-                
+
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <?php if (isset($component)) { $__componentOriginal26c546557cdc09040c8dd00b2090afd0 = $component; } ?>

@@ -23,6 +23,6 @@ class OrderManagement extends Component
             ];
         });
 
-        return view('livewire.admin.order-management', compact('orders'));
+        return view('livewire.Admin.order-management', compact('orders'));
     }
 }

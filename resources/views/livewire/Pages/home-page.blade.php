@@ -52,7 +52,4 @@
             <livewire:pages.menu-page /> <!-- Komponen menu page -->
         </div>
     </section>
-
-    {{-- Cart Component - Komponen keranjang belanja --}}
-    <livewire:cart-component />
 </div>
