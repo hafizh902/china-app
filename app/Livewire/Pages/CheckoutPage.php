@@ -77,6 +77,6 @@ class CheckoutPage extends Component
         $deliveryFee = $this->orderType === 'delivery' ? 29900 : 0;
         $total = $subtotal + $tax + $deliveryFee;
 
-        return view('livewire.pages.checkout-page', compact('cart', 'subtotal', 'tax', 'deliveryFee', 'total'));
+        return view('livewire.Pages.checkout-page', compact('cart', 'subtotal', 'tax', 'deliveryFee', 'total'));
     }
 }

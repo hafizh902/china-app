@@ -121,7 +121,7 @@ class HomePage extends Component
 
     public function render()
     {
-        return view('livewire.pages.home-page');
+        return view('livewire.Pages.home-page');
     }
 }
 ```
@@ -148,7 +148,7 @@ class MenuPage extends Component
             ->when($this->search, fn($q) => $q->where('name', 'like', "%{$this->search}%"))
             ->get();
 
-        return view('livewire.pages.menu-page', ['menuItems' => $items]);
+        return view('livewire.Pages.menu-page', ['menuItems' => $items]);
     }
 }
 ```
