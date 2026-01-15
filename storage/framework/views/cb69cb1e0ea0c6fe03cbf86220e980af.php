@@ -59,17 +59,12 @@ unset($__params);
 unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
-<<<<<<< HEAD:storage/framework/views/cb69cb1e0ea0c6fe03cbf86220e980af.php
-    <?php echo e($slot); ?> 
-    
-=======
     
     <main class="relative overflow-visible">
         <?php echo e($slot); ?>
 
     </main>
     
->>>>>>> origin/testing:storage/framework/views/65561696b8d7936c659367a8eb0bed53.php
     
     <?php
 $__split = function ($name, $params = []) {
@@ -111,6 +106,46 @@ unset($__params);
 unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
+    <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('auth.reset-password-modal', []);
+
+$key = null;
+
+$key ??= \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::generateKey('lw-3246813348-3', null);
+
+$__html = app('livewire')->mount($__name, $__params, $key);
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+    <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('logout-modal', []);
+
+$key = null;
+
+$key ??= \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::generateKey('lw-3246813348-4', null);
+
+$__html = app('livewire')->mount($__name, $__params, $key);
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
     
     
     <?php
@@ -121,7 +156,7 @@ $__split = function ($name, $params = []) {
 
 $key = null;
 
-$key ??= \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::generateKey('lw-256549984-3', null);
+$key ??= \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::generateKey('lw-3246813348-5', null);
 
 $__html = app('livewire')->mount($__name, $__params, $key);
 

@@ -113,12 +113,19 @@
 
                     @if (Route::has('password.request'))
                         <div class="text-sm">
-                            <a href="{{ route('password.request') }}"
+                            <!-- Menggunakan $dispatch untuk membuka modal reset password -->
+                            <a href="javascript:void(0);"
+                                wire:click="
+            $dispatch('close-login-modal'); 
+            $dispatch('open-reset-password-modal');"
                                 class="font-medium text-red-600 hover:text-red-500 transition-colors">
                                 Lupa password?
                             </a>
                         </div>
                     @endif
+
+
+
                 </div>
 
                 <!-- Submit Button -->
