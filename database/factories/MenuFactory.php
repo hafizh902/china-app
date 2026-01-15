@@ -16,7 +16,7 @@ class MenuFactory extends Factory
         $categories = ['noodles', 'dumplings', 'rice', 'drinks', 'dessert'];
 
         return [
-            'name' => $this->faker->words(2, true), // nama menu
+            'name' => $this->faker->words(1, true), // nama menu
             'description' => $this->faker->paragraph(2), // deskripsi menu
             'category' => $this->faker->randomElement($categories), // kategori acak
             'price' => $this->faker->numberBetween(10000, 50000), // harga acak

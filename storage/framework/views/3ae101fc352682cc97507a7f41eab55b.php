@@ -1,5 +1,5 @@
 <div>
-    {{-- Hero Section - Bagian atas halaman dengan gambar dan call-to-action --}}
+    
     <section class="relative h-96">
         <div class="absolute inset-0 overflow-hidden">
             <img src="https://images.unsplash.com/photo-1759893497863-c90a6dfa7a86?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -30,26 +30,45 @@
         </div>
     </section>
 
-    {{-- Features Section - Menampilkan keunggulan layanan --}}
+    
     <section class="py-12 px-6">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-            @foreach ([['icon' => 'truck', 'title' => 'Fast Delivery', 'desc' => 'Fresh food delivered within 30 minutes'], ['icon' => 'award', 'title' => 'Authentic Recipes', 'desc' => 'Traditional recipes passed down through generations'], ['icon' => 'leaf', 'title' => 'Fresh Ingredients', 'desc' => 'Only the freshest ingredients sourced daily']] as $feature)
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = [['icon' => 'truck', 'title' => 'Fast Delivery', 'desc' => 'Fresh food delivered within 30 minutes'], ['icon' => 'award', 'title' => 'Authentic Recipes', 'desc' => 'Traditional recipes passed down through generations'], ['icon' => 'leaf', 'title' => 'Fresh Ingredients', 'desc' => 'Only the freshest ingredients sourced daily']]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $feature): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <div class="text-center">
                     <div class="w-16 h-16 bg-chinese-red rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-{{ $feature['icon'] }} text-white text-2xl"></i>
+                        <i class="fas fa-<?php echo e($feature['icon']); ?> text-white text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-2">{{ $feature['title'] }}</h3>
-                    <p class="text-gray-600">{{ $feature['desc'] }}</p>
+                    <h3 class="text-xl font-bold mb-2"><?php echo e($feature['title']); ?></h3>
+                    <p class="text-gray-600"><?php echo e($feature['desc']); ?></p>
                 </div>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
         </div>
     </section>
 
-    {{-- Menu Section - Menampilkan menu menggunakan komponen Livewire --}}
+    
     <section id="menu" class="py-12 px-6 bg-gray-50">
         <div class="max-w-7xl mx-auto">
             <h2 class="text-3xl font-bold chinese-font text-chinese-red text-center mb-8">Our Menu</h2>
-            <livewire:pages.menu-page /> <!-- Komponen menu page -->
+            <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('pages.menu-page', []);
+
+$key = null;
+
+$key ??= \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::generateKey('lw-3949368893-0', null);
+
+$__html = app('livewire')->mount($__name, $__params, $key);
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?> <!-- Komponen menu page -->
         </div>
     </section>
-</div>
+</div><?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/pages/home-page.blade.php ENDPATH**/ ?>

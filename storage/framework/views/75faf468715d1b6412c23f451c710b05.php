@@ -16,26 +16,26 @@
 
                 <!-- Menu navigasi utama -->
                 <div class="hidden lg:flex space-x-1">
-                    <a href="{{ route('home') }}"
-                        class="px-4 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 font-medium transition-all duration-200 rounded-lg {{ request()->routeIs('home') ? 'text-red-600 bg-red-50' : '' }}">
+                    <a href="<?php echo e(route('home')); ?>"
+                        class="px-4 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 font-medium transition-all duration-200 rounded-lg <?php echo e(request()->routeIs('home') ? 'text-red-600 bg-red-50' : ''); ?>">
                         <i class="fas fa-home mr-2"></i>Home
                     </a>
-                    <a href="{{ route('menu') }}"
-                        class="px-4 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 font-medium transition-all duration-200 rounded-lg {{ request()->routeIs('menu') ? 'text-red-600 bg-red-50' : '' }}">
+                    <a href="<?php echo e(route('menu')); ?>"
+                        class="px-4 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 font-medium transition-all duration-200 rounded-lg <?php echo e(request()->routeIs('menu') ? 'text-red-600 bg-red-50' : ''); ?>">
                         <i class="fas fa-utensils mr-2"></i>Menu
                     </a>
-                    <a href="{{ route('orders') }}"
-                        class="px-4 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 font-medium transition-all duration-200 rounded-lg {{ request()->routeIs('orders') ? 'text-red-600 bg-red-50' : '' }}">
+                    <a href="<?php echo e(route('orders')); ?>"
+                        class="px-4 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 font-medium transition-all duration-200 rounded-lg <?php echo e(request()->routeIs('orders') ? 'text-red-600 bg-red-50' : ''); ?>">
                         <i class="fas fa-shopping-bag mr-2"></i>Orders
                     </a>
-                    @auth
-                        @if (auth()->user()->role === 'admin')
-                            <a href="{{ route('admin.dashboard') }}"
-                                class="px-4 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 font-medium transition-all duration-200 rounded-lg {{ request()->routeIs('admin.*') ? 'text-red-600 bg-red-50' : '' }}">
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->check()): ?>
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->user()->role === 'admin'): ?>
+                            <a href="<?php echo e(route('admin.dashboard')); ?>"
+                                class="px-4 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 font-medium transition-all duration-200 rounded-lg <?php echo e(request()->routeIs('admin.*') ? 'text-red-600 bg-red-50' : ''); ?>">
                                 <i class="fas fa-cog mr-2"></i>Admin
                             </a>
-                        @endif
-                    @endauth
+                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 </div>
             </div>
 
@@ -54,15 +54,35 @@
                 </div>
 
                 <!-- Cart Component -->
-                <livewire:cart-component />
+                <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('cart-component', []);
 
-                @auth
+$key = null;
+
+$key ??= \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::generateKey('lw-229988562-0', null);
+
+$__html = app('livewire')->mount($__name, $__params, $key);
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->check()): ?>
                     <div class="relative" x-data="{ open: false }">
                         <button @click="open = !open"
                             class="flex items-center space-x-3 px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-xl transition-all duration-200 border border-gray-200">
                             <div
                                 class="w-8 h-8 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                                {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                                <?php echo e(strtoupper(substr(auth()->user()->name, 0, 1))); ?>
+
                             </div>
                             <i class="fas fa-chevron-down text-gray-400 text-sm transition-transform duration-200"
                                 :class="{ 'rotate-180': open }"></i>
@@ -81,30 +101,31 @@
                                 <div class="flex items-center space-x-3">
                                     <div
                                         class="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center text-white font-semibold">
-                                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                                        <?php echo e(strtoupper(substr(auth()->user()->name, 0, 1))); ?>
+
                                     </div>
                                     <div>
-                                        <div class="text-sm font-semibold text-gray-800">{{ auth()->user()->name }}</div>
-                                        <div class="text-xs text-gray-500">{{ auth()->user()->email }}</div>
+                                        <div class="text-sm font-semibold text-gray-800"><?php echo e(auth()->user()->name); ?></div>
+                                        <div class="text-xs text-gray-500"><?php echo e(auth()->user()->email); ?></div>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Menu Items -->
                             <div class="py-2">
-                                <a href="{{ route('user.settings') }}"
+                                <a href="<?php echo e(route('user.settings')); ?>"
                                     class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
                                     <i class="fas fa-user-cog mr-3 text-gray-400"></i>
                                     <span>Pengaturan</span>
                                 </a>
 
-                                @if (auth()->user()->role === 'admin')
-                                    <a href="{{ route('admin.dashboard') }}"
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->user()->role === 'admin'): ?>
+                                    <a href="<?php echo e(route('admin.dashboard')); ?>"
                                         class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
                                         <i class="fas fa-cog mr-3 text-gray-400"></i>
                                         <span>Admin Panel</span>
                                     </a>
-                                @endif
+                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
                                 <hr class="my-2 border-gray-100">
 
@@ -118,7 +139,7 @@
                             </div>
                         </div>
                     </div>
-                @else
+                <?php else: ?>
                     <!-- Login/Register Buttons -->
                     <div class="flex items-center space-x-3">
                         <button wire:click="openLoginModal"
@@ -130,7 +151,8 @@
                             <i class="fas fa-user-plus mr-2"></i>Register
                         </button>
                     </div>
-                @endauth
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
             </div>
         </div>
 </nav>
+<?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/navbar.blade.php ENDPATH**/ ?>
