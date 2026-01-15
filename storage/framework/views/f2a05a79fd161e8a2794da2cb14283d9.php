@@ -581,4 +581,4 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
 <?php unset($__componentOriginal8cc9d3143946b992b324617832699c5f); ?>
 <?php endif; ?>
 </div>
-<?php /**PATH E:\12 RPL\china-app\resources\views/livewire/admin/menu-management.blade.php ENDPATH**/ ?>
+<?php /**PATH E:\12 RPL\china-app\resources\views/livewire/Admin/menu-management.blade.php ENDPATH**/ ?>
