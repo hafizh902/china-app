@@ -1,8 +1,7 @@
 <div>
     <div class="flex justify-between items-center mb-6 mx-2">
         <h1 class="text-3xl font-bold text-gray-900">Menu Management</h1>
-        <button
-            type="button"
+        <button type="button"
             class="px-5 py-2.5 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200 font-medium flex items-center"
             wire:click="openCreateModal(); $dispatch('debug-modal')">
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -13,12 +12,14 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        @foreach($items as $item)
-            <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow duration-200 overflow-hidden relative border border-gray-100 mx-4">
-                <span class="absolute top-2 right-2 z-10 px-2.5 py-1 rounded text-white text-xs font-medium shadow-sm {{ $item->is_available ? 'bg-green-600' : 'bg-gray-500' }}">
+        @foreach ($items as $item)
+            <div
+                class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow duration-200 overflow-hidden relative border border-gray-100 mx-4">
+                <span
+                    class="absolute top-2 right-2 z-10 px-2.5 py-1 rounded text-white text-xs font-medium shadow-sm {{ $item->is_available ? 'bg-green-600' : 'bg-gray-500' }}">
                     {{ $item->is_available ? 'Available' : 'Unavailable' }}
                 </span>
-                
+
                 <div class="flex">
                     <div class="w-24 h-24 flex-shrink-0 bg-gray-100 overflow-hidden">
                         @if($item->image)
@@ -67,9 +68,17 @@
 
     <flux:modal wire:model.live="showCreateModal" class="max-w-xl">
         <div class="p-6">
-            <div class="flex items-center mb-6 pb-4 border-b-2 border-red-600">
-                <div class="w-1 h-8 bg-red-600 mr-3"></div>
-                <flux:heading class="text-2xl font-bold text-gray-900">Add New Menu Item</flux:heading>
+            <div class="flex items-center">
+                <div class="p-3 bg-white/20 backdrop-blur-sm rounded-xl mr-4">
+                    <svg class="w-7 h-7 text-re-400" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-white">Add New Menu Item </h2>
+                </div>
             </div>
 
             <div class="space-y-4">
@@ -225,6 +234,24 @@
                         wire:model.defer="is_available"
                         class="text-green-600" />
                 </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <flux:input label="Category" wire:model.defer="category" placeholder="e.g., Main Course" />
+                    </div>
+                    <div>
+                        <flux:input type="number" label="Price (Rp)" wire:model.defer="price" placeholder="25000" />
+                    </div>
+                </div>
+                {{-- 
+                <div class="flex items-center gap-3 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                    <flux:checkbox wire:model.defer="is_available"
+                        class="w-5 h-5 text-green-600 focus:ring-green-500" />
+                    <span class="text-sm font-medium text-gray-700">
+                        Available for order
+                    </span>
+                </div> --}}
+
             </div>
 
             <div class="flex justify-end gap-2 mt-6 pt-4 border-t border-gray-200">

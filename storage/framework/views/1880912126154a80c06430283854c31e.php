@@ -1,6 +1,6 @@
 <!-- Login Modal -->
 <div id="login-modal" class="fixed inset-0 z-[9999] overflow-y-auto flex items-center justify-center"
-    style="display: {{ $showModal ? 'flex' : 'none' }}; background-color: rgba(0, 0, 0, {{ $showModal ? '0.5' : '0' }});"
+    style="display: <?php echo e($showModal ? 'flex' : 'none'); ?>; background-color: rgba(0, 0, 0, <?php echo e($showModal ? '0.5' : '0'); ?>);"
     @click.self="$wire.closeModal()" @keydown.escape="$wire.closeModal()">
 
     <!-- Modal Content -->
@@ -40,7 +40,7 @@
         <!-- Form Content -->
         <div class="p-8">
             <!-- Validation Errors -->
-            @if ($errors->any())
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($errors->any()): ?>
                 <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
                     <div class="flex">
                         <div class="flex-shrink-0">
@@ -48,14 +48,14 @@
                         </div>
                         <div class="ml-3">
                             <ul class="text-sm text-red-700 space-y-1">
-                                @foreach ($errors->all() as $error)
-                                    <li>• {{ $error }}</li>
-                                @endforeach
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <li>• <?php echo e($error); ?></li>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             </ul>
                         </div>
                     </div>
                 </div>
-            @endif
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
             <!-- Login Form -->
             <form wire:submit.prevent="login" novalidate class="space-y-6">
@@ -73,11 +73,19 @@
                             <i class="fas fa-envelope"></i>
                         </div>
                     </div>
-                    @error('email')
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                         <p class="mt-1 text-sm text-red-600 flex items-center">
-                            <i class="fas fa-exclamation-circle mr-1"></i>{{ $message }}
+                            <i class="fas fa-exclamation-circle mr-1"></i><?php echo e($message); ?>
+
                         </p>
-                    @enderror
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 </div>
 
                 <!-- Password Field -->
@@ -94,11 +102,19 @@
                             <i class="fas fa-lock"></i>
                         </div>
                     </div>
-                    @error('password')
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                         <p class="mt-1 text-sm text-red-600 flex items-center">
-                            <i class="fas fa-exclamation-circle mr-1"></i>{{ $message }}
+                            <i class="fas fa-exclamation-circle mr-1"></i><?php echo e($message); ?>
+
                         </p>
-                    @enderror
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 </div>
 
                 <!-- Remember Me -->
@@ -111,7 +127,7 @@
                         </label>
                     </div>
 
-                    @if (Route::has('password.request'))
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(Route::has('password.request')): ?>
                         <div class="text-sm">
                             <!-- Menggunakan $dispatch untuk membuka modal reset password -->
                             <a href="javascript:void(0);"
@@ -122,7 +138,7 @@
                                 Lupa password?
                             </a>
                         </div>
-                    @endif
+                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
 
 
@@ -156,3 +172,4 @@
         </div>
     </div>
 </div>
+<?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/auth/login-modal.blade.php ENDPATH**/ ?>
