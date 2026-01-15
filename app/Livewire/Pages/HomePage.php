@@ -13,6 +13,6 @@ class HomePage extends Component
     // Method render untuk menampilkan view
     public function render()
     {
-        return view('livewire.pages.home-page');
+        return view('livewire.Pages.home-page');
     }
 }
