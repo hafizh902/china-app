@@ -10,6 +10,6 @@ class MenuSeeder extends Seeder
     public function run(): void
     {
         // Membuat 1000 menu acak
-        Menu::factory()->count(1000)->create();
+        Menu::factory()->count(1)->create();
     }
 }
