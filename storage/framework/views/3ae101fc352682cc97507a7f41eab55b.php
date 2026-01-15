@@ -71,27 +71,4 @@ if (isset($__slots)) unset($__slots);
 ?> <!-- Komponen menu page -->
         </div>
     </section>
-
-    
-    <?php
-$__split = function ($name, $params = []) {
-    return [$name, $params];
-};
-[$__name, $__params] = $__split('cart-component', []);
-
-$key = null;
-
-$key ??= \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::generateKey('lw-3949368893-1', null);
-
-$__html = app('livewire')->mount($__name, $__params, $key);
-
-echo $__html;
-
-unset($__html);
-unset($__name);
-unset($__params);
-unset($__split);
-if (isset($__slots)) unset($__slots);
-?>
-</div>
-<?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/pages/home-page.blade.php ENDPATH**/ ?>
+</div><?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/pages/home-page.blade.php ENDPATH**/ ?>

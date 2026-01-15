@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 // Model untuk menyimpan data menu makanan
 class Menu extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'name',
         'description',
@@ -17,6 +19,22 @@ class Menu extends Model
         'prep_time_minutes',
         'is_available'
     ];
+
+    protected $appends = ['image_url'];
+
+    public function getImageUrlAttribute(): ?string
+    {
+        if (! $this->image) {
+            return null;
+        }
+
+        return rtrim(config('services.supabase.url'), '/')
+            . '/storage/v1/object/public/'
+            . config('services.supabase.bucket')
+            . '/'
+            . $this->image;
+    }
+
 
     public function orderItems()
     {

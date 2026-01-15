@@ -29,6 +29,6 @@ class Dashboard extends Component
             ];
         });
 
-        return view('livewire.admin.dashboard', compact('stats', 'recentOrders'));
+        return view('livewire.Admin.dashboard', compact('stats', 'recentOrders'));
     }
 }
