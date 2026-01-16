@@ -17,22 +17,29 @@
     <script>
         // Konfigurasi Tailwind CSS custom
         tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'chinese-red': '#C41E3A', // Warna merah khas China
-                        'chinese-black': '#1A1A1A', // Warna hitam khas China
-                        'chinese-gold': '#D4AF37', // Warna emas khas China
-                        'chinese-gold-light': '#F0D878', // Warna emas terang
-                    },
-                    fontFamily: {
-                        'chinese': ['Noto Sans SC', 'sans-serif'], // Font untuk teks Chinese
-                        'sans': ['Inter', 'sans-serif'], // Font untuk teks umum
+                theme: {
+                    extend: {
+                        colors: {
+                            'chinese-red': '#C41E3A', // Warna merah khas China
+                            'chinese-black': '#1A1A1A', // Warna hitam khas China
+                            'chinese-gold': '#D4AF37', // Warna emas khas China
+                            'chinese-gold-light': '#F0D878', // Warna emas terang
+                        },
+                        fontFamily: {
+                            'chinese': ['Noto Sans SC', 'sans-serif'], // Font untuk teks Chinese
+                            'sans': ['Inter', 'sans-serif'], // Font untuk teks umum
+                        }
                     }
                 }
             }
+
+            
+            </script>
+    <style>
+        [wire\:cloak] {
+            display: none !important;
         }
-    </script>
+    </style>
     <?php echo \Livewire\Mechanisms\FrontendAssets\FrontendAssets::styles(); ?>
 
 </head>
@@ -59,12 +66,12 @@ unset($__params);
 unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
-    
+
     <main class="relative overflow-visible">
         <?php echo e($slot); ?>
 
     </main>
-    
+
     
     <?php
 $__split = function ($name, $params = []) {
@@ -146,7 +153,27 @@ unset($__params);
 unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
-    
+    <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('preview-modal', []);
+
+$key = null;
+
+$key ??= \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::generateKey('lw-3246813348-5', null);
+
+$__html = app('livewire')->mount($__name, $__params, $key);
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+
     
     <?php
 $__split = function ($name, $params = []) {
@@ -156,7 +183,7 @@ $__split = function ($name, $params = []) {
 
 $key = null;
 
-$key ??= \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::generateKey('lw-3246813348-5', null);
+$key ??= \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::generateKey('lw-3246813348-6', null);
 
 $__html = app('livewire')->mount($__name, $__params, $key);
 
@@ -184,7 +211,8 @@ if (isset($__slots)) unset($__slots);
             Livewire.on('toast', (message) => {
                 // Tambahkan notifikasi toast sederhana
                 const toast = document.createElement('div');
-                toast.className = 'fixed top-4 right-4 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                toast.className =
+                    'fixed top-4 right-4 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg z-50';
                 toast.textContent = message;
                 document.body.appendChild(toast);
                 setTimeout(() => toast.remove(), 3000);
@@ -192,5 +220,6 @@ if (isset($__slots)) unset($__slots);
         });
     </script>
 </body>
+
 </html>
 <?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/components/layouts/app.blade.php ENDPATH**/ ?>
