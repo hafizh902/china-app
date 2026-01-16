@@ -1,6 +1,4 @@
-
-
-<section class="w-full bg-white **:min-h-screen">
+<section class="w-full bg-[#fdfcf8] min-h-screen pb-10">
     <?php echo $__env->make('partials.settings-heading', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
     <?php if (isset($component)) { $__componentOriginale0fd5b6a0986beffac17a0a103dfd7b9 = $component; } ?>
@@ -23,56 +21,41 @@
 <?php unset($__componentOriginale0fd5b6a0986beffac17a0a103dfd7b9); ?>
 <?php endif; ?>
 
-    
-    <div class="max-w-5xl mx-auto my-8 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto my-6 px-4">
+
         
-        
-        <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8">
-            
-            
-            <div class="bg-gradient-to-r from-red-700 to-red-600 p-6">
-                <div class="flex items-center">
-                    <div class="p-3 bg-white/20 backdrop-blur-sm rounded-xl mr-4">
-                        <svg class="w-7 h-7 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h2 class="text-2xl font-bold text-white">Informasi Profil</h2>
-                        <p class="text-red-100">Kelola identitas Anda di platform kami.</p>
+        <div class="bg-white rounded-[1.5rem] shadow-lg border border-amber-100 overflow-hidden mb-6">
+
+            <div class="relative bg-gradient-to-r from-red-800 to-red-700 p-5">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="p-2.5 bg-white/10 backdrop-blur-md rounded-lg border border-white/20">
+                            <i class="fas fa-user-edit text-xl text-amber-400"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-serif font-bold text-white tracking-tight">
+                                <?php echo e(__('Profile Information')); ?></h2>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            
-            <div class="p-8">
-                <form wire:submit="updateProfileInformation" class="space-y-6">
-                    
-                    <div>
-                        <flux:input 
-                            wire:model="name" 
-                            :label="__('Name')" 
-                            type="text" 
-                            required 
-                            autofocus 
-                            autocomplete="name" 
-                            class="w-full text-lg"
-                            style="--tw-ring-color: rgb(185 28 28);" // Custom ring color for focus
-                        />
-                    </div>
+            <div class="p-6">
+                <form wire:submit="updateProfileInformation" class="space-y-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                    
-                    <div>
-                        <?php if (isset($component)) { $__componentOriginal26c546557cdc09040c8dd00b2090afd0 = $component; } ?>
+                        
+                        <div class="space-y-1">
+                            <?php if (isset($component)) { $__componentOriginal26c546557cdc09040c8dd00b2090afd0 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal26c546557cdc09040c8dd00b2090afd0 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'e60dd9d2c3a62d619c9acb38f20d5aa5::input.index','data' => ['wire:model' => 'email','label' => __('Email'),'type' => 'email','required' => true,'autocomplete' => 'email','class' => 'w-full text-lg','style' => '--tw-ring-color: rgb(185 28 28);']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'e60dd9d2c3a62d619c9acb38f20d5aa5::input.index','data' => ['wire:model' => 'name','label' => __('Name'),'type' => 'text','required' => true,'class' => 'w-full !bg-amber-50/30 border-amber-200/60 focus:!bg-white focus:border-red-600 focus:ring-1 focus:ring-red-600 rounded-xl transition-all duration-300 shadow-inner','placeholder' => 'Masukkan nama lengkap']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('flux::input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['wire:model' => 'email','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Email')),'type' => 'email','required' => true,'autocomplete' => 'email','class' => 'w-full text-lg','style' => '--tw-ring-color: rgb(185 28 28);']); ?>
+<?php $component->withAttributes(['wire:model' => 'name','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Name')),'type' => 'text','required' => true,'class' => 'w-full !bg-amber-50/30 border-amber-200/60 focus:!bg-white focus:border-red-600 focus:ring-1 focus:ring-red-600 rounded-xl transition-all duration-300 shadow-inner','placeholder' => 'Masukkan nama lengkap']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal26c546557cdc09040c8dd00b2090afd0)): ?>
@@ -83,68 +66,58 @@
 <?php $component = $__componentOriginal26c546557cdc09040c8dd00b2090afd0; ?>
 <?php unset($__componentOriginal26c546557cdc09040c8dd00b2090afd0); ?>
 <?php endif; ?>
+                        </div>
 
                         
-                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! auth()->user()->hasVerifiedEmail()): ?>
-                            <div class="mt-4 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded-md">
-                                <div class="flex">
-                                    <div class="flex-shrink-0">
-                                        <svg class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-                                        </svg>
-                                    </div>
-                                    <div class="ml-3">
-                                        <p class="text-sm text-yellow-700">
-                                            <?php echo e(__('Your email address is unverified.')); ?>
-
-                                            <?php if (isset($component)) { $__componentOriginal54ddb5b70b37b1e1cf0f2f95e4c53477 = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginal54ddb5b70b37b1e1cf0f2f95e4c53477 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'e60dd9d2c3a62d619c9acb38f20d5aa5::link','data' => ['class' => 'font-semibold cursor-pointer underline','wire:click.prevent' => 'resendVerificationNotification']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('flux::link'); ?>
+                        <div class="space-y-1">
+                            <?php if (isset($component)) { $__componentOriginal26c546557cdc09040c8dd00b2090afd0 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal26c546557cdc09040c8dd00b2090afd0 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'e60dd9d2c3a62d619c9acb38f20d5aa5::input.index','data' => ['wire:model' => 'email','label' => __('Email'),'type' => 'email','required' => true,'class' => 'w-full !bg-amber-50/30 border-amber-200/60 focus:!bg-white focus:border-red-600 focus:ring-1 focus:ring-red-600 rounded-xl transition-all duration-300 shadow-inner','placeholder' => 'alamat@email.com']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('flux::input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['class' => 'font-semibold cursor-pointer underline','wire:click.prevent' => 'resendVerificationNotification']); ?>
-                                                <?php echo e(__('Click here to re-send the verification email.')); ?>
+<?php $component->withAttributes(['wire:model' => 'email','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Email')),'type' => 'email','required' => true,'class' => 'w-full !bg-amber-50/30 border-amber-200/60 focus:!bg-white focus:border-red-600 focus:ring-1 focus:ring-red-600 rounded-xl transition-all duration-300 shadow-inner','placeholder' => 'alamat@email.com']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal26c546557cdc09040c8dd00b2090afd0)): ?>
+<?php $attributes = $__attributesOriginal26c546557cdc09040c8dd00b2090afd0; ?>
+<?php unset($__attributesOriginal26c546557cdc09040c8dd00b2090afd0); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal26c546557cdc09040c8dd00b2090afd0)): ?>
+<?php $component = $__componentOriginal26c546557cdc09040c8dd00b2090afd0; ?>
+<?php unset($__componentOriginal26c546557cdc09040c8dd00b2090afd0); ?>
+<?php endif; ?>
+                        </div>
 
-                                             <?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__attributesOriginal54ddb5b70b37b1e1cf0f2f95e4c53477)): ?>
-<?php $attributes = $__attributesOriginal54ddb5b70b37b1e1cf0f2f95e4c53477; ?>
-<?php unset($__attributesOriginal54ddb5b70b37b1e1cf0f2f95e4c53477); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginal54ddb5b70b37b1e1cf0f2f95e4c53477)): ?>
-<?php $component = $__componentOriginal54ddb5b70b37b1e1cf0f2f95e4c53477; ?>
-<?php unset($__componentOriginal54ddb5b70b37b1e1cf0f2f95e4c53477); ?>
-<?php endif; ?>
-                                        </p>
-                                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session('status') === 'verification-link-sent'): ?>
-                                            <p class="mt-2 text-sm text-green-600 font-medium">
-                                                <?php echo e(__('A new verification link has been sent to your email address.')); ?>
-
-                                            </p>
-                                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     </div>
 
                     
-                    <div class="flex items-center justify-between pt-6 border-t border-gray-200 dark:border-gray-700">
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !auth()->user()->hasVerifiedEmail()): ?>
+                        <div class="p-3 bg-red-50/50 rounded-xl border border-red-100 flex items-center gap-3">
+                            <i class="fas fa-envelope-open-text text-red-600 text-xs"></i>
+                            <button wire:click.prevent="resendVerificationNotification"
+                                class="text-[11px] text-red-700 font-bold hover:underline italic">
+                                <?php echo e(__('Resend Verification Email')); ?>
+
+                            </button>
+                        </div>
+                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+
+                    <div class="flex items-center justify-between pt-5 border-t border-amber-50">
                         <?php if (isset($component)) { $__componentOriginala665a74688c74e9ee80d4fedd2b98434 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginala665a74688c74e9ee80d4fedd2b98434 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.action-message','data' => ['class' => 'text-sm font-medium text-green-600 dark:text-green-400','on' => 'profile-updated']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.action-message','data' => ['class' => 'text-xs font-bold text-green-600 flex items-center gap-1','on' => 'profile-updated']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('action-message'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['class' => 'text-sm font-medium text-green-600 dark:text-green-400','on' => 'profile-updated']); ?>
-                            <?php echo e(__('Saved.')); ?>
+<?php $component->withAttributes(['class' => 'text-xs font-bold text-green-600 flex items-center gap-1','on' => 'profile-updated']); ?>
+                            <i class="fas fa-check-circle"></i> <?php echo e(__('Saved.')); ?>
 
                          <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -156,55 +129,56 @@
 <?php $component = $__componentOriginala665a74688c74e9ee80d4fedd2b98434; ?>
 <?php unset($__componentOriginala665a74688c74e9ee80d4fedd2b98434); ?>
 <?php endif; ?>
-                        <?php if (isset($component)) { $__componentOriginalc04b147acd0e65cc1a77f86fb0e81580 = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginalc04b147acd0e65cc1a77f86fb0e81580 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'e60dd9d2c3a62d619c9acb38f20d5aa5::button.index','data' => ['variant' => 'primary','type' => 'submit','class' => 'bg-red-700 hover:bg-red-800 font-semibold py-3 px-8 rounded-lg transition-colors']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('flux::button'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
-<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
-<?php endif; ?>
-<?php $component->withAttributes(['variant' => 'primary','type' => 'submit','class' => 'bg-red-700 hover:bg-red-800 font-semibold py-3 px-8 rounded-lg transition-colors']); ?>
-                            <?php echo e(__('Save Changes')); ?>
 
-                         <?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__attributesOriginalc04b147acd0e65cc1a77f86fb0e81580)): ?>
-<?php $attributes = $__attributesOriginalc04b147acd0e65cc1a77f86fb0e81580; ?>
-<?php unset($__attributesOriginalc04b147acd0e65cc1a77f86fb0e81580); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginalc04b147acd0e65cc1a77f86fb0e81580)): ?>
-<?php $component = $__componentOriginalc04b147acd0e65cc1a77f86fb0e81580; ?>
-<?php unset($__componentOriginalc04b147acd0e65cc1a77f86fb0e81580); ?>
-<?php endif; ?>
+                        <button type="submit"
+                            class="group relative overflow-hidden bg-red-700 hover:bg-red-800 text-white font-bold py-2.5 px-8 rounded-xl transition-all shadow-md active:scale-95 text-xs tracking-[0.2em] uppercase">
+                            <span class="relative z-10 flex items-center gap-2">
+                                <?php echo e(__('Update Profile')); ?>
+
+                            </span>
+                            <div
+                                class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]">
+                            </div>
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
+        
+        <div class="bg-white rounded-[1.5rem] shadow-lg border border-amber-100 overflow-hidden mb-6">
+            <div class="p-5 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="p-2.5 bg-red-50 rounded-lg border border-red-100">
+                        <i class="fas fa-shield-alt text-xl text-red-700"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-serif font-bold text-slate-800 tracking-tight">
+                            <?php echo e(__('Security & Password')); ?></h2>
+                        <p class="text-[11px] text-gray-400 italic">Pastikan akun Anda tetap aman.</p>
+                    </div>
+                </div>
+
+                <button wire:click="openPasswordModal"
+                    class="bg-amber-400 hover:bg-amber-500 text-red-900 font-bold py-2 px-5 rounded-xl text-xs uppercase tracking-widest transition-all shadow-sm active:scale-95">
+                    <?php echo e(__('Change Password')); ?>
+
+                </button>
+            </div>
+        </div>
 
         
-        <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-red-200 dark:border-red-900 overflow-hidden">
-            
-            
-            <div class="bg-red-50 dark:bg-red-950/50 p-6 border-b border-red-200 dark:border-red-900">
-                <div class="flex items-center">
-                    <div class="p-2 bg-red-100 dark:bg-red-900/50 rounded-lg mr-3">
-                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-lg font-bold text-red-800 dark:text-red-400">Hapus Akun</h3>
+        <div
+            class="bg-gray-50/50 rounded-[1.2rem] border border-red-100 p-4 flex items-center justify-between shadow-sm">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-red-100/50 rounded-full flex items-center justify-center text-red-700">
+                    <i class="fas fa-trash-alt text-[10px]"></i>
+                </div>
+                <div class="text-[11px]">
+                    <p class="font-bold text-red-800 uppercase tracking-tighter leading-none mb-1">Hapus Akun</p>
+                    <p class="text-gray-400 italic">Data akan dihapus permanen.</p>
                 </div>
             </div>
-            
-            <div class="p-6">
-                <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
-                    Tindakan ini tidak dapat dibatalkan. Ini akan menghapus akun Anda secara permanent dan menghapus semua data Anda dari server kami.
-                </p>
-
-                
-                <?php
+            <?php
 $__split = function ($name, $params = []) {
     return [$name, $params];
 };
@@ -224,8 +198,17 @@ unset($__params);
 unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
-            </div>
         </div>
-        
+
+
     </div>
-</section><?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/settings/profile.blade.php ENDPATH**/ ?>
+
+    <style>
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+    </style>
+</section>
+<?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/settings/profile.blade.php ENDPATH**/ ?>
