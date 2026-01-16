@@ -52,4 +52,6 @@
             <livewire:pages.menu-page /> <!-- Komponen menu page -->
         </div>
     </section>
+
+    <livewire:pages.footer-page/>
 </div>
