@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use App\Models\Menu;
 
 class PreviewModal extends Component
 {
@@ -10,14 +11,16 @@ class PreviewModal extends Component
     public $selectedItem = null;
 
     protected $listeners = [
-        'preview-modal' => 'openModal',  // Mendengarkan event untuk membuka modal
+        'open-preview-modal' => 'openModal',  // Mendengarkan event untuk membuka modal
         'close-preview-modal' => 'closeModal', // Mendengarkan event untuk menutup modal
     ];
 
-    public function openModal($item = null)
+    public function openModal($itemId = null)
     {
-        $this->selectedItem = $item;
-        $this->showModal = true;
+        if ($itemId) {
+            $this->selectedItem = Menu::find($itemId);
+            $this->showModal = true;
+        }
     }
 
     public function closeModal()

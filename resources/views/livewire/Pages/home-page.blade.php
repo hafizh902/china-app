@@ -15,7 +15,7 @@
                         <!-- Tombol Order Now - mengarah ke section menu -->
                         <button
                             class="px-8 py-3 bg-chinese-red text-white  rounded-full font-semibold  hover:scale-105 transition"
-                            wire:navigate href="#menu">
+                            wire:navigate href="{{ route('menu') }}">
                             <i class="fas fa-utensils mr-2"></i> Order Now
                         </button>
                         <!-- Tombol Watch Video - placeholder -->
@@ -52,4 +52,6 @@
             <livewire:pages.menu-page /> <!-- Komponen menu page -->
         </div>
     </section>
+
+    <livewire:pages.footer-page/>
 </div>
