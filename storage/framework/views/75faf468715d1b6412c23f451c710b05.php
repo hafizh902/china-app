@@ -164,4 +164,9 @@ if (isset($__slots)) unset($__slots);
             </div>
         </div>
 </nav>
+<<<<<<< HEAD:storage/framework/views/6d47306770dfd3cf0a1e95a97d335d4f.php
 <?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/navbar.blade.php ENDPATH**/ ?>
+>>>>>>> origin/testing:storage/framework/views/75faf468715d1b6412c23f451c710b05.php
+=======
+<?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/navbar.blade.php ENDPATH**/ ?>
+>>>>>>> 692d09d96807eaad97547f8e90a0d77d32f880f9:storage/framework/views/75faf468715d1b6412c23f451c710b05.php

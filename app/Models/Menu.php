@@ -35,6 +35,16 @@ class Menu extends Model
             . $this->image;
     }
 
+    public function getCategoryLabelAttribute(): string
+    {
+        return match ($this->category) {
+            'main_course' => 'Main Course',
+            'snacks' => 'Snacks',
+            'drinks' => 'Drinks',
+            'desserts' => 'Dessert',
+            default => '-',
+        };
+    }
 
     public function orderItems()
     {

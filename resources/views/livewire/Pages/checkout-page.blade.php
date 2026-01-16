@@ -1,82 +1,137 @@
 <div>
-    <h1 class="text-3xl font-bold chinese-font text-chinese-red mb-8">Checkout</h1>
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div class="lg:col-span-2 space-y-6">
+    <h1 class="text-2xl font-bold chinese-font text-chinese-red mb-6">Checkout</h1>
+    <div class="d-flex justify-center">
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 mx-10">
+        <!-- Kolom Kiri: Form (80%) -->
+        <div class="lg:col-span-3">
             <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-xl font-bold mb-4">Delivery Information</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium mb-1">First Name</label>
-                        <input type="text" wire:model="firstName" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                <!-- Delivery Information -->
+                <div class="mb-6">
+                    <h2 class="text-lg font-bold mb-4 pb-2 border-b">Delivery Information</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">First Name</label>
+                            <input type="text" wire:model="firstName" placeholder="John" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Last Name</label>
+                            <input type="text" wire:model="lastName" placeholder="Doe" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Email</label>
+                            <input type="email" wire:model="email" placeholder="john@example.com" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Phone</label>
+                            <div class="flex gap-2">
+                                <select wire:model="phoneCode" class="w-24 px-2 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                                    <option value="+62">+62</option>
+                                    <option value="+1">+1</option>
+                                    <option value="+44">+44</option>
+                                    <option value="+61">+61</option>
+                                    <option value="+65">+65</option>
+                                    <option value="+60">+60</option>
+                                    <option value="+86">+86</option>
+                                    <option value="+81">+81</option>
+                                    <option value="+82">+82</option>
+                                    <option value="+91">+91</option>
+                                </select>
+                                <input type="text" wire:model="phone" placeholder="812345678" class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Last Name</label>
-                        <input type="text" wire:model="lastName" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
-                    </div>
-                </div>
-                <div class="mt-4">
-                    <label class="block text-sm font-medium mb-1">Email</label>
-                    <input type="email" wire:model="email" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
-                </div>
-                <div class="mt-4">
-                    <label class="block text-sm font-medium mb-1">Phone</label>
-                    <input type="text" wire:model="phone" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
-                </div>
-                @if($orderType === 'delivery')
+                    
                     <div class="mt-4">
-                        <label class="block text-sm font-medium mb-1">Delivery Address</label>
-                        <textarea wire:model="address" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" rows="3"></textarea>
+                        <label class="block text-sm font-medium mb-2">Order Type</label>
+                        <div class="flex gap-4">
+                            <label class="flex items-center">
+                                <input type="radio" wire:model="orderType" value="delivery" class="mr-2">
+                                <span class="text-sm">Delivery</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" wire:model="orderType" value="pickup" class="mr-2">
+                                <span class="text-sm">Pickup</span>
+                            </label>
+                        </div>
                     </div>
-                @endif
-                <div class="mt-4">
-                    <label class="block text-sm font-medium mb-2">Order Type</label>
-                    <div class="flex space-x-6">
-                        <label class="flex items-center">
-                            <input type="radio" wire:model="orderType" value="delivery" class="mr-2"> <span class="ml-2">Delivery</span>
-                        </label>
-                        <label class="flex items-center">
-                            <input type="radio" wire:model="orderType" value="pickup" class="mr-2"> <span class="ml-2">Pickup</span>
-                        </label>
+                    
+                    @if($orderType === 'delivery')
+                        <div class="mt-4">
+                            <label class="block text-sm font-medium mb-1">Delivery Address</label>
+                            <textarea wire:model="address" placeholder="Jl. Example No. 123, Kota, Provinsi" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" rows="2"></textarea>
+                        </div>
+                    @endif
+                    
+                    <div class="mt-4">
+                        <label class="block text-sm font-medium mb-1">Special Instructions (Optional)</label>
+                        <textarea wire:model="instructions" placeholder="Extra spicy, no MSG, etc." class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" rows="2"></textarea>
                     </div>
                 </div>
-                <div class="mt-4">
-                    <label class="block text-sm font-medium mb-1">Special Instructions</label>
-                    <textarea wire:model="instructions" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" rows="3"></textarea>
-                </div>
-            </div>
 
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-xl font-bold mb-4">Payment Method</h2>
-                <div class="space-y-3">
-                    <label class="flex items-center p-3 border rounded-lg cursor-pointer">
-                        <input type="radio" wire:model="payment" value="cash" class="mr-3"> <span class="ml-3">Cash on Delivery</span>
-                    </label>
-                    <label class="flex items-center p-3 border rounded-lg cursor-pointer">
-                        <input type="radio" wire:model="payment" value="card" class="mr-3"> <span class="ml-3">Credit/Debit Card</span>
-                    </label>
+                <!-- Payment Method -->
+                <div>
+                    <h2 class="text-lg font-bold mb-4 pb-2 border-b">Payment Method</h2>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                            <input type="radio" wire:model="payment" value="cash" class="mr-3">
+                            <div class="flex items-center">
+                                <i class="fas fa-money-bill-wave text-green-600 mr-2"></i>
+                                <span class="text-sm font-medium">Cash on Delivery</span>
+                            </div>
+                        </label>
+                        <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                            <input type="radio" wire:model="payment" value="card" class="mr-3">
+                            <div class="flex items-center">
+                                <i class="fas fa-credit-card text-blue-600 mr-2"></i>
+                                <span class="text-sm font-medium">Credit/Debit Card</span>
+                            </div>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white p-6 rounded-lg shadow-sm sticky top-24">
-            <h2 class="text-xl font-bold mb-4">Order Summary</h2>
-            @foreach($cart as $item)
-                <div class="flex justify-between text-sm">
-                    <span>{{ $item['name'] }} × {{ $item['quantity'] }}</span>
-                    <span>Rp{{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}</span>
+        <!-- Kolom Kanan: Order Summary (20%) -->
+        <div class="lg:col-span-2">
+            <div class="bg-white p-4 rounded-lg shadow-md sticky top-4">
+                <h2 class="text-base font-bold mb-3">Order Summary</h2>
+                
+                <div class="space-y-2 mb-3 max-h-48 overflow-y-auto">
+                    @foreach($cart as $item)
+                        <div class="flex justify-between text-xs">
+                            <span class="truncate mr-2">{{ $item['name'] }} × {{ $item['quantity'] }}</span>
+                            <span class="flex-shrink-0">Rp{{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}</span>
+                        </div>
+                    @endforeach
                 </div>
-            @endforeach
-            <div class="mt-4 space-y-2">
-                <div class="flex justify-between"><span>Subtotal:</span> <strong>Rp{{ number_format($subtotal, 0, ',', '.') }}</strong></div>
-                <div class="flex justify-between"><span>Tax:</span> <strong>Rp{{ number_format($tax, 0, ',', '.') }}</strong></div>
-                @if($deliveryFee > 0)
-                    <div class="flex justify-between"><span>Delivery Fee:</span> <strong>Rp{{ number_format($deliveryFee, 0, ',', '.') }}</strong></div>
-                @endif
-                <div class="border-t pt-2 mt-2 flex justify-between text-lg font-bold text-chinese-red">
-                    <span>Total:</span> <strong>Rp{{ number_format($total, 0, ',', '.') }}</strong>
+                
+                <div class="border-t pt-3 space-y-1 text-xs">
+                    <div class="flex justify-between">
+                        <span>Subtotal:</span>
+                        <strong>Rp{{ number_format($subtotal, 0, ',', '.') }}</strong>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Tax:</span>
+                        <strong>Rp{{ number_format($tax, 0, ',', '.') }}</strong>
+                    </div>
+                    @if($deliveryFee > 0)
+                        <div class="flex justify-between">
+                            <span>Delivery:</span>
+                            <strong>Rp{{ number_format($deliveryFee, 0, ',', '.') }}</strong>
+                        </div>
+                    @endif
                 </div>
+                
+                <div class="border-t mt-3 pt-3 flex justify-between text-sm font-bold text-chinese-red">
+                    <span>Total:</span>
+                    <strong>Rp{{ number_format($total, 0, ',', '.') }}</strong>
+                </div>
+                
+                <button class="w-full mt-3 px-4 py-2 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 font-medium transition" wire:click="placeOrder">
+                    Place Order
+                </button>
             </div>
-            <button class="w-full mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 font-medium" wire:click="placeOrder">Place Order</button>
         </div>
+    </div>
     </div>
 </div>
