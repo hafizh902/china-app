@@ -15,7 +15,7 @@ class SetLocale
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $locale = session('locale', 'cn'); // Default to Chinese
+        $locale = session('locale', 'en'); 
         // Only allow 'cn' or 'en' locales
         if (!in_array($locale, ['cn', 'en'])) {
             $locale = 'cn';
