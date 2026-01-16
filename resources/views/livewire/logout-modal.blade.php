@@ -1,6 +1,9 @@
-<div x-data="{ open: @entangle('showLogoutConfirm') }">
-    <div x-show="open" @click.self="open = false" class="fixed inset-0 z-[10000] flex items-center justify-center bg-black bg-opacity-50">
-        <div class="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden mx-4">
+<div wire:cloak x-data="{ open: @entangle('showLogoutConfirm') }">
+    <div
+        x-show="open"
+        x-transition
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+    >        <div class="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden mx-4">
             <!-- Header Modal -->
             <div class="relative bg-gradient-to-r from-red-600 via-red-700 to-red-800 p-8 text-center">
                 <div class="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg border-4 border-white">
