@@ -58,137 +58,117 @@
             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
             <!-- Register Form -->
-            <form wire:submit.prevent="register" class="space-y-6">
-                <!-- Name Field -->
-                <div class="relative">
-                    <label for="register-name" class="block text-sm font-semibold text-gray-700 mb-2">
-                        <i class="fas fa-user mr-2 text-red-500"></i>Nama Lengkap
-                    </label>
-                    <div class="relative">
-                        <input wire:model="name" type="text" id="register-name"
-                            class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-gray-50 focus:bg-white text-gray-900 placeholder-gray-500"
-                            placeholder="Masukkan nama lengkap Anda" required>
-                        <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                            <i class="fas fa-user"></i>
-                        </div>
-                    </div>
-                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['name'];
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($step === 1): ?>
+                <form wire:submit.prevent="sendVerificationCode" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-envelope mr-2 text-red-500"></i>Email Address
+                        </label>
+
+                        <input wire:model="email" type="email"
+                            class="w-full pl-12 py-3 border-2 rounded-xl focus:border-red-500" placeholder="your@email.com">
+
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                        <p class="mt-1 text-sm text-red-600 flex items-center">
-                            <i class="fas fa-exclamation-circle mr-1"></i><?php echo e($message); ?>
-
-                        </p>
-                    <?php unset($message);
+                            <p class="mt-1 text-sm text-red-600"><?php echo e($message); ?></p>
+                        <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                </div>
 
-                <!-- Email Field -->
-                <div class="relative">
-                    <label for="register-email" class="block text-sm font-semibold text-gray-700 mb-2">
-                        <i class="fas fa-envelope mr-2 text-red-500"></i>Email Address
-                    </label>
-                    <div class="relative">
-                        <input wire:model="email" type="email" id="register-email"
-                            class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-gray-50 focus:bg-white text-gray-900 placeholder-gray-500"
-                            placeholder="your@email.com" required>
-                        <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                            <i class="fas fa-envelope"></i>
-                        </div>
+                        <button type="submit"
+                            class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl">
+                            Kirim Kode Verifikasi
+                        </button>
                     </div>
-                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['email'];
+                </form>
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($step === 2): ?>
+                <form wire:submit.prevent="verifyCode" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-shield-alt mr-2 text-red-500"></i>Kode Verifikasi
+                        </label>
+
+                        <input wire:model="verification_code" type="text"
+                            class="w-full text-center tracking-widest text-xl py-3 border-2 rounded-xl">
+
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['verification_code'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                        <p class="mt-1 text-sm text-red-600 flex items-center">
-                            <i class="fas fa-exclamation-circle mr-1"></i><?php echo e($message); ?>
-
-                        </p>
-                    <?php unset($message);
+                            <p class="mt-1 text-sm text-red-600"><?php echo e($message); ?></p>
+                        <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                </div>
 
-                <!-- Password Field -->
-                <div class="relative">
-                    <label for="register-password" class="block text-sm font-semibold text-gray-700 mb-2">
-                        <i class="fas fa-lock mr-2 text-red-500"></i>Password
-                    </label>
-                    <div class="relative">
-                        <input wire:model="password" type="password" id="register-password"
-                            class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-gray-50 focus:bg-white text-gray-900 placeholder-gray-500"
-                            placeholder="Minimal 8 karakter" required>
-                        <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                            <i class="fas fa-lock"></i>
-                        </div>
+                        <button type="submit"
+                            class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl">
+                            Verifikasi Kode
+                        </button>
+
+                        <button type="button" wire:click="sendVerificationCode"
+                            class="mt-2 text-sm text-gray-500 underline w-full">
+                            Kirim ulang kode
+                        </button>
                     </div>
-                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['password'];
+                </form>
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($step === 3): ?>
+                <form wire:submit.prevent="register" class="space-y-6">
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Nama</label>
+                        <input wire:model="name" type="text" class="w-full py-3 border-2 rounded-xl">
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                        <p class="mt-1 text-sm text-red-600 flex items-center">
-                            <i class="fas fa-exclamation-circle mr-1"></i><?php echo e($message); ?>
-
-                        </p>
-                    <?php unset($message);
+$message = $__bag->first($__errorArgs[0]); ?> <p class="text-sm text-red-600"><?php echo e($message); ?></p> <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                </div>
-
-                <!-- Confirm Password Field -->
-                <div class="relative">
-                    <label for="register-password_confirmation" class="block text-sm font-semibold text-gray-700 mb-2">
-                        <i class="fas fa-lock mr-2 text-red-500"></i>Konfirmasi Password
-                    </label>
-                    <div class="relative">
-                        <input wire:model="password_confirmation" type="password" id="register-password_confirmation"
-                            class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-gray-50 focus:bg-white text-gray-900 placeholder-gray-500"
-                            placeholder="Ulangi password Anda" required>
-                        <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                            <i class="fas fa-lock"></i>
-                        </div>
                     </div>
-                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['password_confirmation'];
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+                        <input wire:model="password" type="password" class="w-full py-3 border-2 rounded-xl">
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                        <p class="mt-1 text-sm text-red-600 flex items-center">
-                            <i class="fas fa-exclamation-circle mr-1"></i><?php echo e($message); ?>
-
-                        </p>
-                    <?php unset($message);
+$message = $__bag->first($__errorArgs[0]); ?> <p class="text-sm text-red-600"><?php echo e($message); ?></p> <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                </div>
+                    </div>
 
-                <!-- Submit Button -->
-                <button type="submit" wire:loading.attr="disabled"
-                    class="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed">
-                    <span wire:loading.remove>
-                        <i class="fas fa-user-plus mr-2"></i>Buat Akun Sekarang
-                    </span>
-                    <span wire:loading>
-                        <i class="fas fa-spinner fa-spin mr-2"></i>Mendaftarkan...
-                    </span>
-                </button>
-            </form>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Konfirmasi</label>
+                        <input wire:model="password_confirmation" type="password" class="w-full py-3 border-2 rounded-xl">
+                    </div>
+
+                    <button type="submit"
+                        class="w-full bg-gradient-to-r from-red-600 to-red-700 text-white font-bold py-4 rounded-xl">
+                        Buat Akun
+                    </button>
+
+                </form>
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+
+
+
 
             <!-- Login Link -->
             <div class="mt-6 text-center">
                 <p class="text-sm text-gray-600">
                     Sudah punya akun?
-                    <button type="button"
-                        wire:click=" 
+                    <button type="button" wire:click=" 
                         $dispatch('close-register-modal');
                         $dispatch('open-login-modal');"
                         class="font-semibold text-red-600 hover:text-red-700 transition-colors underline">
@@ -219,5 +199,4 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
             </div>
         </div>
     </div>
-</div>
-<?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/auth/register-modal.blade.php ENDPATH**/ ?>
+</div><?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/auth/register-modal.blade.php ENDPATH**/ ?>

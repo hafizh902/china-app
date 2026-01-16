@@ -11,7 +11,7 @@ Route::get('resto' , function () {
 Route::get('/', Pages\HomePage::class)->name('home');
 Route::get('/menu', Pages\MenuPage::class)->name('menu');
 Route::get('/cart', Pages\CartPage::class)->name('cart');
-Route::get('/checkout', Pages\CheckoutPage::class)->name('checkout');
+Route::get('/checkout', Pages\CheckoutPage::class)->name('checkout');   
 Route::get('/orders', Pages\OrderHistoryPage::class)
     ->middleware('auth')
     ->name('orders');
