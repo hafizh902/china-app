@@ -1,6 +1,6 @@
 <div id="resetPasswordModal"  
     class="fixed inset-0 z-[9999] overflow-y-auto flex items-center justify-center"
-    style="display: {{ $showModal ? 'flex' : 'none' }}; background-color: rgba(0, 0, 0, {{ $showModal ? '0.5' : '0' }});"
+    style="display: <?php echo e($showModal ? 'flex' : 'none'); ?>; background-color: rgba(0, 0, 0, <?php echo e($showModal ? '0.5' : '0'); ?>);"
     @click.self="$wire.closeModal()" @keydown.escape="$wire.closeModal()">
     
     <div class="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden">
@@ -16,15 +16,15 @@
 
         <!-- Form Content -->
         <div class="p-8">
-            <form method="POST" action="{{ route('password.update') }}" class="space-y-6">
-                @csrf
-                <input type="hidden" name="token" value="{{ request()->route('token') }}">
+            <form method="POST" action="<?php echo e(route('password.update')); ?>" class="space-y-6">
+                <?php echo csrf_field(); ?>
+                <input type="hidden" name="token" value="<?php echo e(request()->route('token')); ?>">
 
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
                         <i class="fas fa-envelope mr-2 text-red-500"></i>Email Address
                     </label>
-                    <input id="email" name="email" type="email" value="{{ request('email') }}" readonly class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-500">
+                    <input id="email" name="email" type="email" value="<?php echo e(request('email')); ?>" readonly class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-500">
                 </div>
 
                 <div>
@@ -58,3 +58,4 @@
         </div>
     </div>
 </div>
+<?php /**PATH D:\projek 12\china-app\resources\views/livewire/auth/reset-password-modal.blade.php ENDPATH**/ ?>
