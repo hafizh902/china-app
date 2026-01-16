@@ -24,15 +24,20 @@
                 <div class="flex">
                     <div class="w-24 h-24 flex-shrink-0 bg-gray-100 overflow-hidden">
                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($item->image): ?>
-                            <img src="<?php echo e($item->image_url); ?>" alt="<?php echo e($item->name); ?>" class="w-full h-full object-cover">
+                            <img src="<?php echo e($item->image_url); ?>" alt="<?php echo e($item->name); ?>"
+                                class="w-full h-full object-cover">
                         <?php else: ?>
-                            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
-                                <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            <div
+                                class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
+                                <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                    </path>
                                 </svg>
                             </div>
-                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                        </div>
+                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                    </div>
                     </td>
                     <td class="px-4 py-3 text-sm font-medium text-gray-900"><?php echo e($item->name); ?></td>
                     <td class="px-4 py-3 text-sm text-gray-500 max-w-xs truncate"><?php echo e($item->description); ?></td>
@@ -47,22 +52,22 @@
 
                     </td>
                     <td class="px-4 py-3 whitespace-nowrap">
-                        <span class="px-2.5 py-1 rounded text-white text-xs font-medium <?php echo e($item->is_available ? 'bg-green-600' : 'bg-gray-500'); ?>">
+                        <span
+                            class="px-2.5 py-1 rounded text-white text-xs font-medium <?php echo e($item->is_available ? 'bg-green-600' : 'bg-gray-500'); ?>">
                             <?php echo e($item->is_available ? 'Available' : 'Unavailable'); ?>
 
                         </span>
                     </td>
                     <td class="px-4 py-3 whitespace-nowrap text-center text-sm">
-                        <button
-                            type="button"
+                        <button type="button"
                             class="px-3 py-1.5 bg-gray-900 hover:bg-black text-white rounded text-xs font-medium transition-colors duration-150"
                             wire:click="edit(<?php echo e($item->id); ?>)">
                             Edit
                         </button>
                     </td>
-                </tr>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-            </tbody>
+                    </tr>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+        </tbody>
         </table>
     </div>
 
@@ -98,57 +103,51 @@
             <div class="space-y-4">
 
                 
-<div class="mb-5">
-    <label class="block text-sm font-medium text-gray-700 mb-2">
-        Menu Image
-    </label>
+                <div class="mb-5">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Menu Image
+                    </label>
 
-    <div class="flex items-start gap-4">
-        
-        <div class="w-28 h-28 rounded border border-dashed border-gray-300 flex items-center justify-center bg-white overflow-hidden">
-            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($image): ?>
-                <img
-                    src="<?php echo e($image->temporaryUrl()); ?>"
-                    class="w-full h-full object-cover"
-                >
-            <?php else: ?>
-                <span class="text-xs text-gray-400 text-center px-2">
-                    No image selected
-                </span>
-            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-        </div>
+                    <div class="flex items-start gap-4">
+                        
+                        <div
+                            class="w-28 h-28 rounded border border-dashed border-gray-300 flex items-center justify-center bg-white overflow-hidden">
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($image): ?>
+                                <img src="<?php echo e($image->temporaryUrl()); ?>" class="w-full h-full object-cover">
+                            <?php else: ?>
+                                <span class="text-xs text-gray-400 text-center px-2">
+                                    No image selected
+                                </span>
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                        </div>
 
-        
-        <div class="flex-1">
-            <input
-                type="file"
-                wire:model="image"
-                accept="image/*"
-                class="block w-full text-sm text-gray-700
+                        
+                        <div class="flex-1">
+                            <input type="file" wire:model="image" accept="image/*"
+                                class="block w-full text-sm text-gray-700
                        file:mr-3 file:py-2 file:px-4
                        file:rounded file:border-0
                        file:text-sm file:font-semibold
                        file:bg-red-50 file:text-red-600
-                       hover:file:bg-red-100"
-            >
+                       hover:file:bg-red-100">
 
-            <div wire:loading wire:target="image" class="text-xs text-gray-500 mt-1">
-                Uploading preview...
-            </div>
+                            <div wire:loading wire:target="image" class="text-xs text-gray-500 mt-1">
+                                Uploading preview...
+                            </div>
 
-            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['image'];
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['image'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                <p class="text-xs text-red-600 mt-1"><?php echo e($message); ?></p>
-            <?php unset($message);
+                                <p class="text-xs text-red-600 mt-1"><?php echo e($message); ?></p>
+                            <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-        </div>
-    </div>
-</div>
+                        </div>
+                    </div>
+                </div>
 
 
                 <div>
@@ -244,28 +243,14 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
                     </div>
                 </div>
 
-                <div class="bg-gray-50 p-3 rounded border border-gray-200">
-                    <?php if (isset($component)) { $__componentOriginal9384bd05e996fcc8c16dc84e6bbc1c8f = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginal9384bd05e996fcc8c16dc84e6bbc1c8f = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'e60dd9d2c3a62d619c9acb38f20d5aa5::checkbox.index','data' => ['label' => 'Available for order','wire:model.defer' => 'is_available','class' => 'text-green-600']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('flux::checkbox'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
-<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
-<?php endif; ?>
-<?php $component->withAttributes(['label' => 'Available for order','wire:model.defer' => 'is_available','class' => 'text-green-600']); ?>
-<?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__attributesOriginal9384bd05e996fcc8c16dc84e6bbc1c8f)): ?>
-<?php $attributes = $__attributesOriginal9384bd05e996fcc8c16dc84e6bbc1c8f; ?>
-<?php unset($__attributesOriginal9384bd05e996fcc8c16dc84e6bbc1c8f); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginal9384bd05e996fcc8c16dc84e6bbc1c8f)): ?>
-<?php $component = $__componentOriginal9384bd05e996fcc8c16dc84e6bbc1c8f; ?>
-<?php unset($__componentOriginal9384bd05e996fcc8c16dc84e6bbc1c8f); ?>
-<?php endif; ?>
+                <div class="bg-gray-50 p-3 rounded-lg border border-gray-200 flex items-center space-x-3">
+                    <input type="checkbox" wire:model.defer="is_available" id="is_available"
+                        class="w-5 h-5 text-green-500 bg-white border-gray-300 rounded focus:ring-2 focus:ring-green-400 focus:outline-none transition" />
+                    <label for="is_available" class="text-gray-700 font-medium cursor-pointer">
+                        Available for order
+                    </label>
                 </div>
+
             </div>
 
             <div class="flex justify-end gap-2 mt-6 pt-4 border-t border-gray-200">
@@ -521,7 +506,7 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
 <?php endif; ?>
                     </div>
                 </div>
-                
+
 
             </div>
 
