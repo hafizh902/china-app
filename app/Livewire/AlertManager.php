@@ -23,7 +23,7 @@ class AlertManager extends Component
         $this->alerts[] = $alert;
 
         // Dispatch browser event to hide alert after 5 seconds
-        $this->dispatchBrowserEvent('hide-alert', ['id' => $alert['id']]);
+        $this->dispatch('hide-alert', ['id' => $alert['id']]);
     }
 
     public function hideAlert($alertId)
