@@ -29,6 +29,6 @@ class PreviewModal extends Component
     public function render()
     {
 
-        return view('livewire.pages.preview-modal');
+        return view('livewire.Pages.preview-modal');
     }
 }
