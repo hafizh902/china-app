@@ -55,12 +55,12 @@
                         </div>
                     </div>
                     
-                    @if($orderType === 'delivery')
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($orderType === 'delivery'): ?>
                         <div class="mt-4">
                             <label class="block text-sm font-medium mb-1">Delivery Address</label>
                             <textarea wire:model="address" placeholder="Jl. Example No. 123, Kota, Provinsi" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" rows="2"></textarea>
                         </div>
-                    @endif
+                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     
                     <div class="mt-4">
                         <label class="block text-sm font-medium mb-1">Special Instructions (Optional)</label>
@@ -97,34 +97,34 @@
                 <h2 class="text-base font-bold mb-3">Order Summary</h2>
                 
                 <div class="space-y-2 mb-3 max-h-48 overflow-y-auto">
-                    @foreach($cart as $item)
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $cart; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <div class="flex justify-between text-xs">
-                            <span class="truncate mr-2">{{ $item['name'] }} × {{ $item['quantity'] }}</span>
-                            <span class="flex-shrink-0">Rp{{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}</span>
+                            <span class="truncate mr-2"><?php echo e($item['name']); ?> × <?php echo e($item['quantity']); ?></span>
+                            <span class="flex-shrink-0">Rp<?php echo e(number_format($item['price'] * $item['quantity'], 0, ',', '.')); ?></span>
                         </div>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 </div>
                 
                 <div class="border-t pt-3 space-y-1 text-xs">
                     <div class="flex justify-between">
                         <span>Subtotal:</span>
-                        <strong>Rp{{ number_format($subtotal, 0, ',', '.') }}</strong>
+                        <strong>Rp<?php echo e(number_format($subtotal, 0, ',', '.')); ?></strong>
                     </div>
                     <div class="flex justify-between">
                         <span>Tax:</span>
-                        <strong>Rp{{ number_format($tax, 0, ',', '.') }}</strong>
+                        <strong>Rp<?php echo e(number_format($tax, 0, ',', '.')); ?></strong>
                     </div>
-                    @if($deliveryFee > 0)
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($deliveryFee > 0): ?>
                         <div class="flex justify-between">
                             <span>Delivery:</span>
-                            <strong>Rp{{ number_format($deliveryFee, 0, ',', '.') }}</strong>
+                            <strong>Rp<?php echo e(number_format($deliveryFee, 0, ',', '.')); ?></strong>
                         </div>
-                    @endif
+                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 </div>
                 
                 <div class="border-t mt-3 pt-3 flex justify-between text-sm font-bold text-chinese-red">
                     <span>Total:</span>
-                    <strong>Rp{{ number_format($total, 0, ',', '.') }}</strong>
+                    <strong>Rp<?php echo e(number_format($total, 0, ',', '.')); ?></strong>
                 </div>
                 
                 <button class="w-full mt-3 px-4 py-2 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 font-medium transition" wire:click="placeOrder">
@@ -134,4 +134,4 @@
         </div>
     </div>
     </div>
-</div>
+</div><?php /**PATH E:\12 RPL\china-app\resources\views/livewire/Pages/checkout-page.blade.php ENDPATH**/ ?>

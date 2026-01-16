@@ -57,10 +57,11 @@ class CheckoutPage extends Component
 
         foreach ($cart as $item) {
             $order->items()->create([
-                'menu_id' => $item['id'],
-                'menu_name' => $item['name'],
-                'price' => $item['price'],
-                'quantity' => $item['quantity'],
+                'menu_id'    => $item['id'],
+                'menu_name'  => $item['name'],
+                'menu_price' => $item['price'], // WAJIB sesuai DB
+                'quantity'   => $item['quantity'],
+                'subtotal'   => $item['price'] * $item['quantity'],
             ]);
         }
 
