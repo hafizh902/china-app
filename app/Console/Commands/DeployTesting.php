@@ -11,6 +11,12 @@ class DeployTesting extends Command
 
     public function handle()
     {
+        file_put_contents(
+            storage_path('logs/deploy-cron.log'),
+            now().' cron hit'.PHP_EOL,
+            FILE_APPEND
+        );
+        
         $flag = storage_path('deploy_testing.flag');
 
         if (!file_exists($flag)) {
