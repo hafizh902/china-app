@@ -15,7 +15,7 @@
                         <!-- Tombol Order Now - mengarah ke section menu -->
                         <button
                             class="px-8 py-3 bg-chinese-red text-white  rounded-full font-semibold  hover:scale-105 transition"
-                            wire:navigate href="#menu">
+                            wire:navigate href="<?php echo e(route('menu')); ?>">
                             <i class="fas fa-utensils mr-2"></i> Order Now
                         </button>
                         <!-- Tombol Watch Video - placeholder -->
@@ -53,7 +53,7 @@
 $__split = function ($name, $params = []) {
     return [$name, $params];
 };
-[$__name, $__params] = $__split('pages.menu-page', []);
+[$__name, $__params] = $__split('pages.menu-page', ['limit' => 4]);
 
 $key = null;
 
@@ -71,4 +71,25 @@ if (isset($__slots)) unset($__slots);
 ?> <!-- Komponen menu page -->
         </div>
     </section>
+
+    <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('pages.footer-page', []);
+
+$key = null;
+
+$key ??= \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::generateKey('lw-1969230506-1', null);
+
+$__html = app('livewire')->mount($__name, $__params, $key);
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
 </div><?php /**PATH D:\projek 12\china-app\resources\views/livewire/Pages/home-page.blade.php ENDPATH**/ ?>
