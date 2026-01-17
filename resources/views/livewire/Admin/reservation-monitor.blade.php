@@ -8,44 +8,47 @@
             <div class="flex gap-4">
                 <div class="bg-white px-4 py-2 rounded-lg shadow-sm border border-stone-200">
                     <span class="text-[10px] block uppercase font-bold text-stone-400">Total Reservasi</span>
-                    <span class="text-xl font-bold text-red-700">{{ $currentReservations->count() }}</span>
+                    <span class="text-xl font-bold text-red-700">{{ $totalReservations }}</span>
                 </div>
             </div>
         </header>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            {{-- GRID DENAH MEJA --}}
+            {{-- JADWAL RESERVASI --}}
             <div class="lg:col-span-8 bg-white p-10 rounded-[2.5rem] shadow-sm border border-stone-200 relative overflow-hidden">
                 <div class="absolute top-0 right-0 p-10 opacity-5 text-9xl font-serif">監</div>
-                
-                <div class="grid grid-cols-4 sm:grid-cols-6 gap-10 relative z-10">
-                    @foreach($tables as $table)
-                        @php 
-                            $res = $currentReservations[$table->id] ?? null; 
-                        @endphp
-                        
-                        <button wire:click="$set('selectedReservation', {{ $res ? $res->id : 'null' }})"
-                            class="flex flex-col items-center gap-3 transition-transform hover:scale-105">
-                            <div class="w-20 h-20 rounded-full flex items-center justify-center border-4 relative
-                                {{ !$res ? 'border-stone-100 bg-stone-50' : ($res->status == 'pending' ? 'border-amber-400 bg-amber-50 animate-pulse' : 'border-red-700 bg-red-50') }}">
-                                
-                                <span class="font-black text-lg {{ !$res ? 'text-stone-300' : 'text-stone-800' }}">
-                                    {{ $table->number }}
-                                </span>
 
-                                @if($res)
-                                    <div class="absolute -top-2 -right-2 w-6 h-6 rounded-full flex items-center justify-center shadow-lg
-                                        {{ $res->status == 'pending' ? 'bg-amber-500 text-white' : 'bg-green-500 text-white' }}">
-                                        <i class="fas {{ $res->status == 'pending' ? 'fa-clock' : 'fa-check' }} text-[10px]"></i>
-                                    </div>
-                                @endif
+                <h2 class="text-xl font-bold mb-6 text-stone-800">Jadwal Reservasi Hari Ini</h2>
+
+                @if($reservationsByTime->isEmpty())
+                    <div class="text-center py-20 text-stone-400">
+                        <i class="fas fa-calendar-times text-6xl mb-4"></i>
+                        <p>Tidak ada reservasi hari ini</p>
+                    </div>
+                @else
+                    <div class="space-y-6">
+                        @foreach($reservationsByTime as $time => $reservations)
+                            <div class="border-l-4 border-red-700 pl-6">
+                                <h3 class="text-lg font-bold text-stone-800 mb-4">{{ $time }}</h3>
+                                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                                    @foreach($reservations as $reservation)
+                                        <button wire:click="$set('selectedReservation', {{ $reservation->id }})"
+                                            class="bg-stone-50 border border-stone-200 rounded-lg p-4 hover:bg-stone-100 transition-colors text-left">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <span class="font-bold text-stone-800">#{{ $reservation->table->number }}</span>
+                                                <span class="px-2 py-0.5 rounded text-[10px] font-bold {{ $reservation->status == 'pending' ? 'bg-amber-500 text-white' : 'bg-green-600 text-white' }}">
+                                                    {{ strtoupper($reservation->status) }}
+                                                </span>
+                                            </div>
+                                            <p class="text-sm text-stone-600">{{ $reservation->user->name }}</p>
+                                            <p class="text-xs text-stone-400">{{ $reservation->table->position }}</p>
+                                        </button>
+                                    @endforeach
+                                </div>
                             </div>
-                            <span class="text-[10px] font-bold uppercase tracking-widest text-stone-400">
-                                {{ $res ? $res->user->name : 'Kosong' }}
-                            </span>
-                        </button>
-                    @endforeach
-                </div>
+                        @endforeach
+                    </div>
+                @endif
             </div>
 
             {{-- PANEL DETAIL --}}

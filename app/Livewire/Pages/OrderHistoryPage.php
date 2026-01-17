@@ -12,7 +12,12 @@ class OrderHistoryPage extends Component
 
     public function render()
     {
-        $orders = Auth::check() ? Order::where('user_id', Auth::id())->latest()->get() : collect();
+        $orders = Auth::check()
+            ? Order::with('items')
+            ->where('user_id', Auth::id())
+            ->latest()
+            ->get()
+            : collect();
 
         return view('livewire.Pages.order-history-page', compact('orders'));
     }

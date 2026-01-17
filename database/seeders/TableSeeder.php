@@ -12,8 +12,9 @@ class TableSeeder extends Seeder
      */
    public function run(): void {
     foreach (range(1, 18) as $i) {
-        \App\Models\Table::create([
+        \App\Models\Table::updateOrCreate([
             'number' => str_pad($i, 2, '0', STR_PAD_LEFT),
+        ], [
             'capacity' => $i <= 6 ? 8 : 4,
             'position' => $i <= 6 ? 'vip' : 'indoor',
         ]);
