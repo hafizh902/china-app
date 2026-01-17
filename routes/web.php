@@ -44,4 +44,6 @@ require __DIR__.'/settings.php';
 // ================= WEBHOOK DEPLOY (NO MIDDLEWARE) =================
 Route::post('/_deploy/testing', function () {
     return response('WEBHOOK OK', 200);
-});
+})->withoutMiddleware([
+    \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
+]);
