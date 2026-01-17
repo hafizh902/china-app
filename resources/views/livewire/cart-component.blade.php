@@ -60,7 +60,7 @@
 
                         <div
                             class="w-20 h-20 bg-stone-100 rounded-xl overflow-hidden flex-shrink-0 border border-stone-50">
-                           <img src="{{ $item['imageUrl'] }}" alt="{{ $item['name'] }}"
+                           <img src="{{ $item['image'] }}" alt="{{ $item['name'] }}"
                                 class="w-full h-full object-cover">
                         </div>
 
