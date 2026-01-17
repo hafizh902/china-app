@@ -6,18 +6,31 @@
                 <div class="lg:col-span-2 bg-white rounded-[2.5rem] shadow-xl border border-amber-100 p-8">
                     <h2 class="font-serif font-bold text-2xl text-slate-800 mb-10">Denah Restoran</h2>
                     
-                    <div class="grid grid-cols-3 sm:grid-cols-6 gap-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         @foreach($tables as $table)
-                            @php $isOccupied = in_array($table->id, $this->occupiedTables); @endphp
-                            <button wire:click="selectTable({{ $table->id }})" 
-                                @disabled($isOccupied)
-                                class="flex flex-col items-center gap-2 {{ $isOccupied ? 'opacity-30' : '' }}">
-                                <div class="w-16 h-16 rounded-full flex items-center justify-center border-2 transition-all
-                                    {{ $selectedTable == $table->id ? 'bg-red-700 border-amber-400 text-white scale-110 shadow-xl' : 'bg-amber-50 border-amber-100 text-amber-800' }}">
-                                    <span class="text-xs font-bold">{{ $table->number }}</span>
+                            <div class="bg-amber-50 rounded-2xl p-4 border border-amber-100">
+                                <div class="text-center mb-3">
+                                    <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-2">
+                                        <span class="text-sm font-bold text-amber-800">{{ $table->number }}</span>
+                                    </div>
+                                    <span class="text-xs uppercase font-bold text-stone-500">{{ $table->capacity }} Pax</span>
                                 </div>
-                                <span class="text-[9px] uppercase font-bold text-stone-400">{{ $table->capacity }} Pax</span>
-                            </button>
+                                <div class="grid grid-cols-2 gap-2">
+                                    @php $availableTimes = $this->availableTimes->get($table->id, []); @endphp
+                                    @foreach(['12:00', '18:00', '19:00', '20:00'] as $time)
+                                        @php $isAvailable = in_array($time, $availableTimes); @endphp
+                                        @php $isSelected = $selectedTable == $table->id && $selectedTime == $time; @endphp
+                                        <button wire:click="selectTableAndTime({{ $table->id }}, '{{ $time }}')"
+                                            @disabled(!$isAvailable)
+                                            class="py-1 px-2 text-xs font-bold rounded border transition-all
+                                                {{ $isSelected ? 'bg-red-700 text-white border-red-700' :
+                                                   ($isAvailable ? 'bg-white text-amber-800 border-amber-200 hover:bg-amber-100' :
+                                                   'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed') }}">
+                                            {{ $time }}
+                                        </button>
+                                    @endforeach
+                                </div>
+                            </div>
                         @endforeach
                     </div>
                 </div>
@@ -26,15 +39,12 @@
                 <div class="space-y-6">
                     <div class="bg-white p-6 rounded-[2rem] shadow-lg border border-amber-100">
                         <input type="date" wire:model.live="booking_date" class="w-full mb-4 border-amber-100 rounded-xl">
-                        <div class="grid grid-cols-2 gap-2">
-                            @foreach(['12:00', '18:00', '19:00', '20:00'] as $time)
-                                <button wire:click="$set('booking_time', '{{ $time }}')" 
-                                    class="py-2 text-xs font-bold rounded-lg border {{ $booking_time == $time ? 'bg-red-700 text-white' : 'bg-white' }}">
-                                    {{ $time }}
-                                </button>
-                            @endforeach
-                        </div>
-                        <button wire:click="confirmReservation" class="w-full mt-6 bg-red-700 text-white py-4 rounded-xl font-bold uppercase tracking-widest text-xs">
+                        @if($selectedTable && $selectedTime)
+                            <div class="mb-4 p-3 bg-amber-50 rounded-lg">
+                                <p class="text-sm font-bold text-amber-800">Meja {{ $tables->where('id', $selectedTable)->first()->number ?? '' }} - {{ $selectedTime }}</p>
+                            </div>
+                        @endif
+                        <button wire:click="confirmReservation" class="w-full mt-6 bg-red-700 text-white py-4 rounded-xl font-bold uppercase tracking-widest text-xs" {{ !$selectedTable || !$selectedTime ? 'disabled' : '' }}>
                             Booking Sekarang
                         </button>
                     </div>

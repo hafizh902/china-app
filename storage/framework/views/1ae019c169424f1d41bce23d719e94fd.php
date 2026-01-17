@@ -203,7 +203,7 @@ if (isset($__slots)) unset($__slots);
 
     <?php echo \Livewire\Mechanisms\FrontendAssets\FrontendAssets::scripts(); ?>
 
-    <script>
+    <!-- <script>
         window.addEventListener('debug-modal', () => {
             console.log('Add New Item clicked')
         })
@@ -219,7 +219,7 @@ if (isset($__slots)) unset($__slots);
                 setTimeout(() => toast.remove(), 3000);
             });
         });
-    </script>
+    </script> -->
 </body>
 
 </html>
