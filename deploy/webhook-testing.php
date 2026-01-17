@@ -1,7 +1,7 @@
 <?php
 
 // ===== CONFIG =====
-$SECRET = 'SECRET_KAMU'; // sama dengan GitHub
+$SECRET = 'sikret'; // sama dengan GitHub
 $BRANCH = 'refs/heads/testing';
 $PROJECT_PATH = '/home/kgtiqtfd/repositories/china-app';
 // ==================
