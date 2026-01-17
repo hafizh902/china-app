@@ -99,7 +99,7 @@ class OrderManagement extends Component
             ? Order::with(['user', 'items.menu'])->find($this->selectedOrderId)
             : null;
 
-        return view('livewire.admin.order-management', [
+        return view('livewire.Admin.order-management', [
             'orders' => $orders,
             'selectedOrder' => $selectedOrder,
         ]);
