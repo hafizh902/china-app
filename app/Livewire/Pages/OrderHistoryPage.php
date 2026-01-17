@@ -8,6 +8,20 @@ use App\Models\Order;
 
 class OrderHistoryPage extends Component
 {
+    public $selectedOrder = null;
+    public $showModal = false;
+
+    public function viewInvoice($orderId)
+    {
+        $this->selectedOrder = Order::with('items')->find($orderId);
+        $this->showModal = true;
+    }
+
+    public function closeModal()
+    {
+        $this->showModal = false;
+        $this->selectedOrder = null;
+    }
     protected $layout = 'app';
 
     public function render()
