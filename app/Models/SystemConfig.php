@@ -17,4 +17,16 @@ class SystemConfig extends Model
         'tax_percent',
         'delivery_fee',
     ];
+
+    public function getBrandLogoUrlAttribute(): ?string
+    {
+        if (! $this->brand_logo) {
+            return null;
+        }
+        return rtrim(config('services.supabase.url'), '/')
+            . '/storage/v1/object/public/'
+            . config('services.supabase.bucket')
+            . '/'
+            . $this->brand_logo;
+}
 }

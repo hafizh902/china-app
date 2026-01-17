@@ -5,7 +5,9 @@ namespace App\Livewire\Admin;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\SystemConfig;
+use App\Services\SupabaseStorageService;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ConfigPage extends Component
 {
@@ -27,6 +29,7 @@ class ConfigPage extends Component
 
         $this->form = [
             'brand_name'     => $this->config->brand_name,
+            'brand_logo'     => $this->config->brand_logo,
             'footer_address' => $this->config->footer_address,
             'footer_phone'   => $this->config->footer_phone,
             'active_from'    => $this->config->active_from,
@@ -37,7 +40,7 @@ class ConfigPage extends Component
         ];
     }
 
-    public function save()
+    public function save(SupabaseStorageService $storage)
     {
         try {
             $this->validate([
@@ -49,7 +52,23 @@ class ConfigPage extends Component
             ]);
 
             if ($this->brand_logo) {
-                $this->form['brand_logo'] = $this->brand_logo->store('brand', 'public');
+
+                // 🔥 Hapus logo lama (kalau ada)
+                if ($this->config->brand_logo) {
+                    $storage->delete($this->config->brand_logo);
+                }
+
+                // Generate nama file
+                $filename = 'brand-logo-' . Str::uuid() . '.' . $this->brand_logo->extension();
+
+                // Upload ke Supabase
+                $path = $storage->upload(
+                    $this->brand_logo,
+                    "brand/{$filename}"
+                );
+
+                // Simpan PATH ke DB
+                $this->form['brand_logo'] = $path;
             }
 
             SystemConfig::updateOrCreate(
@@ -57,14 +76,20 @@ class ConfigPage extends Component
                 $this->form
             );
 
-            // SUCCESS
+            $this->config = SystemConfig::first();
+
             $this->dispatchBrowserEvent('toast', [
                 'type' => 'success',
                 'message' => 'Settings saved successfully'
             ]);
         } catch (\Throwable $e) {
+            $this->dispatchBrowserEvent('toast', [
+                'type' => 'error',
+                'message' => $e->getMessage()
+            ]);
         }
     }
+
 
     public function render()
     {
