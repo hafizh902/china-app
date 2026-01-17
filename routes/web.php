@@ -37,6 +37,7 @@ Route::middleware(['auth', 'admin'])
         Route::get('/menu', Admin\MenuManagement::class)->name('menu');
         Route::get('/orders', Admin\OrderManagement::class)->name('orders');
         Route::get('/reservations', Admin\ReservationMonitor::class)->name('reservations');
+        Route::get('/configurations', Admin\ConfigPage::class)->name('configurations');
     });
 
 require __DIR__.'/settings.php';
