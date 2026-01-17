@@ -73,7 +73,7 @@ class MenuPage extends Component
         if ($this->limit !== null) {
             $menuItems = $query->take($this->limit)->get();
 
-            return view('livewire.pages.menu-page', [
+            return view('livewire.Pages.menu-page', [
                 'menuItems' => $menuItems,
                 'hasMore'   => false, // disable infinite scroll
             ]);
@@ -82,7 +82,7 @@ class MenuPage extends Component
         $menuItems = $query->take($this->perPage)->get();
         $hasMore   = $query->count() > $menuItems->count();
 
-        return view('livewire.pages.menu-page', [
+        return view('livewire.Pages.menu-page', [
             'menuItems' => $menuItems,
             'hasMore'   => $hasMore,
         ]);
