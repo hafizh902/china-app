@@ -61,7 +61,7 @@
 
                         <div
                             class="w-20 h-20 bg-stone-100 rounded-xl overflow-hidden flex-shrink-0 border border-stone-50">
-                           <img src="<?php echo e($item['image']); ?>" alt="<?php echo e($item['name']); ?>"
+                           <img src="<?php echo e($item['imageUrl']); ?>" alt="<?php echo e($item['name']); ?>"
                                 class="w-full h-full object-cover">
                         </div>
 
