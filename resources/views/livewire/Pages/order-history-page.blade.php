@@ -1,64 +1,107 @@
-<div>
-    <h1 class="text-3xl font-bold my-5 ms-5">Your Orders</h1>
+<div class="bg-[#fdfcf8] min-h-screen pb-20">
+    {{-- Header Section --}}
+    <div class="relative py-12 mb-10 bg-red-800 overflow-hidden">
+        <div class="absolute inset-0 opacity-10"
+            style="background-image: url('data:image/svg+xml,<svg width=\"60\" height=\"30\" viewBox=\"0 0 60 30\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M0 15Q15 0 30 15Q45 30 60 15\" stroke=\"%23fff\" fill=\"none\"/></svg>');">
+        </div>
+        <div class="relative z-10 text-center">
+            <h1 class="text-4xl font-serif font-black text-amber-400 tracking-[0.2em] uppercase">HISTORY ORDER</h1>
+            <p class="text-red-100 italic mt-2 text-sm uppercase tracking-widest">
+                Your Order History</p>
+        </div>
+    </div>
 
-    <div class="space-y-6 space-x-6 mx-10">
+    <div class="max-w-5xl mx-auto px-4 space-y-8">
         @forelse ($orders as $order)
-            <div class="bg-white rounded-lg border shadow-sm">
+            <div
+                class="group bg-white rounded-[2rem] border border-amber-100 shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden">
 
-                {{-- HEADER ORDER --}}
-                <div class="flex justify-between bg-gray-50 px-6 py-4 border-b text-sm">
-                    <div>
-                        <p class="text-gray-500">Order placed</p>
-                        <p class="font-medium">
-                            {{ $order->created_at->format('F d, Y') }}
-                        </p>
+                {{-- HEADER ORDER (Imperial Style) --}}
+                <div class="flex flex-wrap justify-between items-center bg-stone-50 px-8 py-5 border-b border-amber-50">
+                    <div class="flex gap-8">
+                        <div>
+                            <p class="text-[10px] text-stone-400 uppercase font-bold tracking-widest mb-1">Tanggal Pesan
+                            </p>
+                            <p class="font-serif font-bold text-stone-800 italic">
+                                {{ $order->created_at->format('d M, Y') }}
+                            </p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-stone-400 uppercase font-bold tracking-widest mb-1">Total</p>
+                            <p class="font-bold text-red-700">
+                                Rp{{ number_format($order->total, 0, ',', '.') }}
+                            </p>
+                        </div>
+                        <div class="hidden sm:block">
+                            <p class="text-[10px] text-stone-400 uppercase font-bold tracking-widest mb-1">ID Pesanan
+                            </p>
+                            <p class="font-mono text-xs font-bold text-stone-600">#{{ $order->order_number }}</p>
+                        </div>
                     </div>
 
-                    <div>
-                        <p class="text-gray-500">Total</p>
-                        <p class="font-medium">
-                            Rp{{ number_format($order->total, 0, ',', '.') }}
-                        </p>
-                    </div>
-
-                    <div>
-                        <p class="text-gray-500">Status</p>
-                        <span class="px-2 py-1 rounded text-xs font-semibold
-                            {{ $order->status === 'pending' ? 'bg-yellow-100 text-yellow-700' : '' }}
-                            {{ $order->status === 'preparing' ? 'bg-yellow-100 text-yellow-700' : '' }}
-                            {{ $order->status === 'completed' ? 'bg-green-100 text-green-700' : '' }}
-                            {{ $order->status === 'cancelled' ? 'bg-red-100 text-red-700' : '' }}
+                    <div class="mt-4 sm:mt-0">
+                        {{-- Status Badge as a Chinese Stamp --}}
+                        <div
+                            class="relative inline-block px-4 py-2 border-2 rotate-[-2deg] font-serif font-bold uppercase tracking-tighter
+                            {{ $order->status === 'completed' ? 'border-green-600 text-green-600' : '' }}
+                            {{ $order->status === 'pending' || $order->status === 'preparing' ? 'border-amber-500 text-amber-500' : '' }}
+                            {{ $order->status === 'cancelled' ? 'border-red-600 text-red-600' : '' }}
                         ">
-                            {{ ucfirst($order->status) }}
-                        </span>
-                    </div>
-
-                    <div class="text-right">
-                        <p class="text-gray-500">Order ID</p>
-                        <p class="font-medium">{{ $order->order_number }}</p>
+                            <span class="text-xs">{{ $order->status }}</span>
+                            <div class="absolute -top-1 -right-1 w-2 h-2 bg-white border border-inherit"></div>
+                        </div>
                     </div>
                 </div>
 
                 {{-- ITEM LIST --}}
-                <div class="px-6 py-4 space-y-4">
-                    @foreach ($order->items as $item)
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <p class="font-semibold">{{ $item->menu_name }}</p>
-                                <p class="text-sm text-gray-500">
-                                    Qty: {{ $item->quantity }}
-                                </p>
-                            </div>
+                <div class="px-8 py-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        @foreach ($order->items as $item)
+                            <div
+                                class="flex items-center gap-4 p-3 rounded-2xl hover:bg-amber-50/50 transition-colors border border-transparent hover:border-amber-100">
+                                {{-- Placeholder for Menu Image --}}
+                                <div
+                                    class="w-16 h-16 bg-stone-100 rounded-xl flex-shrink-0 border border-stone-200 overflow-hidden">
+                                    <img src="https://via.placeholder.com/100"
+                                        class="w-full h-full object-cover opacity-80" alt="menu">
+                                </div>
 
-                            <div class="font-medium">
-                                Rp{{ number_format($item->subtotal, 0, ',', '.') }}
+                                <div class="flex-1">
+                                    <p class="font-serif font-bold text-stone-800 leading-tight">{{ $item->menu_name }}
+                                    </p>
+                                    <p class="text-xs text-stone-400 mt-1 uppercase tracking-widest">Jumlah:
+                                        {{ $item->quantity }}</p>
+                                </div>
+
+                                <div class="text-right">
+                                    <p class="text-sm font-bold text-stone-700">
+                                        Rp{{ number_format($item->subtotal, 0, ',', '.') }}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
+
+                    {{-- Footer Order Detail --}}
+                    <div class="mt-8 pt-6 border-t border-dashed border-stone-200 flex justify-end">
+                        <button
+                            class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-red-700 hover:text-red-900 transition-colors">
+                            <i class="fas fa-file-invoice"></i> Unduh Nota Digital
+                        </button>
+                    </div>
                 </div>
             </div>
         @empty
-            <p class="text-gray-500 text-center">You have no orders yet.</p>
+            <div class="py-20 text-center">
+                <div class="w-24 h-24 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-scroll text-3xl text-stone-300"></i>
+                </div>
+                <p class="font-serif italic text-stone-400 tracking-widest uppercase">
+                    There are no traces of Orders recorded.</p>
+                <a wire:navigate href="/menu"
+                    class="inline-block mt-6 text-red-700 font-bold border-b-2 border-red-700 pb-1 hover:text-red-900">Mulai
+                    Pesan Sekarang</a>
+            </div>
         @endforelse
     </div>
 </div>
