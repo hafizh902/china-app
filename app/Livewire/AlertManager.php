@@ -8,7 +8,7 @@ class AlertManager extends Component
 {
     public $alerts = [];
 
-    protected $listeners = ['alert'];
+    protected $listeners = ['alert' => 'alert'];
 
     public function alert($data)
     {
