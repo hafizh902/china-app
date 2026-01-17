@@ -155,25 +155,37 @@ class MenuManagement extends Component
         if (empty($this->selectedItems)) {
             return;
         }
-        $menus = Menu::whereIn('id', $this->selectedItems)->get();
 
-        // Check if any selected menus have associated order items
-        $menusWithOrders = Menu::whereIn('id', $this->selectedItems)
-            ->whereHas('orderItems')
+        /**
+         * Ambil menu yang MASIH punya pesanan BELUM SELESAI
+         */
+        $blockedMenus = Menu::whereIn('id', $this->selectedItems)
+            ->whereHas('orderItems.order', function ($q) {
+                $q->where('status', '!=', 'completed'); // sesuaikan status
+            })
             ->pluck('name')
             ->toArray();
 
-        if (!empty($menusWithOrders)) {
-            session()->flash('error', 'Tidak dapat menghapus menu yang sudah memiliki pesanan: ' . implode(', ', $menusWithOrders));
+        if (!empty($blockedMenus)) {
+            session()->flash(
+                'error',
+                'Tidak dapat menghapus menu yang masih memiliki pesanan aktif: ' .
+                    implode(', ', $blockedMenus)
+            );
             return;
         }
+
+        /**
+         * Menu aman dihapus (semua order selesai / tidak ada order)
+         */
+        $menus = Menu::whereIn('id', $this->selectedItems)->get();
 
         foreach ($menus as $menu) {
             if ($menu->image) {
                 $storage->delete($menu->image);
             }
         }
-        
+
         Menu::whereIn('id', $this->selectedItems)->delete();
 
         $this->selectedItems = [];
@@ -181,7 +193,6 @@ class MenuManagement extends Component
 
         session()->flash('success', 'Menu berhasil dihapus.');
     }
-
 
     public function toggleSelection($id)
     {
