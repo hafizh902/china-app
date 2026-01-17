@@ -62,14 +62,35 @@
                         <span class="w-1 h-4 bg-chinese-red"></span>
                         Brand Logo
                     </label>
+                
+                    {{-- PREVIEW --}}
+                    @if ($brand_logo)
+                    {{-- preview upload baru --}}
+                        <img src="{{ $brand_logo->temporaryUrl() }}"
+                            class="h-24 w-24 object-contain rounded-lg border mb-2">
+                    @elseif ($config->brand_logo_url)
+                        {{-- dari accessor model --}}
+                        <img src="{{ $config->brand_logo_url }}"
+                            class="h-24 w-24 object-contain rounded-lg border mb-2">
+                    @else
+                        <div class="h-24 w-24 flex items-center justify-center border rounded-lg text-xs text-gray-400 mb-2">
+                            No Logo
+                        </div>
+                    @endif
+
+                
+                
                     <input
                         type="file"
                         wire:model="brand_logo"
+                        accept="image/*"
                         class="w-full text-sm border-2 border-chinese-gold/30 rounded-lg px-4 py-2
                                file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0
                                file:bg-chinese-red file:text-white file:font-semibold
                                hover:file:bg-red-700 file:cursor-pointer">
                 </div>
+                
+                
 
                 <div class="md:col-span-2 space-y-2">
                     <label class="text-sm font-bold text-chinese-black flex items-center gap-2">
