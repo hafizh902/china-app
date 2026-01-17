@@ -72,11 +72,11 @@
                 <ul class="space-y-3 text-xs text-stone-400">
                     <li class="flex items-center gap-3">
                         <i class="fas fa-map-marker-alt text-red-600"></i>
-                        <span>Imperial Street No. 88, Balikpapan</span>
+                        <span>{{ \App\Models\SystemConfig::get('footer_address')[0]['footer_address'] ?? '' }}</span>
                     </li>
                     <li class="flex items-center gap-3">
                         <i class="fas fa-phone-alt text-red-600"></i>
-                        <span>+62 877 7777 7777</span>
+                        <span>{{ \App\Models\SystemConfig::get('footer_phone')[0]['footer_phone'] ?? '' }}</span>
                     </li>
                     <li class="mt-6 pt-4 border-t border-stone-800">
                     <div>

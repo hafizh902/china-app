@@ -406,5 +406,4 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
     </div>
 </div>
 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-</div>
-<?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/Admin/menu-management.blade.php ENDPATH**/ ?>
+</div><?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/Admin/menu-management.blade.php ENDPATH**/ ?>

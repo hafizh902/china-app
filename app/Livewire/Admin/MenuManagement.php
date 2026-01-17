@@ -29,7 +29,6 @@ class MenuManagement extends Component
     // delete
     public bool $deleteMode = false;
     public array $selectedItems = [];
-    public bool $showDeleteConfirm = false;
 
     // filter n search
     public string $search = '';
@@ -183,37 +182,6 @@ class MenuManagement extends Component
         session()->flash('success', 'Menu berhasil dihapus.');
     }
 
-    public function confirmDelete()
-    {
-        if (empty($this->selectedItems)) {
-            return;
-        }
-
-        // Check if any selected menus have associated order items
-        $menusWithOrders = Menu::whereIn('id', $this->selectedItems)
-            ->whereHas('orderItems')
-            ->pluck('name')
-            ->toArray();
-
-        if (!empty($menusWithOrders)) {
-            session()->flash('error', 'Tidak dapat menghapus menu yang sudah memiliki pesanan: ' . implode(', ', $menusWithOrders));
-            $this->showDeleteConfirm = false;
-            return;
-        }
-
-        Menu::whereIn('id', $this->selectedItems)->delete();
-
-        $this->selectedItems = [];
-        $this->deleteMode = false;
-        $this->showDeleteConfirm = false;
-
-        session()->flash('success', 'Menu berhasil dihapus.');
-    }
-
-    public function cancelDelete()
-    {
-        $this->showDeleteConfirm = false;
-    }
 
     public function toggleSelection($id)
     {

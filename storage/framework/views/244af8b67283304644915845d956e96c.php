@@ -1,47 +1,47 @@
 <div class="p-6 grid grid-cols-1 lg:grid-cols-10 gap-6">
 
-    {{-- LEFT MENU --}}
+    
     <div class="lg:col-span-2 bg-gradient-to-b from-chinese-red to-red-800 rounded-lg shadow-xl p-1">
         <div class="bg-chinese-black rounded-lg p-4 space-y-2">
-            @foreach([
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = [
                 'page' => '页面设置',
                 'operational' => '运营配置',
                 'reservation' => '预订管理',
                 'payment' => '支付设置'
-            ] as $key => $label)
+            ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <button
-                    wire:click="$set('activeTab', '{{ $key }}')"
+                    wire:click="$set('activeTab', '<?php echo e($key); ?>')"
                     class="w-full text-left px-4 py-3 rounded-lg transition-all duration-300
-                        {{ $activeTab === $key 
+                        <?php echo e($activeTab === $key 
                             ? 'bg-gradient-to-r from-chinese-gold to-chinese-gold-light text-chinese-black font-bold shadow-lg border-2 border-chinese-gold' 
-                            : 'text-chinese-gold-light hover:bg-chinese-red/30 hover:text-white border-2 border-transparent' }}">
-                    <span class="text-sm font-chinese">{{ $label }}</span>
+                            : 'text-chinese-gold-light hover:bg-chinese-red/30 hover:text-white border-2 border-transparent'); ?>">
+                    <span class="text-sm font-chinese"><?php echo e($label); ?></span>
                 </button>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
         </div>
     </div>
 
-    {{-- CONTENT --}}
+    
     <div class="lg:col-span-8 bg-white rounded-lg shadow-xl border-4 border-chinese-gold overflow-hidden">
         
-        {{-- Header dengan motif Chinese --}}
+        
         <div class="bg-gradient-to-r from-chinese-red via-red-700 to-chinese-red p-6 border-b-4 border-chinese-gold">
             <h2 class="text-2xl font-bold text-chinese-gold-light font-chinese flex items-center gap-3">
                 <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/>
                 </svg>
-                @if ($activeTab === 'page') 页面设置
-                @elseif ($activeTab === 'operational') 运营配置
-                @elseif ($activeTab === 'reservation') 预订管理
-                @else 支付设置
-                @endif
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($activeTab === 'page'): ?> 页面设置
+                <?php elseif($activeTab === 'operational'): ?> 运营配置
+                <?php elseif($activeTab === 'reservation'): ?> 预订管理
+                <?php else: ?> 支付设置
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
             </h2>
         </div>
 
         <div class="p-6 bg-gradient-to-br from-gray-50 to-gray-100">
 
-            {{-- PAGE SETTINGS --}}
-            @if ($activeTab === 'page')
+            
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($activeTab === 'page'): ?>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                 <div class="space-y-2">
@@ -98,10 +98,10 @@
                 </div>
 
             </div>
-            @endif
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-            {{-- OPERATIONAL SETTINGS --}}
-            @if ($activeTab === 'operational')
+            
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($activeTab === 'operational'): ?>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                 <div class="space-y-2">
@@ -166,10 +166,10 @@
                 </div>
 
             </div>
-            @endif
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-            {{-- UPCOMING --}}
-            @if (in_array($activeTab, ['reservation','payment']))
+            
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(in_array($activeTab, ['reservation','payment'])): ?>
                 <div class="text-center py-12">
                     <div class="inline-block p-8 bg-gradient-to-br from-chinese-gold/10 to-chinese-red/10 
                                 rounded-lg border-2 border-dashed border-chinese-gold">
@@ -181,11 +181,11 @@
                         <p class="text-gray-600 text-sm mt-2 italic">Upcoming feature</p>
                     </div>
                 </div>
-            @endif
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
         </div>
 
-        {{-- Footer Action --}}
+        
         <div class="px-6 py-4 bg-gradient-to-r from-gray-100 to-gray-200 border-t-2 border-chinese-gold/30">
             <div class="flex justify-end">
                 <button
@@ -206,4 +206,4 @@
         </div>
 
     </div>
-</div>
+</div><?php /**PATH E:\12 RPL\china-app\resources\views/livewire/admin/config-page.blade.php ENDPATH**/ ?>
