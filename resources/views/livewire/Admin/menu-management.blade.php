@@ -1,12 +1,12 @@
-<div>
-    <div class="mb-6 mx-2">
+<div clas>
+    <div class="my-3 mx-2">
         <h1 class="text-3xl font-bold text-gray-900">Menu Management</h1>
     </div>
 
     <div class="grid grid-cols-12 gap-4 mx-2">
         <!-- Kolom 1: Menu Cards -->
         <div class="col-span-9">
-            <div class="grid grid-cols-6 gap-4 mb-6">
+            <div class="grid grid-cols-5 gap-4 mb-6">
                 @foreach ($items as $item)
                 <div
                     wire:key="menu-{{ $item->id }}"
@@ -65,10 +65,6 @@
                 </div>
                 @endforeach
             </div>
-
-            <div class="flex justify-end">
-                {{ $items->links() }}
-            </div>
         </div>
 
         <!-- Action Panel -->
@@ -103,7 +99,7 @@
                     class="w-full px-3 py-2 border rounded text-xs">
                     <option value="">All Categories</option>
                     <option value="main_course">Main Course</option>
-                    <option value="snacks">Snacks</option>
+                    <option value="snacks">Side Dish</option>
                     <option value="drinks">Drinks</option>
                     <option value="desserts">Desserts</option>
                 </select>
@@ -133,6 +129,35 @@
                         Reset
                     </button>
                 </div>
+                @if ($items->hasPages())
+                <div class="flex justify-center items-center gap-2 mt-6">
+                    {{-- Previous --}}
+                    <button
+                        wire:click="previousPage"
+                        wire:loading.attr="disabled"
+                        @disabled($items->onFirstPage())
+                        class="px-3 py-1 rounded border text-sm
+                        {{ $items->onFirstPage() ? 'text-gray-400 border-gray-200' : 'hover:bg-gray-100 border-gray-300' }}">
+                        ⮜
+                    </button>
+
+                    {{-- Current Page --}}
+                    <span class="px-3 py-1 rounded bg-red-600 text-white text-sm font-medium">
+                        {{ $items->currentPage() }}
+                    </span>
+
+                    {{-- Next --}}
+                    <button
+                        wire:click="nextPage"
+                        wire:loading.attr="disabled"
+                        @disabled(! $items->hasMorePages())
+                        class="px-3 py-1 rounded border text-sm
+                        {{ ! $items->hasMorePages() ? 'text-gray-400 border-gray-200' : 'hover:bg-gray-100 border-gray-300' }}">
+                        ⮞
+                    </button>
+                </div>
+                @endif
+
             </div>
         </div>
     </div>
@@ -151,8 +176,7 @@
                     x-on:drop.prevent="
                     $el.classList.remove('ring-2','ring-red-400');
                     $refs.file.files = $event.dataTransfer.files;
-                    $refs.file.dispatchEvent(new Event('change'));
-                "
+                    $refs.file.dispatchEvent(new Event('change'));"
                     class="flex flex-col gap-3">
                     <label class="text-sm font-medium">Menu Image</label>
 
@@ -172,27 +196,29 @@
                 </div>
 
                 {{-- FORM --}}
-                <div class="space-y-4">
+                <div class="space-y-2">
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Item Name</label>
                         <input type="text" wire:model.defer="name"
-                            class="w-full border border-gray-300 rounded-md px-3 py-2 text-black">
+                            class="w-full border border-gray-300 rounded-md px-3 py-2 text-black"
+                            placeholder="e.g. Fried Pork Rice">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Description</label>
                         <input type="text" wire:model.defer="description"
-                            class="w-full border border-gray-300 rounded-md px-3 py-2 text-black">
+                            class="w-full border border-gray-300 rounded-md px-3 py-2 text-black"
+                            placeholder="e.g. Yummy Fried Rice">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Category</label>
                         <select wire:model.defer="category"
                             class="w-full border border-gray-300 rounded-md px-3 py-2 text-black">
-                            <option value="">-- Select --</option>
+                            <option value="">Select Category</option>
                             <option value="main_course">Main Course</option>
-                            <option value="snacks">Snacks</option>
+                            <option value="snacks">Side Dish</option>
                             <option value="drinks">Drinks</option>
                             <option value="desserts">Dessert</option>
                         </select>
@@ -229,7 +255,7 @@
             </div>
 
             <div class="flex justify-end gap-3 mt-8">
-                <flux:button type="button" variant="ghost"
+                <flux:button type="button"
                     wire:click="$set('showCreateModal', false)">
                     Cancel
                 </flux:button>
@@ -284,7 +310,7 @@
                 </div>
 
                 {{-- FORM --}}
-                <div class="space-y-4">
+                <div class="space-y-2">
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Item Name</label>
@@ -307,10 +333,10 @@
                         <select
                             wire:model.defer="category"
                             class="w-full border border-gray-300 rounded-md px-3 py-2 text-black">
-                            <option>Main Course</option>
-                            <option>Snacks</option>
-                            <option>Drinks</option>
-                            <option>Dessert</option>
+                            <option value="main_course">Main Course</option>
+                            <option value="snacks">Side Dish</option>
+                            <option value="drinks">Drinks</option>
+                            <option value="desserts">Dessert</option>
                         </select>
                     </div>
 
@@ -355,7 +381,7 @@
             <div class="flex justify-end gap-3 mt-8">
                 <flux:button
                     type="button"
-                    variant="ghost"
+                    
                     wire:click="$set('showEditModal', false)">
                     Cancel
                 </flux:button>

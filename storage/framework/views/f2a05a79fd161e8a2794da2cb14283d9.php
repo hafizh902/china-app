@@ -1,12 +1,12 @@
-<div>
-    <div class="mb-6 mx-2">
+<div clas>
+    <div class="my-3 mx-2">
         <h1 class="text-3xl font-bold text-gray-900">Menu Management</h1>
     </div>
 
     <div class="grid grid-cols-12 gap-4 mx-2">
         <!-- Kolom 1: Menu Cards -->
         <div class="col-span-9">
-            <div class="grid grid-cols-6 gap-4 mb-6">
+            <div class="grid grid-cols-5 gap-4 mb-6">
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <div
                     wire:key="menu-<?php echo e($item->id); ?>"
@@ -68,11 +68,6 @@
                 </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
             </div>
-
-            <div class="flex justify-end">
-                <?php echo e($items->links()); ?>
-
-            </div>
         </div>
 
         <!-- Action Panel -->
@@ -108,7 +103,7 @@
                     class="w-full px-3 py-2 border rounded text-xs">
                     <option value="">All Categories</option>
                     <option value="main_course">Main Course</option>
-                    <option value="snacks">Snacks</option>
+                    <option value="snacks">Side Dish</option>
                     <option value="drinks">Drinks</option>
                     <option value="desserts">Desserts</option>
                 </select>
@@ -138,6 +133,36 @@
                         Reset
                     </button>
                 </div>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($items->hasPages()): ?>
+                <div class="flex justify-center items-center gap-2 mt-6">
+                    
+                    <button
+                        wire:click="previousPage"
+                        wire:loading.attr="disabled"
+                        <?php if($items->onFirstPage()): echo 'disabled'; endif; ?>
+                        class="px-3 py-1 rounded border text-sm
+                        <?php echo e($items->onFirstPage() ? 'text-gray-400 border-gray-200' : 'hover:bg-gray-100 border-gray-300'); ?>">
+                        ⮜
+                    </button>
+
+                    
+                    <span class="px-3 py-1 rounded bg-red-600 text-white text-sm font-medium">
+                        <?php echo e($items->currentPage()); ?>
+
+                    </span>
+
+                    
+                    <button
+                        wire:click="nextPage"
+                        wire:loading.attr="disabled"
+                        <?php if(! $items->hasMorePages()): echo 'disabled'; endif; ?>
+                        class="px-3 py-1 rounded border text-sm
+                        <?php echo e(! $items->hasMorePages() ? 'text-gray-400 border-gray-200' : 'hover:bg-gray-100 border-gray-300'); ?>">
+                        ⮞
+                    </button>
+                </div>
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+
             </div>
         </div>
     </div>
@@ -165,8 +190,7 @@
                     x-on:drop.prevent="
                     $el.classList.remove('ring-2','ring-red-400');
                     $refs.file.files = $event.dataTransfer.files;
-                    $refs.file.dispatchEvent(new Event('change'));
-                "
+                    $refs.file.dispatchEvent(new Event('change'));"
                     class="flex flex-col gap-3">
                     <label class="text-sm font-medium">Menu Image</label>
 
@@ -186,27 +210,29 @@
                 </div>
 
                 
-                <div class="space-y-4">
+                <div class="space-y-2">
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Item Name</label>
                         <input type="text" wire:model.defer="name"
-                            class="w-full border border-gray-300 rounded-md px-3 py-2 text-black">
+                            class="w-full border border-gray-300 rounded-md px-3 py-2 text-black"
+                            placeholder="e.g. Fried Pork Rice">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Description</label>
                         <input type="text" wire:model.defer="description"
-                            class="w-full border border-gray-300 rounded-md px-3 py-2 text-black">
+                            class="w-full border border-gray-300 rounded-md px-3 py-2 text-black"
+                            placeholder="e.g. Yummy Fried Rice">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Category</label>
                         <select wire:model.defer="category"
                             class="w-full border border-gray-300 rounded-md px-3 py-2 text-black">
-                            <option value="">-- Select --</option>
+                            <option value="">Select Category</option>
                             <option value="main_course">Main Course</option>
-                            <option value="snacks">Snacks</option>
+                            <option value="snacks">Side Dish</option>
                             <option value="drinks">Drinks</option>
                             <option value="desserts">Dessert</option>
                         </select>
@@ -245,14 +271,14 @@
             <div class="flex justify-end gap-3 mt-8">
                 <?php if (isset($component)) { $__componentOriginalc04b147acd0e65cc1a77f86fb0e81580 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginalc04b147acd0e65cc1a77f86fb0e81580 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'e60dd9d2c3a62d619c9acb38f20d5aa5::button.index','data' => ['type' => 'button','variant' => 'ghost','wire:click' => '$set(\'showCreateModal\', false)']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'e60dd9d2c3a62d619c9acb38f20d5aa5::button.index','data' => ['type' => 'button','wire:click' => '$set(\'showCreateModal\', false)']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('flux::button'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['type' => 'button','variant' => 'ghost','wire:click' => '$set(\'showCreateModal\', false)']); ?>
+<?php $component->withAttributes(['type' => 'button','wire:click' => '$set(\'showCreateModal\', false)']); ?>
                     Cancel
                  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -350,7 +376,7 @@
                 </div>
 
                 
-                <div class="space-y-4">
+                <div class="space-y-2">
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Item Name</label>
@@ -373,10 +399,10 @@
                         <select
                             wire:model.defer="category"
                             class="w-full border border-gray-300 rounded-md px-3 py-2 text-black">
-                            <option>Main Course</option>
-                            <option>Snacks</option>
-                            <option>Drinks</option>
-                            <option>Dessert</option>
+                            <option value="main_course">Main Course</option>
+                            <option value="snacks">Side Dish</option>
+                            <option value="drinks">Drinks</option>
+                            <option value="desserts">Dessert</option>
                         </select>
                     </div>
 
@@ -421,14 +447,14 @@
             <div class="flex justify-end gap-3 mt-8">
                 <?php if (isset($component)) { $__componentOriginalc04b147acd0e65cc1a77f86fb0e81580 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginalc04b147acd0e65cc1a77f86fb0e81580 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'e60dd9d2c3a62d619c9acb38f20d5aa5::button.index','data' => ['type' => 'button','variant' => 'ghost','wire:click' => '$set(\'showEditModal\', false)']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'e60dd9d2c3a62d619c9acb38f20d5aa5::button.index','data' => ['type' => 'button','wire:click' => '$set(\'showEditModal\', false)']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('flux::button'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['type' => 'button','variant' => 'ghost','wire:click' => '$set(\'showEditModal\', false)']); ?>
+<?php $component->withAttributes(['type' => 'button','wire:click' => '$set(\'showEditModal\', false)']); ?>
                     Cancel
                  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>

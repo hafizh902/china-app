@@ -31,9 +31,8 @@
                 @php
                     $categories = [
                         'all' => ['All', null],
-                        'noodles' => ['Noodles', 'fa-utensils'],
-                        'dumplings' => ['Dumplings', 'fa-cookie-bite'],
-                        'rice' => ['Rice', 'fa-bowl-rice'],
+                        'Main_Course' => ['Main Course', 'fa-utensils'],
+                        'Snacks' => ['Side Dish', 'fa-cookie-bite'],
                         'drinks' => ['Drinks', 'fa-mug-hot'],
                         'desserts' => ['Desserts', 'fa-ice-cream'],
                     ];
