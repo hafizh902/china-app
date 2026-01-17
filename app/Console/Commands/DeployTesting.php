@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use function exec;
 use Illuminate\Console\Command;
 
 class DeployTesting extends Command
@@ -16,23 +17,22 @@ class DeployTesting extends Command
             now().' cron hit'.PHP_EOL,
             FILE_APPEND
         );
-        
+    
         $flag = storage_path('deploy_testing.flag');
-
+    
         if (!file_exists($flag)) {
             return 0;
         }
-
-        $this->info('Deploying testing...');
-
-        chdir(base_path());
-
-        exec('git checkout testing');
-        exec('git pull origin testing');
-        exec('php artisan optimize:clear');
-
+    
+        chdir('/home/kgtiqtfd/repositories/china-app');
+    
+        \exec('git checkout testing');
+        \exec('git pull origin testing');
+        \exec('/usr/local/bin/php artisan optimize:clear');
+    
         unlink($flag);
-
+    
         return 0;
     }
+    
 }
