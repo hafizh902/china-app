@@ -29,14 +29,19 @@ class ReservationMonitor extends Component
 
     public function render()
     {
+        $reservations = Reservation::with('user', 'table')
+            ->where('reservation_date', date('Y-m-d'))
+            ->whereIn('status', ['pending', 'confirmed'])
+            ->orderBy('reservation_time')
+            ->get();
+
+        // Group reservations by time slot
+        $reservationsByTime = $reservations->groupBy('reservation_time');
+
         return view('livewire.Admin.reservation-monitor', [
             'tables' => Table::all(),
-            // Mengambil data reservasi hari ini untuk ditampilkan di denah
-            'currentReservations' => Reservation::with('user')
-                ->where('reservation_date', date('Y-m-d'))
-                ->whereIn('status', ['pending', 'confirmed'])
-                ->get()
-                ->keyBy('table_id')
+            'reservationsByTime' => $reservationsByTime,
+            'totalReservations' => $reservations->count()
         ]);
     }
 }
