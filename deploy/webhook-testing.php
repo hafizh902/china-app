@@ -1,11 +1,13 @@
 <?php
 
-$output = shell_exec('whoami 2>&1');
+// config
+$FLAG = base_path('storage/deploy_testing.flag');
 
+// tulis flag
 file_put_contents(
-    base_path('storage/logs/webhook-debug.log'),
-    "WHOAMI: ".$output.PHP_EOL,
-    FILE_APPEND
+    $FLAG,
+    now()->toDateTimeString()
 );
 
-return response('SHELL OK', 200);
+// response ke GitHub
+return response('FLAG SET', 200);

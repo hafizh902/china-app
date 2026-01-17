@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+
+class DeployTesting extends Command
+{
+    protected $signature = 'deploy:testing';
+    protected $description = 'Deploy testing branch via cron';
+
+    public function handle()
+    {
+        $flag = storage_path('deploy_testing.flag');
+
+        if (!file_exists($flag)) {
+            return 0;
+        }
+
+        $this->info('Deploying testing...');
+
+        chdir(base_path());
+
+        exec('git checkout testing');
+        exec('git pull origin testing');
+        exec('php artisan optimize:clear');
+
+        unlink($flag);
+
+        return 0;
+    }
+}
