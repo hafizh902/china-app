@@ -49,7 +49,7 @@
     <section id="menu" class="py-12 px-6 bg-gray-50">
         <div class="max-w-7xl mx-auto">
             <h2 class="text-3xl font-bold chinese-font text-chinese-red text-center mb-8">Our Menu</h2>
-            <livewire:pages.menu-page /> <!-- Komponen menu page -->
+            <livewire:pages.menu-page :limit="4" /> <!-- Komponen menu page -->
         </div>
     </section>
 

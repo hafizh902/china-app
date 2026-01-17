@@ -53,7 +53,7 @@
 $__split = function ($name, $params = []) {
     return [$name, $params];
 };
-[$__name, $__params] = $__split('pages.menu-page', []);
+[$__name, $__params] = $__split('pages.menu-page', ['limit' => 4]);
 
 $key = null;
 
