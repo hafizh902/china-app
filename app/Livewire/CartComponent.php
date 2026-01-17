@@ -21,6 +21,11 @@ class CartComponent extends Component
         $this->cart = session()->get('cart', []);
     }
 
+    public function closeCart()
+    {
+        $this->dispatch('close-cart');
+    }
+
     // Method untuk menambah item ke keranjang
     public function addToCart($id, $name, $price, $image = null)
     {
