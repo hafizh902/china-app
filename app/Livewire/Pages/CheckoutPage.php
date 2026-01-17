@@ -18,6 +18,15 @@ class CheckoutPage extends Component
         'address' => 'required_if:orderType,delivery',
     ];
 
+    protected $messages = [
+        'firstName.required' => 'First name need to be filled.',
+        'lastName.required'  => 'Last name need to be filled.',
+        'email.required'     => 'Email need to be filled.',
+        'email.email'        => 'Email Format is not valid.',
+        'phone.required'     => 'Phone Number need to be filled.',
+        'address.required_if' => 'Address need to be filled for delivery.',
+    ];
+
     public function placeOrder()
     {
         $this->validate();

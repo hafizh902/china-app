@@ -65,7 +65,7 @@
     {{-- LIVEWIRE SCRIPTS WAJIB --}}
     @fluxScripts
     @livewireScripts
-    <script>
+    <!-- <script>
         window.addEventListener('debug-modal', () => {
             console.log('Add New Item clicked')
         })
@@ -81,7 +81,7 @@
                 setTimeout(() => toast.remove(), 3000);
             });
         });
-    </script>
+    </script> -->
 </body>
 
 </html>
