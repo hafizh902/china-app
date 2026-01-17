@@ -15,39 +15,55 @@ class ConfigPage extends Component
 
     public SystemConfig $config;
 
+    public array $form = [];
+
     public $brand_logo;
 
     public string $activeTab = 'page';
 
     public function mount()
     {
-        // abort_unless(auth()->user()?->is_admin, 403);
+        $this->config = SystemConfig::firstOrCreate([]);
 
-        $this->config = SystemConfig::firstOrCreate(
-            [],
-            [
-                'brand_name' => 'My Restaurant',
-            ]
-        );
+        $this->form = [
+            'brand_name'     => $this->config->brand_name,
+            'footer_address' => $this->config->footer_address,
+            'footer_phone'   => $this->config->footer_phone,
+            'active_from'    => $this->config->active_from,
+            'active_until'   => $this->config->active_until,
+            'site_closed'    => (bool) $this->config->site_closed,
+            'tax_percent'    => $this->config->tax_percent,
+            'delivery_fee'   => $this->config->delivery_fee,
+        ];
     }
 
     public function save()
     {
-        $this->validate([
-            'config.brand_name' => 'required|string|max:255',
-            'brand_logo' => 'nullable|image|max:2048',
-            'config.tax_percent' => 'required|integer|min:0|max:100',
-            'config.delivery_fee' => 'required|integer|min:0',
-        ]);
+        try {
+            $this->validate([
+                'form.brand_name'    => 'required|string|max:255',
+                'form.footer_phone' => 'nullable|string|max:50',
+                'form.tax_percent'  => 'required|integer|min:0|max:100',
+                'form.delivery_fee' => 'required|integer|min:0',
+                'brand_logo'        => 'nullable|image|max:2048',
+            ]);
 
-        if ($this->brand_logo) {
-            $path = $this->brand_logo->store('brand', 'public');
-            $this->config->brand_logo = $path;
+            if ($this->brand_logo) {
+                $this->form['brand_logo'] = $this->brand_logo->store('brand', 'public');
+            }
+
+            SystemConfig::updateOrCreate(
+                ['id' => 1],
+                $this->form
+            );
+
+            // SUCCESS
+            $this->dispatchBrowserEvent('toast', [
+                'type' => 'success',
+                'message' => 'Settings saved successfully'
+            ]);
+        } catch (\Throwable $e) {
         }
-
-        $this->config->save();
-
-        session()->flash('success', 'Configuration updated');
     }
 
     public function render()
