@@ -9,7 +9,6 @@ class CartComponent extends Component
 {
     // Array untuk menyimpan item di keranjang
     public $cart = [];
-
     protected $listeners = [
         'add-to-cart' => 'addToCart',
     ];
@@ -39,6 +38,12 @@ class CartComponent extends Component
 
         $cart = session()->get('cart', []);
 
+
+        $imageUrl = rtrim(config('services.supabase.url'), '/')
+            . '/storage/v1/object/public/'
+            . config('services.supabase.bucket')
+            . '/'
+            . $this->image;
         if (isset($cart[$id])) {
             $cart[$id]['quantity']++;
         } else {
@@ -46,7 +51,7 @@ class CartComponent extends Component
                 'id' => $id,
                 'name' => $name,
                 'price' => $price,
-                'image' => $image,
+                'image' => $imageUrl,
                 'quantity' => 1,
             ];
         }
