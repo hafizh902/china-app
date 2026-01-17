@@ -8,7 +8,7 @@
             <div class="flex gap-4">
                 <div class="bg-white px-4 py-2 rounded-lg shadow-sm border border-stone-200">
                     <span class="text-[10px] block uppercase font-bold text-stone-400">Total Reservasi</span>
-                    <span class="text-xl font-bold text-red-700"><?php echo e($currentReservations->count()); ?></span>
+                    <span class="text-xl font-bold text-red-700"><?php echo e($totalReservations); ?></span>
                 </div>
             </div>
         </header>
@@ -17,37 +17,39 @@
             
             <div class="lg:col-span-8 bg-white p-10 rounded-[2.5rem] shadow-sm border border-stone-200 relative overflow-hidden">
                 <div class="absolute top-0 right-0 p-10 opacity-5 text-9xl font-serif">監</div>
-                
-                <div class="grid grid-cols-4 sm:grid-cols-6 gap-10 relative z-10">
-                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $tables; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $table): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <?php 
-                            $res = $currentReservations[$table->id] ?? null; 
-                        ?>
-                        
-                        <button wire:click="$set('selectedReservation', <?php echo e($res ? $res->id : 'null'); ?>)"
-                            class="flex flex-col items-center gap-3 transition-transform hover:scale-105">
-                            <div class="w-20 h-20 rounded-full flex items-center justify-center border-4 relative
-                                <?php echo e(!$res ? 'border-stone-100 bg-stone-50' : ($res->status == 'pending' ? 'border-amber-400 bg-amber-50 animate-pulse' : 'border-red-700 bg-red-50')); ?>">
-                                
-                                <span class="font-black text-lg <?php echo e(!$res ? 'text-stone-300' : 'text-stone-800'); ?>">
-                                    <?php echo e($table->number); ?>
 
-                                </span>
+                <h2 class="text-xl font-bold mb-6 text-stone-800">Jadwal Reservasi Hari Ini</h2>
 
-                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($res): ?>
-                                    <div class="absolute -top-2 -right-2 w-6 h-6 rounded-full flex items-center justify-center shadow-lg
-                                        <?php echo e($res->status == 'pending' ? 'bg-amber-500 text-white' : 'bg-green-500 text-white'); ?>">
-                                        <i class="fas <?php echo e($res->status == 'pending' ? 'fa-clock' : 'fa-check'); ?> text-[10px]"></i>
-                                    </div>
-                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($reservationsByTime->isEmpty()): ?>
+                    <div class="text-center py-20 text-stone-400">
+                        <i class="fas fa-calendar-times text-6xl mb-4"></i>
+                        <p>Tidak ada reservasi hari ini</p>
+                    </div>
+                <?php else: ?>
+                    <div class="space-y-6">
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $reservationsByTime; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $time => $reservations): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="border-l-4 border-red-700 pl-6">
+                                <h3 class="text-lg font-bold text-stone-800 mb-4"><?php echo e($time); ?></h3>
+                                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $reservations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $reservation): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <button wire:click="$set('selectedReservation', <?php echo e($reservation->id); ?>)"
+                                            class="bg-stone-50 border border-stone-200 rounded-lg p-4 hover:bg-stone-100 transition-colors text-left">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <span class="font-bold text-stone-800">#<?php echo e($reservation->table->number); ?></span>
+                                                <span class="px-2 py-0.5 rounded text-[10px] font-bold <?php echo e($reservation->status == 'pending' ? 'bg-amber-500 text-white' : 'bg-green-600 text-white'); ?>">
+                                                    <?php echo e(strtoupper($reservation->status)); ?>
+
+                                                </span>
+                                            </div>
+                                            <p class="text-sm text-stone-600"><?php echo e($reservation->user->name); ?></p>
+                                            <p class="text-xs text-stone-400"><?php echo e($reservation->table->position); ?></p>
+                                        </button>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                                </div>
                             </div>
-                            <span class="text-[10px] font-bold uppercase tracking-widest text-stone-400">
-                                <?php echo e($res ? $res->user->name : 'Kosong'); ?>
-
-                            </span>
-                        </button>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                </div>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                    </div>
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
             </div>
 
             
