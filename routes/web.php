@@ -4,6 +4,14 @@ use Illuminate\Support\Facades\Route;
 
 use App\Livewire\Pages;
 use App\Livewire\Admin;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+
+Route::post('/_deploy/testing', function () {
+    return (require base_path('deploy/webhook-testing.php'));
+})->withoutMiddleware([
+    VerifyCsrfToken::class,
+]);
+
 Route::get('resto' , function () {
     return view('resto_app');
 });
