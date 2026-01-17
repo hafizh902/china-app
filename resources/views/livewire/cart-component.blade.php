@@ -113,7 +113,7 @@
                     class="p-8 bg-white border-t-2 border-amber-50 rounded-t-[2.5rem] shadow-[0_-10px_40px_rgba(0,0,0,0.03)] relative z-20">
                     <div class="space-y-3 mb-8">
                         <div class="flex justify-between text-xs text-stone-400 font-medium tracking-wide">
-                            <span>Subtotal Perjamuan</span>
+                            <span>Subtotal Pembayaran</span>
                             <span>Rp{{ number_format($subtotal, 0, ',', '.') }}</span>
                         </div>
                         <div class="flex justify-between text-xs text-stone-400 font-medium tracking-wide">
