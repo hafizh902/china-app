@@ -18,6 +18,7 @@ class MenuManagement extends Component
     public ?int $menuId = null;
     public bool $showCreateModal = false;
     public bool $showEditModal = false;
+    public ?Menu $menu = null;
 
     public string $name = '';
     public string $description = '';
@@ -28,6 +29,7 @@ class MenuManagement extends Component
     // delete
     public bool $deleteMode = false;
     public array $selectedItems = [];
+    public bool $showDeleteConfirm = false;
 
     // filter n search
     public string $search = '';
@@ -95,15 +97,15 @@ class MenuManagement extends Component
     // edit
     public function edit(int $id)
     {
-        $menu = Menu::findOrFail($id);
+        $this->menu = Menu::findOrFail($id);
 
-        $this->menuId = $menu->id;
-        $this->name = $menu->name;
-        $this->description = $menu->description;
-        $this->category = $menu->category;
-        $this->price = $menu->price;
-        $this->is_available = $menu->is_available;
-        $this->oldImage = $menu->image;
+        $this->menuId = $this->menu->id;
+        $this->name = $this->menu->name;
+        $this->description = $this->menu->description;
+        $this->category = $this->menu->category;
+        $this->price = $this->menu->price;
+        $this->is_available = $this->menu->is_available;
+        $this->oldImage = $this->menu->image;
 
         $this->showEditModal = true;
     }
@@ -155,17 +157,72 @@ class MenuManagement extends Component
             return;
         }
         $menus = Menu::whereIn('id', $this->selectedItems)->get();
+
+        // Check if any selected menus have associated order items
+        $menusWithOrders = Menu::whereIn('id', $this->selectedItems)
+            ->whereHas('orderItems')
+            ->pluck('name')
+            ->toArray();
+
+        if (!empty($menusWithOrders)) {
+            session()->flash('error', 'Tidak dapat menghapus menu yang sudah memiliki pesanan: ' . implode(', ', $menusWithOrders));
+            return;
+        }
+
         foreach ($menus as $menu) {
             if ($menu->image) {
                 $storage->delete($menu->image);
             }
         }
         
+        Menu::whereIn('id', $this->selectedItems)->delete();
+
+        $this->selectedItems = [];
+        $this->deleteMode = false;
+
+        session()->flash('success', 'Menu berhasil dihapus.');
+    }
+
+    public function confirmDelete()
+    {
+        if (empty($this->selectedItems)) {
+            return;
+        }
+
+        // Check if any selected menus have associated order items
+        $menusWithOrders = Menu::whereIn('id', $this->selectedItems)
+            ->whereHas('orderItems')
+            ->pluck('name')
+            ->toArray();
+
+        if (!empty($menusWithOrders)) {
+            session()->flash('error', 'Tidak dapat menghapus menu yang sudah memiliki pesanan: ' . implode(', ', $menusWithOrders));
+            $this->showDeleteConfirm = false;
+            return;
+        }
 
         Menu::whereIn('id', $this->selectedItems)->delete();
 
         $this->selectedItems = [];
         $this->deleteMode = false;
+        $this->showDeleteConfirm = false;
+
+        session()->flash('success', 'Menu berhasil dihapus.');
+    }
+
+    public function cancelDelete()
+    {
+        $this->showDeleteConfirm = false;
+    }
+
+    public function toggleSelection($id)
+    {
+        if (($key = array_search($id, $this->selectedItems)) !== false) {
+            unset($this->selectedItems[$key]);
+            $this->selectedItems = array_values($this->selectedItems);
+        } else {
+            $this->selectedItems[] = $id;
+        }
     }
 
     // action panel

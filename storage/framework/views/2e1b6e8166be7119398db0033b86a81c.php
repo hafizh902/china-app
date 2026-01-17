@@ -194,4 +194,4 @@
         </div>
     </div>
     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-</div><?php /**PATH E:\12 RPL\china-app\resources\views/livewire/Admin/order-management.blade.php ENDPATH**/ ?>
+</div><?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/admin/order-management.blade.php ENDPATH**/ ?>
