@@ -4,6 +4,7 @@ return [
     'home' => 'Home',
     'menu' => 'Menu',
     'orders' => 'Orders',
+    'reservations' => 'Reservations',
     'admin' => 'Admin',
     'settings' => 'Settings',
     'admin_panel' => 'Admin Panel',

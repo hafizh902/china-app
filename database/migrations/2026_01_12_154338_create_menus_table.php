@@ -15,7 +15,7 @@ return new class extends Migration
         $table->id();
         $table->string('name');
         $table->text('description')->nullable();
-        $table->string('category'); // noodles, dumplings, rice, drinks, desserts
+        $table->string('category'); // contoh: appetizer, main course, dessert, beverage
         $table->decimal('price', 10, 2);
         $table->string('image')->nullable();
         $table->integer('prep_time_minutes')->nullable(); // opsional

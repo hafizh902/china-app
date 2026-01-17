@@ -4,6 +4,7 @@ return [
     'home' => '首页',
     'menu' => '菜单',
     'orders' => '订单',
+    'reservations' => '预订',
     'admin' => '管理员',
     'settings' => '设置',
     'admin_panel' => '管理员面板',

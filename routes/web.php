@@ -15,7 +15,11 @@ Route::get('/checkout', Pages\CheckoutPage::class)->name('checkout');
 Route::get('/orders', Pages\OrderHistoryPage::class)
     ->middleware('auth')
     ->name('orders');
-    
+
+Route::get('/reservation', Pages\ReservationSystem::class)
+    ->middleware('auth')
+    ->name('reservation');
+
 // Route settings user
 Route::middleware(['auth'])->group(function () {
     Route::get('/settings', function () {
@@ -31,6 +35,7 @@ Route::middleware(['auth', 'admin'])
         Route::get('/dashboard', Admin\Dashboard::class)->name('dashboard');
         Route::get('/menu', Admin\MenuManagement::class)->name('menu');
         Route::get('/orders', Admin\OrderManagement::class)->name('orders');
+        Route::get('/reservations', Admin\ReservationMonitor::class)->name('reservations');
     });
 
 require __DIR__.'/settings.php';
