@@ -3,7 +3,7 @@
 // ================= CONFIG =================
 $SECRET = 'sikret'; // HARUS sama dengan secret di GitHub webhook
 $BRANCH = 'refs/heads/testing';
-$PROJECT_PATH = dirname(__DIR__); // root Laravel (china-app)
+$PROJECT_PATH = '/home/kgtiqtfd/repositories/china-app';
 // =========================================
 
 // Ambil payload & signature
