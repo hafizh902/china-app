@@ -32,6 +32,11 @@
                         <i class="fas fa-shopping-bag mr-2"></i><?php echo e(__('language.orders')); ?>
 
                     </a>
+                    <a href="<?php echo e(route('reservation')); ?>"
+                        class="px-4 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 font-medium transition-all duration-200 rounded-lg <?php echo e(request()->routeIs('reservation') ? 'text-red-600 bg-red-50' : ''); ?>">
+                        <i class="fas fa-calendar-check mr-2"></i><?php echo e(__('language.reservations')); ?>
+
+                    </a>
                     <?php else: ?>
                     <button
                         wire:click="openLoginModal"
