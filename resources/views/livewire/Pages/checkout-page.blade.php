@@ -50,7 +50,6 @@
                             <div class="flex gap-2">
                                 <select wire:model="phoneCode" class="bg-stone-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-red-700">
                                     <option value="+62">+62</option>
-                                    <option value="+86">+8 Китай</option>
                                 </select>
                                 <input type="text" wire:model.defer="phone" 
                                     class="flex-1 px-5 py-4 bg-stone-50 border-none rounded-2xl focus:ring-2 focus:ring-red-700 transition-all placeholder:text-stone-300 text-sm font-bold @error('phone') ring-2 ring-red-500 @enderror"
