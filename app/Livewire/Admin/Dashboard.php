@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use Livewire\Component;
 use App\Models\Order;
 use App\Models\Menu;
+use App\Models\Reservation;
 
 class Dashboard extends Component
 {
@@ -15,6 +16,7 @@ class Dashboard extends Component
             'orders' => Order::count(),
             'revenue' => Order::sum('total'),
             'active' => Order::whereIn('status', ['pending', 'preparing'])->count(),
+            'reservations' => Reservation::where('status', 'confirmed')->count(),
             'menu' => Menu::count(),
         ];
 
