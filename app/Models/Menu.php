@@ -39,8 +39,8 @@ class Menu extends Model
     {
         return match ($this->category) {
             'main_course' => 'Main Course',
-            'snacks' => 'Snacks',
-            'drinks' => 'Drinks',
+            'snacks' => 'Side Dish',
+            'drinks' => 'Drink',
             'desserts' => 'Dessert',
             default => '-',
         };
