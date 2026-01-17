@@ -68,6 +68,6 @@ class ConfigPage extends Component
 
     public function render()
     {
-        return view('livewire.admin.config-page');
+        return view('livewire.Admin.config-page');
     }
 }
