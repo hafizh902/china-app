@@ -120,8 +120,18 @@ public function mount()
             );
 
             $this->config = SystemConfig::first();
-        } catch (\Throwable $e) {
-        }
+        // Reset file input setelah upload
+        $this->reset('brand_logo');
+        
+        $this->dispatch('notify-success', message: 'Settings saved successfully!');
+        
+        // Refresh halaman setelah delay (opsional: beri waktu untuk melihat toast)
+        $this->dispatch('page-refresh');
+        
+    } catch (\Throwable $e) {
+        $this->dispatch('notify-success', message: 'Failed to save settings.');
+        report($e);
+    }
     }
 
 
