@@ -155,25 +155,8 @@ class MenuManagement extends Component
         if (empty($this->selectedItems)) {
             return;
         }
-        $menus = Menu::whereIn('id', $this->selectedItems)->get();
 
-        // Check if any selected menus have associated order items
-        $menusWithOrders = Menu::whereIn('id', $this->selectedItems)
-            ->whereHas('orderItems')
-            ->pluck('name')
-            ->toArray();
-
-        if (!empty($menusWithOrders)) {
-            session()->flash('error', 'Tidak dapat menghapus menu yang sudah memiliki pesanan: ' . implode(', ', $menusWithOrders));
-            return;
-        }
-
-        foreach ($menus as $menu) {
-            if ($menu->image) {
-                $storage->delete($menu->image);
-            }
-        }
-        
+        // Soft delete - tidak perlu hapus image dari storage
         Menu::whereIn('id', $this->selectedItems)->delete();
 
         $this->selectedItems = [];
