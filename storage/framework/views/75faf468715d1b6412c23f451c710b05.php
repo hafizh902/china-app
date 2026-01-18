@@ -187,7 +187,8 @@ if (isset($__slots)) unset($__slots);
                     <div class="flex items-center space-x-3">
                         <button wire:click="openLoginModal"
                             class="px-4 py-2 text-gray-700 hover:text-red-600 font-medium transition-colors rounded-lg hover:bg-red-50">
-                            <i class="fas fa-sign-in-alt mr-2"></i>Login
+                            <i class="fas fa-sign-in-alt mr-2"></i><?php echo e(__('language.login')); ?>
+
                         </button>
                         <button wire:click="openRegisterModal"
                             class="px-6 py-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
