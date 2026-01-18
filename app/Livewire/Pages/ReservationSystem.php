@@ -22,7 +22,7 @@ class ReservationSystem extends Component
         if (!$this->booking_date) return collect();
 
         $tables = Table::where('is_active', true)->get();
-        $availableTimes = ['12:00', '18:00', '19:00', '20:00'];
+        $availableTimes = ['10:00', '12:00', '14:00', '16:00','18:00','20:00'];
 
         $result = [];
         foreach ($tables as $table) {

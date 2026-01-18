@@ -20,5 +20,13 @@ class AdminUserSeeder extends Seeder
                 'role' => 'admin',
             ]
         );
+        \App\Models\User::firstOrCreate(
+            ['email' => 'user@china-app.com'],
+            [
+                'name' => 'user',
+                'password' => bcrypt('password'),
+                'role' => 'user',
+            ]
+        );
     }
 }

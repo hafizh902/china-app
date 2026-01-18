@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('table_id')->constrained();
             $table->date('reservation_date');
-            $table->string('reservation_time'); // Contoh: "18:00"
+            $table->string('reservation_time'); 
             $table->decimal('dp_amount', 12, 2)->default(200000);
             $table->enum('status', ['pending', 'confirmed', 'cancelled', 'expired'])->default('pending');
             $table->timestamp('expires_at')->nullable(); // Untuk limit bayar 15 menit

@@ -5,10 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Pages;
 use App\Livewire\Admin;
 
-Route::get('resto' , function () {
-    return view('resto_app');
-});
-
 // Handle GET requests to livewire/update route (should redirect or show error)
 Route::get('/livewire/update', function () {
     return redirect('/')->with('error', 'Invalid request method. Please use the application properly.');

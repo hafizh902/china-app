@@ -82,7 +82,8 @@
                     <div>
                         <h2 class="text-lg font-serif font-bold text-slate-800 tracking-tight">
                             {{ __('Security & Password') }}</h2>
-                        <p class="text-[11px] text-gray-400 italic">Pastikan akun Anda tetap aman.</p>
+                        <p class="text-[11px] text-gray-400 italic">
+                            Make sure your account stays safe.</p>
                     </div>
                 </div>
 
@@ -101,8 +102,9 @@
                     <i class="fas fa-trash-alt text-[10px]"></i>
                 </div>
                 <div class="text-[11px]">
-                    <p class="font-bold text-red-800 uppercase tracking-tighter leading-none mb-1">Hapus Akun</p>
-                    <p class="text-gray-400 italic">Data akan dihapus permanen.</p>
+                    <p class="font-bold text-red-800 uppercase tracking-tighter leading-none mb-1">Delete account</p>
+                    <p class="text-gray-400 italic">
+                        Data will be permanently deleted.</p>
                 </div>
             </div>
             <livewire:settings.delete-user-form />

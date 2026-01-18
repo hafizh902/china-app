@@ -10,22 +10,24 @@
                     <i class="fas fa-sign-out-alt text-red-600 text-2xl"></i>
                 </div>
                 <h2 class="text-2xl font-bold text-white mb-2" style="font-family: 'Noto Sans SC', sans-serif;">
-                    Konfirmasi Logout
+                   <?php echo e(__('language.logout_confirmation_title')); ?> 
                 </h2>
-                <p class="text-yellow-100 text-sm">Apakah Anda yakin ingin keluar?</p>
+                <p class="text-yellow-100 text-sm"><?php echo e(__('language.logout_confirmation_message')); ?></p>
             </div>
 
             <!-- Content -->
             <div class="p-8">
-                <p class="text-gray-600 text-center mb-6">Anda akan diarahkan kembali ke halaman utama setelah logout.</p>
+                <p class="text-gray-600 text-center mb-6"><?php echo e(__('language.logout_confirmation_notice')); ?></p>
 
                 <!-- Buttons -->
                 <div class="flex space-x-4">
                     <button wire:click="closeModal" class="flex-1 px-6 py-3 bg-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-300 transition-colors">
-                        <i class="fas fa-times mr-2"></i>Batal
+                        <i class="fas fa-times mr-2"></i><?php echo e(__('language.cancel')); ?>
+
                     </button>
                     <button wire:click="confirmLogout" class="flex-1 px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg">
-                        <i class="fas fa-sign-out-alt mr-2"></i>Ya, Logout
+                        <i class="fas fa-sign-out-alt mr-2"></i><?php echo e(__('language.confirm_logout')); ?>
+
                     </button>
                 </div>
             </div>

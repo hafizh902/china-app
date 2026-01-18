@@ -14,7 +14,7 @@
                     <span class="text-white font-serif text-xl font-bold tracking-widest uppercase">The Dragon <br> <span class="text-amber-500 text-xs tracking-[0.3em]">Kitchen</span></span>
                 </div>
                 <p class="text-sm leading-relaxed text-stone-400 italic mb-6">
-                    Menghadirkan keharmonisan rasa dari warisan leluhur ke meja makan modern Anda.
+                     {{ __('language.footer_tagline') }}
                 </p>
                 {{-- Social Media --}}
                 <div class="flex gap-3">
@@ -31,7 +31,7 @@
             <div class="md:col-span-5">
                 <h4 class="text-white font-serif font-bold mb-6 flex items-center gap-2 uppercase tracking-widest text-sm">
                     <span class="w-6 h-[1px] bg-amber-500"></span>
-                    The Masterminds
+                    {{ __('language.masterminds') }}
                 </h4>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     {{-- Contributor 1 --}}
@@ -67,7 +67,7 @@
             <div class="md:col-span-3">
                 <h4 class="text-white font-serif font-bold mb-6 flex items-center gap-2 uppercase tracking-widest text-sm">
                     <span class="w-6 h-[1px] bg-amber-500"></span>
-                    Contact
+                    {{ __('language.contact') }}
                 </h4>
                 <ul class="space-y-3 text-xs text-stone-400">
                     <li class="flex items-center gap-3">
@@ -82,13 +82,13 @@
                     <div>
                 <h4 class="text-white font-serif font-bold mb-6 flex items-center gap-2">
                     <span class="w-2 h-2 bg-red-700 rotate-45"></span>
-                    Waktu Operasional
+                    {{ __('language.operational_hours') }}
                 </h4>
                 <div class="space-y-2 text-sm text-stone-400">
-                    <p class="flex justify-between"><span>Senin - Jumat:</span> <span class="text-white">10:00 - 22:00</span></p>
-                    <p class="flex justify-between"><span>Sabtu - Minggu:</span> <span class="text-white">09:00 - 23:00</span></p>
+                    <p class="flex justify-between"><span>{{ __('language.weekday') }}:</span> <span class="text-white">10:00 - 22:00</span></p>
+                    <p class="flex justify-between"><span>{{ __('language.weekend') }}:</span> <span class="text-white">09:00 - 23:00</span></p>
                     <p class="mt-4 pt-4 border-t border-stone-800 text-[10px] uppercase tracking-widest text-amber-500/60 font-bold">
-                        Buka Selama Hari Raya Imlek
+                        {{ __('language.open_cny') }}
                     </p>
                 </div>
             </div>
@@ -104,10 +104,10 @@
     {{-- Bottom Bar --}}
     <div class="bg-black py-6 border-t border-stone-800/50">
         <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-[9px] uppercase tracking-[0.3em] text-stone-500 font-medium">
-            <p>&copy; 2026 The Dragon Kitchen. Crafted with Prosperity.</p>
+            <p>&copy; 2026 The Dragon Kitchen. {{ __('language.crafted_with_prosperity') }}</p>
             <div class="flex gap-6">
-                <a href="#" class="hover:text-amber-500 transition-colors">Privacy</a>
-                <a href="#" class="hover:text-amber-500 transition-colors">Terms</a>
+                <a href="#" class="hover:text-amber-500 transition-colors">{{ __('language.privacy') }}</a>
+                <a href="#" class="hover:text-amber-500 transition-colors">{{ __('language.terms') }}</a>
                 <a href="https://github.com/hafizh902/china-app" class="flex items-center gap-2 text-white hover:text-amber-400">
                     <i class="fab fa-github text-sm"></i> Repository
                 </a>

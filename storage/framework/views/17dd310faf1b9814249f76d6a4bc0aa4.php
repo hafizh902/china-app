@@ -226,12 +226,6 @@
                     <p class="text-gray-500 mb-6">
                         <?php echo e(__('language.no_items_match')); ?> <?php echo e($search); ?>.
                     </p>
-                    <button wire:click="$set('search', '')"
-                        class="inline-flex items-center px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-lg transition-colors">
-                        <i class="fas fa-times mr-2"></i>
-                        <?php echo e(__('language.clear_search')); ?>
-
-                    </button>
                 </div>
             </div>
         <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
