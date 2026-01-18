@@ -1,4 +1,4 @@
-{{-- ROOT ELEMENT --}}
+
 <div x-data="{ open: false }" @cart-updated.window="open = true" class="relative">
 
     <button @click="open = true"
@@ -7,12 +7,13 @@
             class="absolute inset-0 bg-red-50 scale-0 group-hover:scale-110 rounded-full transition-transform duration-300">
         </div>
         <i class="fas fa-shopping-basket text-2xl relative z-10"></i>
-        @if ($count > 0)
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($count > 0): ?>
             <span
                 class="absolute top-0 right-0 bg-red-600 text-white text-[10px] rounded-full h-5 w-5 flex items-center justify-center font-bold shadow-lg shadow-red-200 border-2 border-white ring-1 ring-red-100 animate-bounce-short">
-                {{ $count }}
+                <?php echo e($count); ?>
+
             </span>
-        @endif
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
     </button>
 
     <div x-show="open" style="display: none;" class="fixed inset-0 z-[9999] flex justify-end overflow-hidden"
@@ -54,21 +55,21 @@
             </div>
 
             <div class="flex-1 overflow-y-auto p-6 space-y-5 custom-scrollbar relative z-10">
-                @forelse($cart as $id => $item)
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $cart; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                     <div
                         class="group relative flex gap-4 p-4 bg-white rounded-2xl border border-amber-100/50 shadow-sm hover:shadow-md hover:border-amber-300 transition-all duration-300 overflow-hidden">
 
                         <div
                             class="w-20 h-20 bg-stone-100 rounded-xl overflow-hidden flex-shrink-0 border border-stone-50">
-                           <img src="{{ $item['imageUrl'] }}" alt="{{ $item['name'] }}"
+                           <img src="<?php echo e($item['imageUrl']); ?>" alt="<?php echo e($item['name']); ?>"
                                 class="w-full h-full object-cover">
                         </div>
 
                         <div class="flex-1 flex flex-col justify-between py-0.5">
                             <div class="flex justify-between items-start gap-2">
                                 <h4 class="font-bold text-stone-800 text-sm leading-tight line-clamp-2">
-                                    {{ $item['name'] }}</h4>
-                                <button wire:click="removeItem('{{ $id }}')"
+                                    <?php echo e($item['name']); ?></h4>
+                                <button wire:click="removeItem('<?php echo e($id); ?>')"
                                     class="text-stone-300 hover:text-red-600 transition-colors p-1">
                                     <i class="fas fa-trash-alt text-xs"></i>
                                 </button>
@@ -76,20 +77,21 @@
 
                             <div class="flex justify-between items-end mt-3">
                                 <span class="text-red-700 font-black text-sm">
-                                    Rp{{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}
+                                    Rp<?php echo e(number_format($item['price'] * $item['quantity'], 0, ',', '.')); ?>
+
                                 </span>
 
                                 <div
                                     class="flex items-center bg-stone-50 border border-stone-100 rounded-full p-0.5 shadow-inner">
                                     <button
-                                        wire:click="updateQuantity('{{ $id }}', {{ $item['quantity'] - 1 }})"
+                                        wire:click="updateQuantity('<?php echo e($id); ?>', <?php echo e($item['quantity'] - 1); ?>)"
                                         class="w-7 h-7 flex items-center justify-center rounded-full bg-white text-stone-400 hover:text-red-700 hover:shadow-sm transition-all text-[10px]">
                                         <i class="fas fa-minus"></i>
                                     </button>
                                     <span
-                                        class="text-xs font-black text-stone-800 w-8 text-center">{{ $item['quantity'] }}</span>
+                                        class="text-xs font-black text-stone-800 w-8 text-center"><?php echo e($item['quantity']); ?></span>
                                     <button
-                                        wire:click="updateQuantity('{{ $id }}', {{ $item['quantity'] + 1 }})"
+                                        wire:click="updateQuantity('<?php echo e($id); ?>', <?php echo e($item['quantity'] + 1); ?>)"
                                         class="w-7 h-7 flex items-center justify-center rounded-full bg-white text-stone-400 hover:text-red-700 hover:shadow-sm transition-all text-[10px]">
                                         <i class="fas fa-plus"></i>
                                     </button>
@@ -97,7 +99,7 @@
                             </div>
                         </div>
                     </div>
-                @empty
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <div class="h-full flex flex-col items-center justify-center py-20 opacity-40">
                         <div class="w-32 h-32 bg-stone-100 rounded-full flex items-center justify-center mb-6">
                             <i class="fas fa-shopping-basket text-5xl text-stone-300"></i>
@@ -105,20 +107,20 @@
                         <p class="text-xs italic font-serif tracking-[0.3em] uppercase text-stone-500">
                             Cart Still Empty</p>
                     </div>
-                @endforelse
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
             </div>
 
-            @if ($count > 0)
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($count > 0): ?>
                 <div
                     class="p-8 bg-white border-t-2 border-amber-50 rounded-t-[2.5rem] shadow-[0_-10px_40px_rgba(0,0,0,0.03)] relative z-20">
                     <div class="space-y-3 mb-8">
                         <div class="flex justify-between text-xs text-stone-400 font-medium tracking-wide">
                             <span>Subtotal Pembayaran</span>
-                            <span>Rp{{ number_format($subtotal, 0, ',', '.') }}</span>
+                            <span>Rp<?php echo e(number_format($subtotal, 0, ',', '.')); ?></span>
                         </div>
                         <div class="flex justify-between text-xs text-stone-400 font-medium tracking-wide">
                             <span>Pajak (10%)</span>
-                            <span>Rp{{ number_format($tax, 0, ',', '.') }}</span>
+                            <span>Rp<?php echo e(number_format($tax, 0, ',', '.')); ?></span>
                         </div>
                         <div class="h-px bg-dashed border-b border-dashed border-stone-200 my-4"></div>
                         <div class="flex justify-between items-end">
@@ -127,7 +129,8 @@
                                     class="text-[10px] text-red-700 uppercase font-black tracking-[0.2em] block mb-1">Total
                                     Bayar</span>
                                 <span class="text-2xl font-black text-stone-800 leading-none tracking-tighter">
-                                    Rp{{ number_format($total, 0, ',', '.') }}
+                                    Rp<?php echo e(number_format($total, 0, ',', '.')); ?>
+
                                 </span>
                             </div>
                             <div
@@ -137,7 +140,7 @@
                         </div>
                     </div>
 
-                    <button wire:click="closeCart" wire:navigate href="{{ route('checkout') }}"
+                    <button wire:click="closeCart" wire:navigate href="<?php echo e(route('checkout')); ?>"
                         class="group w-full bg-stone-900 hover:bg-red-800 text-white py-5 rounded-2xl flex items-center justify-center gap-4 transition-all duration-500 shadow-xl shadow-stone-200 overflow-hidden relative">
                         <div
                             class="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -148,7 +151,7 @@
                             class="fas fa-arrow-right relative z-10 text-xs group-hover:translate-x-2 transition-transform duration-500"></i>
                     </button>
                 </div>
-            @endif
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
         </div>
     </div>
     
@@ -188,3 +191,4 @@
         }
     </style>
 </div>
+<?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/cart-component.blade.php ENDPATH**/ ?>

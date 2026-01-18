@@ -1,5 +1,5 @@
 <div id="login-modal" class="fixed inset-0 z-[9999] overflow-y-auto flex items-center justify-center p-4"
-    style="display: {{ $showModal ? 'flex' : 'none' }}; background-color: rgba(0, 0, 0, 0.6); backdrop-blur: 4px;"
+    style="display: <?php echo e($showModal ? 'flex' : 'none'); ?>; background-color: rgba(0, 0, 0, 0.6); backdrop-blur: 4px;"
     @click.self="$wire.closeModal()" @keydown.escape="$wire.closeModal()">
 
     <div class="relative w-full max-w-4xl bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row animate-zoom-in">
@@ -34,16 +34,16 @@
                 <p class="text-gray-500 text-sm">Silakan masukkan detail akun Anda</p>
             </div>
 
-            @if ($errors->any())
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($errors->any()): ?>
                 <div class="mb-6 bg-red-50 border-r-4 border-red-500 p-3 rounded-xl flex items-start gap-3">
                     <i class="fas fa-exclamation-circle text-red-500 mt-1"></i>
                     <ul class="text-[11px] text-red-700 font-bold leading-tight uppercase">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <li><?php echo e($error); ?></li>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     </ul>
                 </div>
-            @endif
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
             <form wire:submit.prevent="login" novalidate class="space-y-4">
                 <div class="grid grid-cols-1 gap-1">
@@ -91,3 +91,4 @@
         @keyframes zoom { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
     </style>
 </div>
+<?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/auth/login-modal.blade.php ENDPATH**/ ?>

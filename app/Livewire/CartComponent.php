@@ -64,6 +64,8 @@ class CartComponent extends Component
 
         session()->put('cart', $cart);
         $this->cart = $cart;
+    
+        $this->dispatch('notify-success', message: $name . ' telah ditambahkan ke keranjang!');
 
         $processing = false;
     }

@@ -1,5 +1,5 @@
 <div class="w-full bg-[#fdfcf8] min-h-screen pb-20 font-sans">
-    {{-- Header Section --}}
+    
     <div class="max-w-6xl mx-auto px-4 pt-10 mb-8">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-stone-200 pb-6">
             <div>
@@ -7,30 +7,30 @@
                 <p class="text-stone-500 uppercase tracking-[0.3em] text-[10px] font-bold mt-2">The Dragon Kitchen Experience</p>
             </div>
             
-            {{-- Stepper Progress --}}
+            
             <div class="flex items-center gap-3">
                 <div class="flex items-center gap-2">
-                    <span class="w-8 h-8 rounded-full {{ $step == 1 ? 'bg-red-700 text-white' : 'bg-green-100 text-green-700' }} flex items-center justify-center text-xs font-bold shadow-sm">
-                        @if($step > 1) <i class="fas fa-check"></i> @else 1 @endif
+                    <span class="w-8 h-8 rounded-full <?php echo e($step == 1 ? 'bg-red-700 text-white' : 'bg-green-100 text-green-700'); ?> flex items-center justify-center text-xs font-bold shadow-sm">
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($step > 1): ?> <i class="fas fa-check"></i> <?php else: ?> 1 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     </span>
-                    <span class="text-[10px] font-black uppercase tracking-widest {{ $step == 1 ? 'text-red-700' : 'text-stone-400' }}">Pilih Meja</span>
+                    <span class="text-[10px] font-black uppercase tracking-widest <?php echo e($step == 1 ? 'text-red-700' : 'text-stone-400'); ?>">Pilih Meja</span>
                 </div>
                 <div class="w-8 h-[2px] bg-stone-200"></div>
                 <div class="flex items-center gap-2">
-                    <span class="w-8 h-8 rounded-full {{ $step == 2 ? 'bg-red-700 text-white' : 'bg-stone-100 text-stone-400' }} flex items-center justify-center text-xs font-bold shadow-sm">2</span>
-                    <span class="text-[10px] font-black uppercase tracking-widest {{ $step == 2 ? 'text-red-700' : 'text-stone-400' }}">Pembayaran</span>
+                    <span class="w-8 h-8 rounded-full <?php echo e($step == 2 ? 'bg-red-700 text-white' : 'bg-stone-100 text-stone-400'); ?> flex items-center justify-center text-xs font-bold shadow-sm">2</span>
+                    <span class="text-[10px] font-black uppercase tracking-widest <?php echo e($step == 2 ? 'text-red-700' : 'text-stone-400'); ?>">Pembayaran</span>
                 </div>
             </div>
         </div>
     </div>
 
-    @if($step == 1)
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($step == 1): ?>
         <div class="max-w-6xl mx-auto px-4">
             <div class="grid lg:grid-cols-12 gap-10">
                 
-                {{-- DENAH RESTORAN --}}
+                
                 <div class="lg:col-span-8 bg-white rounded-[3rem] shadow-sm border border-stone-200 p-10 relative overflow-hidden">
-                    {{-- Decorative Background --}}
+                    
                     <div class="absolute top-0 right-0 p-10 opacity-[0.03] pointer-events-none">
                         <i class="fas fa-dragon text-[15rem]"></i>
                     </div>
@@ -42,50 +42,51 @@
                     </div>
                     
                     <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
-                        @foreach($tables as $table)
-                            <div class="group relative bg-stone-50 rounded-[2rem] p-6 border-2 transition-all duration-300 {{ $selectedTable == $table->id ? 'border-red-700 shadow-lg ring-4 ring-red-50' : 'border-transparent hover:border-amber-200 hover:bg-white' }}">
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $tables; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $table): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="group relative bg-stone-50 rounded-[2rem] p-6 border-2 transition-all duration-300 <?php echo e($selectedTable == $table->id ? 'border-red-700 shadow-lg ring-4 ring-red-50' : 'border-transparent hover:border-amber-200 hover:bg-white'); ?>">
                                 
-                                {{-- Table Header --}}
+                                
                                 <div class="flex justify-between items-start mb-6">
-                                    <div class="w-14 h-14 rounded-2xl {{ $selectedTable == $table->id ? 'bg-red-700 text-white' : 'bg-white text-stone-800 shadow-sm' }} flex items-center justify-center transition-colors">
+                                    <div class="w-14 h-14 rounded-2xl <?php echo e($selectedTable == $table->id ? 'bg-red-700 text-white' : 'bg-white text-stone-800 shadow-sm'); ?> flex items-center justify-center transition-colors">
                                         <div class="text-center">
                                             <span class="block text-[10px] uppercase font-black opacity-60">Meja</span>
-                                            <span class="text-lg font-black leading-none">{{ $table->number }}</span>
+                                            <span class="text-lg font-black leading-none"><?php echo e($table->number); ?></span>
                                         </div>
                                     </div>
                                     <span class="px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-[10px] font-black uppercase tracking-tighter">
-                                        {{ $table->capacity }} Pax
+                                        <?php echo e($table->capacity); ?> Pax
                                     </span>
                                 </div>
 
-                                {{-- Time Slots --}}
+                                
                                 <div class="grid grid-cols-2 gap-2">
-                                    @php $availableTimes = $this->availableTimes->get($table->id, []); @endphp
-                                    @foreach(['12:00', '18:00', '19:00', '20:00'] as $time)
-                                        @php 
+                                    <?php $availableTimes = $this->availableTimes->get($table->id, []); ?>
+                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = ['12:00', '18:00', '19:00', '20:00']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $time): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php 
                                             $isAvailable = in_array($time, $availableTimes); 
                                             $isSelected = $selectedTable == $table->id && $selectedTime == $time;
-                                        @endphp
-                                        <button wire:click="selectTableAndTime({{ $table->id }}, '{{ $time }}')"
-                                            @disabled(!$isAvailable)
+                                        ?>
+                                        <button wire:click="selectTableAndTime(<?php echo e($table->id); ?>, '<?php echo e($time); ?>')"
+                                            <?php if(!$isAvailable): echo 'disabled'; endif; ?>
                                             class="py-2.5 px-2 text-[11px] font-black rounded-xl border-2 transition-all uppercase tracking-tighter
-                                                {{ $isSelected ? 'bg-red-700 text-white border-red-700 shadow-md' :
+                                                <?php echo e($isSelected ? 'bg-red-700 text-white border-red-700 shadow-md' :
                                                    ($isAvailable ? 'bg-white text-stone-600 border-stone-100 hover:border-red-700 hover:text-red-700 shadow-sm' :
-                                                   'bg-stone-200 text-stone-400 border-transparent cursor-not-allowed opacity-50') }}">
-                                            {{ $time }}
+                                                   'bg-stone-200 text-stone-400 border-transparent cursor-not-allowed opacity-50')); ?>">
+                                            <?php echo e($time); ?>
+
                                         </button>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                 </div>
                             </div>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     </div>
                 </div>
 
-                {{-- SIDEBAR RINGKASAN --}}
+                
                 <div class="lg:col-span-4">
                     <div class="sticky top-10 space-y-6">
                         <div class="bg-stone-900 text-white p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
-                            {{-- Pattern --}}
+                            
                             <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');"></div>
 
                             <h3 class="relative z-10 text-[10px] font-black uppercase tracking-[0.3em] text-amber-400 mb-6">Informasi Reservasi</h3>
@@ -97,33 +98,33 @@
                                         class="w-full bg-stone-800 border-none rounded-2xl text-sm py-4 px-5 focus:ring-2 focus:ring-red-700 text-white font-bold cursor-pointer">
                                 </div>
 
-                                @if($selectedTable && $selectedTime)
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($selectedTable && $selectedTime): ?>
                                     <div class="p-6 bg-stone-800/50 border border-white/10 rounded-2xl animate-fade-in">
                                         <div class="flex justify-between items-center mb-4 pb-4 border-b border-white/5">
                                             <span class="text-xs text-stone-400">Meja Terpilih</span>
-                                            <span class="text-sm font-black text-amber-400">No. {{ $tables->where('id', $selectedTable)->first()->number ?? '' }}</span>
+                                            <span class="text-sm font-black text-amber-400">No. <?php echo e($tables->where('id', $selectedTable)->first()->number ?? ''); ?></span>
                                         </div>
                                         <div class="flex justify-between items-center">
                                             <span class="text-xs text-stone-400">Waktu Kedatangan</span>
-                                            <span class="text-sm font-black text-amber-400">{{ $selectedTime }}</span>
+                                            <span class="text-sm font-black text-amber-400"><?php echo e($selectedTime); ?></span>
                                         </div>
                                     </div>
-                                @else
+                                <?php else: ?>
                                     <div class="p-8 border-2 border-dashed border-stone-700 rounded-2xl text-center">
                                         <p class="text-[10px] text-stone-500 font-bold uppercase tracking-widest">Silakan Pilih Meja & Jam</p>
                                     </div>
-                                @endif
+                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
                                 <button wire:click="confirmReservation" 
-                                    @disabled(!$selectedTable || !$selectedTime)
+                                    <?php if(!$selectedTable || !$selectedTime): echo 'disabled'; endif; ?>
                                     class="w-full py-5 rounded-2xl font-black uppercase tracking-widest text-[11px] transition-all
-                                    {{ !$selectedTable || !$selectedTime ? 'bg-stone-800 text-stone-600 cursor-not-allowed' : 'bg-red-700 hover:bg-red-600 text-white shadow-lg shadow-red-900/40 active:scale-95' }}">
+                                    <?php echo e(!$selectedTable || !$selectedTime ? 'bg-stone-800 text-stone-600 cursor-not-allowed' : 'bg-red-700 hover:bg-red-600 text-white shadow-lg shadow-red-900/40 active:scale-95'); ?>">
                                     Konfirmasi Booking
                                 </button>
                             </div>
                         </div>
 
-                        {{-- Help Box --}}
+                        
                         <div class="bg-amber-50 p-6 rounded-2xl border border-amber-100">
                             <h4 class="text-xs font-black text-amber-900 uppercase mb-2">Butuh Bantuan?</h4>
                             <p class="text-xs text-amber-800/70 leading-relaxed font-medium">Hubungi kami via WhatsApp jika Anda ingin memesan untuk lebih dari 12 orang atau acara spesial.</p>
@@ -133,8 +134,8 @@
             </div>
         </div>
 
-    @else
-        {{-- BAGIAN PEMBAYARAN DP (MODERNIZED) --}}
+    <?php else: ?>
+        
         <div class="max-w-xl mx-auto pt-10 px-4" x-data="{ timer: 900 }" x-init="setInterval(() => { if(timer > 0) timer-- }, 1000)">
             <div class="bg-white rounded-[3rem] shadow-2xl border border-stone-200 overflow-hidden">
                 <div class="bg-red-800 p-10 text-center relative">
@@ -190,10 +191,10 @@
                 </div>
             </div>
         </div>
-    @endif
+    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
     <style>
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
     </style>
-</div>
+</div><?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/Pages/reservation-page.blade.php ENDPATH**/ ?>
