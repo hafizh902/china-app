@@ -5,8 +5,7 @@
             <div class="flex items-center space-x-8">
                 <a href="/" class="flex items-center space-x-3 group transition-transform active:scale-95">
                     {{-- BOX LOGO --}}
-                    <div
-                        class="w-10 h-10 bg-gradient-to-br from-red-600 to-red-700 rounded-xl flex items-center justify-center shadow-lg overflow-hidden border border-white/20 group-hover:shadow-red-500/40 transition-all duration-300">
+                    <div class="w-12 h-12 flex items-center justify-center overflow-hidden transition-all duration-300">
 
                         {{-- 1. Cek apakah variabel $brand_logo ada (Sedang Upload) --}}
                         @if (isset($brand_logo) && $brand_logo)
@@ -21,7 +20,9 @@
                                 <img src="https://bbbvjqzpktarmsblmblv.supabase.co/storage/v1/object/public/chinaon/{{ $dbLogo }}?v={{ time() }}"
                                     class="w-full h-full object-cover">
                             @else
-                                <i class="fas fa-bowl-food text-yellow-400 text-lg"></i>
+                                <div class="w-10 h-10 bg-red-700 rounded-xl flex items-center justify-center shadow-md">
+                                    <i class="fas fa-bowl-food text-yellow-400 text-lg"></i>
+                                </div>
                             @endif
                         @endif
                     </div>

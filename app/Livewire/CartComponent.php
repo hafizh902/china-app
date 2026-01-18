@@ -13,24 +13,28 @@ class CartComponent extends Component
         'add-to-cart' => 'addToCart',
     ];
 
+    // Private method to build image URL from image path
+    private function buildImageUrl($image)
+    {
+        return $image ? rtrim(config('services.supabase.url'), '/') . '/storage/v1/object/public/' . config('services.supabase.bucket') . '/' . $image : null;
+    }
+
+    // Private method to normalize cart items
+    private function normalizeCart()
+    {
+        foreach ($this->cart as $id => $item) {
+            if (!isset($item['imageUrl'])) {
+                $this->cart[$id]['imageUrl'] = $this->buildImageUrl($item['image'] ?? null);
+            }
+        }
+        session()->put('cart', $this->cart);
+    }
+
     // Method yang dipanggil saat komponen pertama kali dimuat
     public function mount()
     {
-        $cart = session()->get('cart', []);
-    
-        foreach ($cart as $id => $item) {
-            if (!isset($item['imageUrl']) && isset($item['image'])) {
-                $cart[$id]['imageUrl'] =
-                    rtrim(config('services.supabase.url'), '/')
-                    . '/storage/v1/object/public/'
-                    . config('services.supabase.bucket')
-                    . '/'
-                    . $item['image'];
-            }
-        }
-    
-        session()->put('cart', $cart);
-        $this->cart = $cart;
+        $this->cart = session()->get('cart', []);
+        $this->normalizeCart();
     }
     
     public function closeCart()
@@ -58,13 +62,14 @@ class CartComponent extends Component
                 'name' => $name,
                 'price' => $price,
                 'image' => $image,
+                'imageUrl' => $this->buildImageUrl($image),
                 'quantity' => 1,
             ];
         }
 
         session()->put('cart', $cart);
         $this->cart = $cart;
-    
+
         $this->dispatch('notify-success', message: $name . ' telah ditambahkan ke keranjang!');
 
         $processing = false;
@@ -77,6 +82,7 @@ class CartComponent extends Component
         unset($cart[$id]);
         session()->put('cart', $cart);
         $this->cart = $cart;
+        $this->normalizeCart();
         $this->dispatch('cart-updated');
     }
 
@@ -93,6 +99,7 @@ class CartComponent extends Component
         $cart[$id]['quantity'] = $qty;
         session()->put('cart', $cart);
         $this->cart = $cart;
+        $this->normalizeCart();
         $this->dispatch('cart-updated');
     }
 
