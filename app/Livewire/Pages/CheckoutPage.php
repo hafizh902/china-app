@@ -110,7 +110,7 @@ class CheckoutPage extends Component
         // CASH / COD
         $order->update([
             'payment_status' => 'paid',
-            'status' => 'completed',
+            'status' => 'preparing',
         ]);
 
         return redirect()->route('orders');
