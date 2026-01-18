@@ -42,15 +42,20 @@ return [
         'public_url' => env('SUPABASE_PUBLIC_URL'),
     ],
 
-    
-    'supabase' => [
 
-        'url' => env('SUPABASE_URL'),
+    // 'supabase' => [
 
-        'service_key' => env('SUPABASE_SERVICE_KEY'),
+    //     'url' => env('SUPABASE_URL'),
 
-        'bucket' => env('SUPABASE_BUCKET'),
+    //     'service_key' => env('SUPABASE_SERVICE_KEY'),
 
+    //     'bucket' => env('SUPABASE_BUCKET'),
+
+    // ],
+
+    'xendit' => [
+        'secret_key' => env('XENDIT_SECRET_KEY'),
+        'webhook_token' => env('XENDIT_WEBHOOK_TOKEN'),
     ],
 
 ];
