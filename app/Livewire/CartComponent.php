@@ -9,7 +9,6 @@ class CartComponent extends Component
 {
     // Array untuk menyimpan item di keranjang
     public $cart = [];
-
     protected $listeners = [
         'add-to-cart' => 'addToCart',
     ];
@@ -17,10 +16,23 @@ class CartComponent extends Component
     // Method yang dipanggil saat komponen pertama kali dimuat
     public function mount()
     {
-        // Ambil data keranjang dari session
-        $this->cart = session()->get('cart', []);
+        $cart = session()->get('cart', []);
+    
+        foreach ($cart as $id => $item) {
+            if (!isset($item['imageUrl']) && isset($item['image'])) {
+                $cart[$id]['imageUrl'] =
+                    rtrim(config('services.supabase.url'), '/')
+                    . '/storage/v1/object/public/'
+                    . config('services.supabase.bucket')
+                    . '/'
+                    . $item['image'];
+            }
+        }
+    
+        session()->put('cart', $cart);
+        $this->cart = $cart;
     }
-
+    
     public function closeCart()
     {
         $this->dispatch('close-cart');
@@ -38,7 +50,6 @@ class CartComponent extends Component
         $processing = true;
 
         $cart = session()->get('cart', []);
-
         if (isset($cart[$id])) {
             $cart[$id]['quantity']++;
         } else {

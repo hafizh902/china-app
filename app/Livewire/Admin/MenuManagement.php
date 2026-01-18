@@ -14,6 +14,7 @@ class MenuManagement extends Component
 
     // form
     public $image;
+    public $oldImage;
     public ?int $menuId = null;
     public bool $showCreateModal = false;
     public bool $showEditModal = false;
@@ -54,6 +55,9 @@ class MenuManagement extends Component
             'category' => 'required|string|max:100',
             'price' => 'required|integer|min:0',
             'is_available' => 'boolean',
+            'image' => $this->menuId
+                ? 'nullable|image|max:2048'
+                : 'required|image|max:2048',
         ];
     }
 
@@ -100,6 +104,7 @@ class MenuManagement extends Component
         $this->category = $this->menu->category;
         $this->price = $this->menu->price;
         $this->is_available = $this->menu->is_available;
+        $this->oldImage = $this->menu->image;
 
         $this->showEditModal = true;
     }
@@ -108,25 +113,35 @@ class MenuManagement extends Component
     {
         $this->validate();
 
-        $updateData = [
+        $menu = Menu::findOrFail($this->menuId);
+
+        $imagePath = $menu->image;
+
+        // Jika user upload image baru
+        if ($this->image) {
+
+            // Hapus image lama dari Supabase
+            if ($menu->image) {
+                $storage->delete($menu->image);
+            }
+
+            $filename = 'menu-' . uniqid() . '.' . $this->image->extension();
+            $imagePath = $storage->upload($this->image, "menus/{$filename}");
+        }
+
+        $menu->update([
             'name' => $this->name,
             'description' => $this->description,
             'category' => $this->category,
             'price' => $this->price,
             'is_available' => $this->is_available,
-        ];
-
-        if ($this->image) {
-            $filename = 'menu-' . uniqid() . '.' . $this->image->extension();
-            $storagePath = $storage->upload($this->image, "menus/{$filename}");
-            $updateData['image'] = $storagePath;
-        }
-
-        Menu::where('id', $this->menuId)->update($updateData);
+            'image' => $imagePath,
+        ]);
 
         $this->resetForm();
         $this->showEditModal = false;
     }
+
 
     // delete mode
     public function toggleDeleteMode()
@@ -135,11 +150,12 @@ class MenuManagement extends Component
         $this->selectedItems = [];
     }
 
-    public function deleteSelected()
+    public function deleteSelected(SupabaseStorageService $storage)
     {
         if (empty($this->selectedItems)) {
             return;
         }
+        $menus = Menu::whereIn('id', $this->selectedItems)->get();
 
         // Check if any selected menus have associated order items
         $menusWithOrders = Menu::whereIn('id', $this->selectedItems)
@@ -152,6 +168,12 @@ class MenuManagement extends Component
             return;
         }
 
+        foreach ($menus as $menu) {
+            if ($menu->image) {
+                $storage->delete($menu->image);
+            }
+        }
+        
         Menu::whereIn('id', $this->selectedItems)->delete();
 
         $this->selectedItems = [];
@@ -219,7 +241,7 @@ class MenuManagement extends Component
         if ($this->search) {
             $query->where(function ($q) {
                 $q->where('name', 'like', "%{$this->search}%")
-                  ->orWhere('description', 'like', "%{$this->search}%");
+                    ->orWhere('description', 'like', "%{$this->search}%");
             });
         }
 

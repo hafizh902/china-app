@@ -61,7 +61,7 @@
 
                         <div
                             class="w-20 h-20 bg-stone-100 rounded-xl overflow-hidden flex-shrink-0 border border-stone-50">
-                           <img src="<?php echo e($item['image']); ?>" alt="<?php echo e($item['name']); ?>"
+                           <img src="<?php echo e($item['imageUrl']); ?>" alt="<?php echo e($item['name']); ?>"
                                 class="w-full h-full object-cover">
                         </div>
 
@@ -115,7 +115,7 @@
                     class="p-8 bg-white border-t-2 border-amber-50 rounded-t-[2.5rem] shadow-[0_-10px_40px_rgba(0,0,0,0.03)] relative z-20">
                     <div class="space-y-3 mb-8">
                         <div class="flex justify-between text-xs text-stone-400 font-medium tracking-wide">
-                            <span>Subtotal Perjamuan</span>
+                            <span>Subtotal Pembayaran</span>
                             <span>Rp<?php echo e(number_format($subtotal, 0, ',', '.')); ?></span>
                         </div>
                         <div class="flex justify-between text-xs text-stone-400 font-medium tracking-wide">

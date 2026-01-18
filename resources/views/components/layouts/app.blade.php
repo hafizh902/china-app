@@ -5,6 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ optional(\App\Models\SystemConfig::first())->brand_name ?? config('app.name') }}</title>
+    {{-- favicon dinamis --}}
+@php
+    $brandLogo = \App\Models\SystemConfig::value('brand_logo'); // simpan nama file di DB
+@endphp
+
+@if ($brandLogo)
+    <link rel="icon" href="https://bbbvjqzpktarmsblmblv.supabase.co/storage/v1/object/public/chinaon/{{ $brandLogo }}?v={{ time() }}">
+@endif
+
+
     <!-- Tailwind CSS dari CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome untuk icon -->
@@ -17,24 +27,22 @@
     <script>
         // Konfigurasi Tailwind CSS custom
         tailwind.config = {
-                theme: {
-                    extend: {
-                        colors: {
-                            'chinese-red': '#C41E3A', // Warna merah khas China
-                            'chinese-black': '#1A1A1A', // Warna hitam khas China
-                            'chinese-gold': '#D4AF37', // Warna emas khas China
-                            'chinese-gold-light': '#F0D878', // Warna emas terang
-                        },
-                        fontFamily: {
-                            'chinese': ['Noto Sans SC', 'sans-serif'], // Font untuk teks Chinese
-                            'sans': ['Inter', 'sans-serif'], // Font untuk teks umum
-                        }
+            theme: {
+                extend: {
+                    colors: {
+                        'chinese-red': '#C41E3A', // Warna merah khas China
+                        'chinese-black': '#1A1A1A', // Warna hitam khas China
+                        'chinese-gold': '#D4AF37', // Warna emas khas China
+                        'chinese-gold-light': '#F0D878', // Warna emas terang
+                    },
+                    fontFamily: {
+                        'chinese': ['Noto Sans SC', 'sans-serif'], // Font untuk teks Chinese
+                        'sans': ['Inter', 'sans-serif'], // Font untuk teks umum
                     }
                 }
             }
-
-            
-            </script>
+        }
+    </script>
     <style>
         [wire\:cloak] {
             display: none !important;
