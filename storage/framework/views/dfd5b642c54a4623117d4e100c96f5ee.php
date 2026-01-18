@@ -2,15 +2,15 @@
     
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
-            <h1 class="text-3xl font-serif font-black text-stone-800 tracking-tight">Manajemen Perjamuan</h1>
-            <p class="text-sm text-stone-500 mt-1 uppercase tracking-widest font-medium">Kelola seluruh pesanan masuk dalam satu kendali</p>
+            <h1 class="text-3xl font-serif font-black text-stone-800 tracking-tight">Order Management</h1>
+            <p class="text-sm text-stone-500 mt-1 uppercase tracking-widest font-medium">Manage all incoming orders in one control</p>
         </div>
         <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-2xl shadow-sm border border-stone-200">
             <span class="relative flex h-3 w-3">
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                 <span class="relative inline-flex rounded-full h-3 w-3 bg-red-600"></span>
             </span>
-            <span class="text-xs font-bold text-stone-700 uppercase tracking-tighter"><?php echo e($orders->total()); ?> Pesanan Total</span>
+            <span class="text-xs font-bold text-stone-700 uppercase tracking-tighter"><?php echo e($orders->total()); ?> Orders Total</span>
         </div>
     </div>
 
@@ -23,25 +23,25 @@
             <input
                 type="text"
                 wire:model.live.debounce.300ms="search"
-                placeholder="Cari ID Pesanan atau Nama Pelanggan..."
+                placeholder="Search for Order ID or Customer Name..."
                 class="w-full pl-11 pr-4 py-3 bg-stone-50 border-none rounded-xl text-sm focus:ring-2 focus:ring-red-700 transition-all font-medium" />
         </div>
 
         <div class="flex gap-3">
             <select wire:model.live="statusFilter" class="bg-stone-50 border-none rounded-xl text-sm font-bold py-3 px-4 focus:ring-2 focus:ring-red-700">
-                <option value="">Semua Status</option>
-                <option value="pending">⏳ Menunggu</option>
-                <option value="preparing">👨‍🍳 Dimasak</option>
-                <option value="ready">🥡 Siap Antar</option>
-                <option value="completed">✅ Selesai</option>
-                <option value="cancelled">❌ Batal</option>
+                <option value="">All Status</option>
+                <option value="pending">⏳ Pending</option>
+                <option value="preparing">👨‍🍳 Preparing</option>
+                <option value="ready">🥡 Ready to Deliver</option>
+                <option value="completed">✅ Completed</option>
+                <option value="cancelled">❌ Cancelled</option>
             </select>
 
             <select wire:model.live="typeFilter" class="bg-stone-50 border-none rounded-xl text-sm font-bold py-3 px-4 focus:ring-2 focus:ring-red-700">
-                <option value="">Semua Tipe</option>
-                <option value="dine_in">Makan di Tempat</option>
-                <option value="takeaway">Bawa Pulang</option>
-                <option value="delivery">Pengiriman</option>
+                <option value="">All Types</option>
+                <option value="dine_in">Dine In</option>
+                <option value="takeaway">Takeaway</option>
+                <option value="delivery">Delivery</option>
             </select>
         </div>
     </div>
@@ -52,13 +52,13 @@
             <thead>
                 <tr class="bg-stone-900 text-white">
                     <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em]">No.</th>
-                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em]">ID Pesanan</th>
-                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em]">Pelanggan</th>
-                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em]">Total Upeti</th>
-                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em]">Tipe</th>
+                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em]">Order ID</th>
+                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em]">Customer</th>
+                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em]">Total</th>
+                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em]">Type</th>
                     <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em]">Status</th>
-                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em]">Tanggal</th>
-                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-center">Aksi</th>
+                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em]">Date</th>
+                    <th class="px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-center">Action</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-stone-100">

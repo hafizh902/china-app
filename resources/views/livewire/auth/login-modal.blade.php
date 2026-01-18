@@ -15,10 +15,10 @@
                     <i class="fas fa-user-circle text-red-700 text-4xl"></i>
                 </div>
                 <h2 class="text-4xl font-bold text-white mb-3" style="font-family: 'Noto Sans SC', sans-serif;">
-                    欢迎回来
+                    {{ __('language.welcome_back') }}
                 </h2>
                 <p class="text-yellow-100 text-sm leading-relaxed uppercase tracking-widest font-medium">
-                    Autentik Chinese Food<br>Cita Rasa Dinasti
+                   {{ __('language.brand_tagline') }}
                 </p>
             </div>
         </div>
@@ -30,8 +30,8 @@
             </button>
 
             <div class="mb-8">
-                <h3 class="text-2xl font-black text-gray-800">Masuk Akun</h3>
-                <p class="text-gray-500 text-sm">Silakan masukkan detail akun Anda</p>
+                <h3 class="text-2xl font-black text-gray-800">{{ __('language.login_title') }}</h3>
+                <p class="text-gray-500 text-sm">{{ __('language.login_subtitle') }}</p>
             </div>
 
             @if ($errors->any())
@@ -47,17 +47,17 @@
 
             <form wire:submit.prevent="login" novalidate class="space-y-4">
                 <div class="grid grid-cols-1 gap-1">
-                    <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">Email Address</label>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">{{ __('language.email_label') }}</label>
                     <div class="relative">
                         <input wire:model.defer="email" type="email"
                             class="w-full pl-12 pr-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-2xl focus:border-red-500 focus:ring-0 transition-all font-bold text-gray-800"
-                            placeholder="nama@email.com">
+                            placeholder="name@email.com">
                         <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-300"></i>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 gap-1">
-                    <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">Password</label>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">{{ __('language.password_label') }}</label>
                     <div class="relative">
                         <input wire:model.defer="password" type="password"
                             class="w-full pl-12 pr-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-2xl focus:border-red-500 focus:ring-0 transition-all font-bold text-gray-800"
@@ -69,19 +69,32 @@
                 <div class="flex items-center justify-between pb-4">
                     <label class="flex items-center cursor-pointer group">
                         <input wire:model="remember" type="checkbox" class="h-4 w-4 text-red-600 rounded border-gray-300 focus:ring-0">
-                        <span class="ml-2 text-xs font-bold text-gray-500 group-hover:text-gray-700">Ingat Saya</span>
+                        <span class="ml-2 text-xs font-bold text-gray-500 group-hover:text-gray-700">{{ __('language.remember_me') }}</span>
                     </label>
                     <a href="javascript:void(0);" 
                        wire:click="$dispatch('close-login-modal'); $dispatch('open-reset-password-modal');"
-                       class="text-xs font-bold text-red-600 hover:underline">Lupa Password?</a>
+                       class="text-xs font-bold text-red-600 hover:underline">{{ __('language.forgot_password') }}</a>
                 </div>
 
                 <button type="submit" wire:loading.attr="disabled"
                     class="w-full bg-red-700 hover:bg-red-800 text-white font-black py-4 rounded-2xl transition-all shadow-lg shadow-red-700/20 active:scale-95 flex items-center justify-center gap-3">
-                    <span wire:loading.remove wire:target="login" class="uppercase tracking-widest text-sm">Masuk Sekarang</span>
+                    <span wire:loading.remove wire:target="login" class="uppercase tracking-widest text-sm">{{ __('language.login_button') }}</span>
                     <span wire:loading wire:target="login" class="flex items-center gap-2">
-                        <i class="fas fa-circle-notch fa-spin"></i> Loading...
-                    </span>
+                        <i class="fas fa-circle-notch fa-spin"></i> {{ __('language.loading') }}
+                </button>
+
+                {{-- SEPARATOR --}}
+                <div class="relative flex py-3 items-center">
+                    <div class="flex-grow border-t border-gray-100"></div>
+                    <span class="flex-shrink mx-4 text-[10px] font-bold text-gray-300 uppercase tracking-[0.2em]">{{ __('language.or') }}</span>
+                    <div class="flex-grow border-t border-gray-100"></div>
+                </div>
+
+                {{-- TOMBOL DAFTAR --}}
+                <button type="button" 
+                    wire:click="$dispatch('close-login-modal'); $dispatch('open-register-modal');"
+                    class="w-full bg-white border-2 border-stone-100 hover:border-red-700 text-stone-600 hover:text-red-700 font-black py-4 rounded-2xl transition-all active:scale-95 flex items-center justify-center gap-3">
+                    <span class="uppercase tracking-widest text-[11px]">{{ __('language.register_prompt') }}</span>
                 </button>
             </form>
         </div>

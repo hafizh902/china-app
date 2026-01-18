@@ -139,11 +139,34 @@ return [
     'logout_confirmation_notice' => 'You will be redirected to the home page after logging out.',
     'cancel' => 'Cancel',
     'confirm_logout' => 'Yes, Logout',
-
-
-
-
-
+    'welcome_back' => 'Welcome Back',
+    'brand_tagline' => 'We’re Glad to See You Again',
+    'login_title' => 'Sign In',
+    'login_subtitle' => 'Please enter your account details',
+    'email_label' => 'Email Address',
+    'password_label' => 'Password',
+    'remember_me' => 'Remember Me',
+    'forgot_password' => 'Forgot Password?',
+    'login_button' => 'Sign In Now',
+    'loading' => 'Loading...',
+    'or' => 'Or',
+    'register_prompt' => 'Don’t have an account? Register',
+    'register_title' => 'Sign Up & Enjoy the Finest Chinese Cuisine!',
+    'join_us' => 'Join Us',
+    'name' => 'Name',
+    'email_address' => 'Email Address',
+    'send_verification_code' => 'Send Verification Code',
+    'verification_code' => 'Verification Code',
+    'verify_code' => 'Verify Code',
+    'resend_code' => 'Resend Code',
+    'confirm' => 'Confirm',
+    'create_account' => 'Create Account',
+    'already_have_account' => 'Already have an account?',
+    'login_here' => 'Sign in here',
+    'join_benefits_title' => '🎉 Join & Get:',
+    'special_menu' => 'Special Menu',
+    'member_discount' => 'Member Discounts',
+    'free_delivery' => 'Free Delivery',
 
 
     'status' => [
