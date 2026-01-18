@@ -8,21 +8,22 @@
             </div>
             <div class="absolute inset-0 flex items-center px-12">
                 <div class="text-white max-w-2xl">
-                    <h2 class="text-5xl font-bold tracking-wide chinese-font">Authentic Chinese Street Food</h2>
-                    <p class="text-xl mb-8 text-gray-200">Experience the rich flavors and traditions of Chinese street
-                        cuisine, delivered fresh to your door</p>
+                    <h2 class="text-5xl font-bold tracking-wide chinese-font"><?php echo e(__('language.headline')); ?></h2>
+                    <p class="text-xl mb-8 text-gray-200"><?php echo e(__('language.tagline')); ?></p>
                     <div class="flex space-x-4">
                         <!-- Tombol Order Now - mengarah ke section menu -->
                         <button
                             class="px-8 py-3 bg-chinese-red text-white  rounded-full font-semibold  hover:scale-105 transition"
                             wire:navigate href="<?php echo e(route('menu')); ?>">
-                            <i class="fas fa-utensils mr-2"></i> Order Now
+                            <i class="fas fa-utensils mr-2"></i> <?php echo e(__('language.order_now')); ?>
+
                         </button>
                         <!-- Tombol Watch Video - placeholder -->
                         <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1"
                             target="_blank"
                             class="px-6 py-3 bg-transparent border border-white text-white rounded-full hover:bg-white hover:text-gray-800 font-medium inline-flex items-center">
-                            <i class="fas fa-play-circle mr-2"></i> Watch Video
+                            <i class="fas fa-play-circle mr-2"></i> <?php echo e(__('language.watch_video')); ?>
+
                         </a>
                     </div>
                 </div>
@@ -33,22 +34,50 @@
     
     <section class="py-12 px-6">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = [['icon' => 'truck', 'title' => 'Fast Delivery', 'desc' => 'Fresh food delivered within 30 minutes'], ['icon' => 'award', 'title' => 'Authentic Recipes', 'desc' => 'Traditional recipes passed down through generations'], ['icon' => 'leaf', 'title' => 'Fresh Ingredients', 'desc' => 'Only the freshest ingredients sourced daily']]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $feature): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
+            <?php
+                $features = [
+                    [
+                        'icon' => 'truck',
+                        'title' => __('language.delivery_title'),
+                        'desc' => __('language.delivery_desc'),
+                    ],
+                    [
+                        'icon' => 'award',
+                        'title' => __('language.authentic_title'),
+                        'desc' => __('language.authentic_desc'),
+                    ],
+                    [
+                        'icon' => 'leaf',
+                        'title' => __('language.fresh_title'),
+                        'desc' => __('language.fresh_desc'),
+                    ],
+                ];
+            ?>
+
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $features; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $feature): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <div class="text-center">
                     <div class="w-16 h-16 bg-chinese-red rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-<?php echo e($feature['icon']); ?> text-white text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-2"><?php echo e($feature['title']); ?></h3>
-                    <p class="text-gray-600"><?php echo e($feature['desc']); ?></p>
+                    <h3 class="text-xl font-bold mb-2">
+                        <?php echo e($feature['title']); ?>
+
+                    </h3>
+                    <p class="text-gray-600">
+                        <?php echo e($feature['desc']); ?>
+
+                    </p>
                 </div>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+
         </div>
     </section>
 
     
     <section id="menu" class="py-12 px-6 bg-gray-50">
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-3xl font-bold chinese-font text-chinese-red text-center mb-8">Our Menu</h2>
+            <h2 class="text-3xl font-bold chinese-font text-chinese-red text-center mb-8"><?php echo e(__('language.our_menu')); ?></h2>
             <?php
 $__split = function ($name, $params = []) {
     return [$name, $params];
@@ -92,4 +121,5 @@ unset($__params);
 unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
-</div><?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/Pages/home-page.blade.php ENDPATH**/ ?>
+</div>
+<?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/Pages/home-page.blade.php ENDPATH**/ ?>

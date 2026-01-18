@@ -52,7 +52,6 @@ class MenuPage extends Component
 
     public ?int $limit = null;
 
-
     public function render()
     {
         $query = Menu::query()

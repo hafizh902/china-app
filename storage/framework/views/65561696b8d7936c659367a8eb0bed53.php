@@ -75,6 +75,7 @@ unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
     
+    
 
     <main class="relative overflow-visible">
         <?php echo e($slot); ?>
@@ -229,6 +230,7 @@ if (isset($__slots)) unset($__slots);
             });
         });
     </script> -->
+
 </body>
 
 </html><?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/components/layouts/app.blade.php ENDPATH**/ ?>

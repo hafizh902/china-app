@@ -10,6 +10,7 @@ class HomePage extends Component
     // Menggunakan layout 'app' untuk semua halaman
     protected $layout = 'app';
 
+
     // Method render untuk menampilkan view
     public function render()
     {

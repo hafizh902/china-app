@@ -55,6 +55,7 @@
     {{-- Navbar --}}
     <livewire:navbar />
     
+    
 
     <main class="relative overflow-visible">
         {{ $slot }}
@@ -91,6 +92,7 @@
             });
         });
     </script> -->
+
 </body>
 
 </html>

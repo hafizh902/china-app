@@ -83,19 +83,20 @@
 
                 <!-- Language Switcher -->
                 <div class="flex items-center gap-1 font-medium">
-                    <button wire:click="setLanguage('en')"
+                    <button type="button" wire:click="setLanguage('en')" wire:loading.disable
                         class="transition-colors
-                    <?php echo e(app()->getLocale() === 'en' ? 'text-red-600' : 'text-gray-700 hover:text-red-600'); ?>">
+        <?php echo e(app()->getLocale() === 'en' ? 'text-red-600 font-semibold' : 'text-gray-700 hover:text-red-600'); ?>">
                         EN
                     </button>
 
                     <span class="text-gray-400">|</span>
 
-                    <button wire:click="setLanguage('cn')"
+                    <button type="button" wire:click="setLanguage('cn')" wire:loading.disable
                         class="transition-colors
-                <?php echo e(app()->getLocale() === 'cn' ? 'text-red-600' : 'text-gray-700 hover:text-red-600'); ?>">
+        <?php echo e(app()->getLocale() === 'cn' ? 'text-red-600 font-semibold' : 'text-gray-700 hover:text-red-600'); ?>">
                         CN
                     </button>
+
                 </div>
                 <!-- Cart Component -->
                 <?php
