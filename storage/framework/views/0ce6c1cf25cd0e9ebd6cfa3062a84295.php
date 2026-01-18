@@ -76,9 +76,15 @@
                                     
                                     <div
                                         class="w-16 h-16 bg-stone-100 rounded-2xl flex-shrink-0 border border-stone-100 overflow-hidden relative">
-                                        <img src="<?php echo e($item->menu->image_url); ?>"
-                                            class="w-full h-full object-cover transition-transform duration-500 group-hover/item:scale-110"
-                                            alt="<?php echo e($item->menu_name); ?>">
+                                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($item->menu && $item->menu->image_url): ?>
+                                            <img src="<?php echo e($item->menu->image_url); ?>"
+                                                class="w-full h-full object-cover transition-transform duration-500 group-hover/item:scale-110"
+                                                alt="<?php echo e($item->menu_name); ?>">
+                                        <?php else: ?>
+                                            <div class="w-full h-full bg-stone-200 flex items-center justify-center">
+                                                <i class="fas fa-utensils text-stone-400 text-lg"></i>
+                                            </div>
+                                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                         <div class="absolute inset-0 bg-stone-900/5"></div>
                                     </div>
 

@@ -72,9 +72,15 @@
                                     {{-- Thumbnail dengan efek zoom --}}
                                     <div
                                         class="w-16 h-16 bg-stone-100 rounded-2xl flex-shrink-0 border border-stone-100 overflow-hidden relative">
-                                        <img src="{{ $item->menu->image_url }}"
-                                            class="w-full h-full object-cover transition-transform duration-500 group-hover/item:scale-110"
-                                            alt="{{ $item->menu_name }}">
+                                        @if($item->menu && $item->menu->image_url)
+                                            <img src="{{ $item->menu->image_url }}"
+                                                class="w-full h-full object-cover transition-transform duration-500 group-hover/item:scale-110"
+                                                alt="{{ $item->menu_name }}">
+                                        @else
+                                            <div class="w-full h-full bg-stone-200 flex items-center justify-center">
+                                                <i class="fas fa-utensils text-stone-400 text-lg"></i>
+                                            </div>
+                                        @endif
                                         <div class="absolute inset-0 bg-stone-900/5"></div>
                                     </div>
 
