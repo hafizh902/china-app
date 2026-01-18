@@ -32,7 +32,7 @@ class CartComponent extends Component
         $this->cart = session()->get('cart', []);
         $this->normalizeCart();
     }
-    
+
     public function closeCart()
     {
         $this->dispatch('close-cart');
@@ -65,7 +65,10 @@ class CartComponent extends Component
         session()->put('cart', $cart);
         $this->cart = $cart;
 
-        $this->dispatch('notify-success', message: $name . ' telah ditambahkan ke keranjang!');
+        $this->dispatch(
+            'notify-success',
+            message: __('language.added_to_cart', ['name' => $name])
+        );
 
         $processing = false;
     }
@@ -99,12 +102,16 @@ class CartComponent extends Component
     {
         return collect($this->cart)->sum(fn($item) => $item['price'] * $item['quantity']);
     }
+       public function openLoginModal()
+    {
+        $this->dispatch('open-login-modal');
+    }
 
     public function render()
     {
         $config = SystemConfig::firstOrCreate([]);
         $taxPercent = $config->tax_percent / 100; // Konversi persen ke desimal
-        
+
         return view('livewire.cart-component', [
             'subtotal' => $this->subtotal,
             'tax' => $this->subtotal * $taxPercent,
