@@ -7,15 +7,15 @@
     <title>{{ optional(\App\Models\SystemConfig::first())->brand_name ?? config('app.name') }}</title>
     {{-- favicon dinamis --}}
     @php
-    $brandLogo = optional(\App\Models\SystemConfig::get('brand_logo'));
+    $brandLogo = \App\Models\SystemConfig::value('brand_logo');
     @endphp
 
     @if ($brandLogo)
     <link
         rel="icon"
-        href="{{ asset('storage/' . $brandLogo) }}?v={{ time() }}">
+        href="{{ Storage::url($brandLogo) }}?v={{ time() }}">
     @endif
-    
+
     <!-- Tailwind CSS dari CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome untuk icon -->
