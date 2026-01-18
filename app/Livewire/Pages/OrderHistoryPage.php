@@ -11,6 +11,7 @@ class OrderHistoryPage extends Component
     public $selectedOrder = null;
     public $showModal = false;
 
+
     public function viewInvoice($orderId)
     {
         $this->selectedOrder = Order::with('items')->find($orderId);
@@ -27,7 +28,7 @@ class OrderHistoryPage extends Component
     public function render()
     {
         $orders = Auth::check()
-            ? Order::with('items')
+            ? Order::with('items.menu')
             ->where('user_id', Auth::id())
             ->latest()
             ->get()

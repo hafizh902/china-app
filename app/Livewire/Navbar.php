@@ -7,9 +7,9 @@ use Livewire\Component;
 
 class Navbar extends Component
 {
-    public $showLogoutConfirm = false; 
+    public $showLogoutConfirm = false;
     public $search = '';
-    public $currentLocale = 'en';
+    public $currentLocale;
 
     // Fungsi untuk membuka login modal
     public function openLoginModal()
@@ -38,19 +38,23 @@ class Navbar extends Component
         }
     }
 
-
-      public function setLanguage($locale)
-      {
-          $this->currentLocale = $locale;
-          session(['locale' => $this->currentLocale]);
-          app()->setLocale($this->currentLocale);
-          $this->dispatch('language-switched');
-      }
-
     public function mount()
     {
-        $this->currentLocale = session('locale', 'cn');
+        $this->currentLocale = session('locale', config('app.locale'));
+        app()->setLocale($this->currentLocale);
     }
+
+    public function setLanguage($locale)
+    {
+        if (!in_array($locale, ['en', 'cn'])) return;
+
+        session(['locale' => $locale]);
+        app()->setLocale($locale);
+
+        // Redirect to refresh the page with new locale
+        return redirect(request()->fullUrl());
+    }
+
 
 
     // Render tampilan navbar

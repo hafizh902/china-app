@@ -8,6 +8,11 @@ use App\Livewire\Admin;
 Route::get('resto' , function () {
     return view('resto_app');
 });
+
+// Handle GET requests to livewire/update route (should redirect or show error)
+Route::get('/livewire/update', function () {
+    return redirect('/')->with('error', 'Invalid request method. Please use the application properly.');
+});
 // Public
 Route::get('/', Pages\HomePage::class)->name('home');
 Route::get('/menu', Pages\MenuPage::class)->name('menu');

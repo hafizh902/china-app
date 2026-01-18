@@ -13,13 +13,16 @@ class SetLocale
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
-        $locale = session('locale', 'en'); 
-        // Only allow 'cn' or 'en' locales
-        if (!in_array($locale, ['cn', 'en'])) {
-            $locale = 'cn';
+        if ($request->has('lang')) {
+            $locale = $request->query('lang');
+            if (in_array($locale, ['en', 'cn'])) {
+                session(['locale' => $locale]);
+            }
         }
+
+        $locale = session('locale', 'en');
         app()->setLocale($locale);
 
         return $next($request);

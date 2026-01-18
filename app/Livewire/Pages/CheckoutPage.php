@@ -11,6 +11,10 @@ class CheckoutPage extends Component
 {
     public $firstName, $lastName, $email, $phone, $address, $orderType = 'delivery', $payment = 'cash', $instructions;
 
+    protected $listeners = [
+        'language-changed' => '$refresh',
+    ];
+
     protected $rules = [
         'firstName' => 'required|string',
         'lastName' => 'required|string',

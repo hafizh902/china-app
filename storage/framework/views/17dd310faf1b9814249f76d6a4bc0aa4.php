@@ -6,7 +6,8 @@
             
             <div class="flex justify-between items-center">
                 <h2 class="text-xl font-semibold text-gray-800 tracking-tight">
-                    Browse Categories
+                    <?php echo e(__('language.browse_categories')); ?>
+
                 </h2>
 
                 
@@ -14,7 +15,8 @@
                     <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 pointer-events-none">
                         <i class="fas fa-search"></i>
                     </span>
-                    <input type="text" wire:model.live.debounce.300ms="search" placeholder="Search food..."
+                    <input type="text" wire:model.live.debounce.300ms="search"
+                        placeholder="<?php echo e(__('language.search_food')); ?>"
                         class="w-full pl-11 pr-10 py-2 text-sm bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition" />
 
                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($search): ?>
@@ -30,62 +32,68 @@
             <div class="flex flex-wrap gap-2">
                 <?php
                     $categories = [
-                        'all' => ['All', null],
-                        'Main_Course' => ['Main Course', 'fa-utensils'],
-                        'Snacks' => ['Side Dish', 'fa-cookie-bite'],
-                        'drinks' => ['Drinks', 'fa-mug-hot'],
-                        'desserts' => ['Desserts', 'fa-ice-cream'],
+                        'all' => ['label' => 'language.all', 'icon' => null],
+                        'main_course' => ['label' => 'language.main_course', 'icon' => 'fa-utensils'],
+                        'snacks' => ['label' => 'language.snacks', 'icon' => 'fa-cookie-bite'],
+                        'drinks' => ['label' => 'language.drinks', 'icon' => 'fa-mug-hot'],
+                        'desserts' => ['label' => 'language.desserts', 'icon' => 'fa-ice-cream'],
                     ];
+
                 ?>
 
-                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => [$label, $icon]): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <button wire:click="$set('category', '<?php echo e($key); ?>')"
                         class="
-                        inline-flex items-center gap-2
-                        px-4 py-2 rounded-full text-sm font-medium
-                        transition-all duration-200
-                        <?php echo e($category === $key
-                            ? 'bg-red-500 text-white ring-2 ring-red-500/30'
-                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'); ?>
+            inline-flex items-center gap-2
+            px-4 py-2 rounded-full text-sm font-medium
+            transition-all duration-200
+            <?php echo e($category === $key
+                ? 'bg-red-500 text-white ring-2 ring-red-500/30'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'); ?>
 
-                    ">
-                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($icon): ?>
-                            <i class="fas <?php echo e($icon); ?> text-xs"></i>
+        ">
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($cat['icon']): ?>
+                            <i class="fas <?php echo e($cat['icon']); ?> text-xs"></i>
                         <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                        <?php echo e($label); ?>
+
+                        <?php echo e(__($cat['label'])); ?>
 
                     </button>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-            </div>
 
+            </div>
             
             <div class="flex items-center gap-2">
-                <span class="text-sm text-gray-500">Sort by:</span>
+                <span class="text-sm text-gray-500">
+                    <?php echo e(__('language.sort_by')); ?>
+
+                </span>
 
                 <div class="flex gap-1 bg-gray-100 p-1 rounded-full">
                     <?php
                         $options = [
-                            'popular' => 'Popular',
-                            'price-low' => 'Low Price',
-                            'price-high' => 'High Price',
-                            'name' => 'A–Z',
+                            'popular' => 'language.sort_popular',
+                            'price-low' => 'language.sort_price_low',
+                            'price-high' => 'language.sort_price_high',
+                            'name' => 'language.sort_name',
                         ];
                     ?>
 
                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $options; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <button wire:click="setSort('<?php echo e($value); ?>')"
+                        <button type="button" wire:click="setSort('<?php echo e($value); ?>')"
                             class="
-                            px-4 py-1.5 text-sm rounded-full
-                            transition-all duration-200
-                            <?php echo e($sort === $value ? 'bg-white text-red-500 font-semibold shadow-sm' : 'text-gray-600 hover:text-gray-900'); ?>
+                    px-4 py-1.5 text-sm rounded-full
+                    transition-all duration-200
+                    <?php echo e($sort === $value ? 'bg-white text-red-500 font-semibold shadow-sm' : 'text-gray-600 hover:text-gray-900'); ?>
 
-                        ">
-                            <?php echo e($label); ?>
+                ">
+                            <?php echo e(__($label)); ?>
 
                         </button>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -119,7 +127,7 @@
                                 <span
                                     class="px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold text-white shadow-lg
                         <?php echo e($item->is_available ? 'bg-red-600 border border-amber-400' : 'bg-gray-500'); ?>">
-                                    <?php echo e($item->is_available ? 'Available' : 'Sold Out'); ?>
+                                  <?php echo e($item->is_available ? __('language.available') : __('language.sold_out')); ?>
 
                                 </span>
                             </div>
@@ -168,7 +176,8 @@
                             
                             <div class="mt-3 flex-grow">
                                 <p class="text-gray-500 text-sm italic line-clamp-2">
-                                    <?php echo e($item->description ?? 'No description available.'); ?>
+                                  <?php echo e($item->description ?? __('language.no_description')); ?>
+
 
                                 </p>
                             </div>
@@ -176,19 +185,20 @@
                             
                             <div class="mt-6 flex items-center justify-between border-t border-gray-50 pt-4">
                                 <div class="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">
-                                    <i class="fas fa-utensils mr-1 text-amber-500"></i> Fresh
+                                    <i class="fas fa-utensils mr-1 text-amber-500"></i> <?php echo e(__('language.fresh')); ?>
+
                                 </div>
 
                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($item->is_available): ?>
                                     <button
                                         wire:click="$dispatch('add-to-cart', [<?php echo e($item->id); ?>, '<?php echo e($item->name); ?>', <?php echo e($item->price); ?>, '<?php echo e($item->image); ?>']).to('cart-component')"
                                         class="relative overflow-hidden group/btn bg-red-700 hover:bg-red-800 text-white flex items-center gap-2 px-4 py-2 rounded-xl transition-all shadow-md active:scale-95">
-                                        <span class="text-[11px] font-bold uppercase tracking-widest">Add</span>
+                                        <span class="text-[11px] font-bold uppercase tracking-widest"><?php echo e(__('language.add')); ?></span>
                                         <i
                                             class="fas fa-plus text-[9px] bg-amber-400 text-red-900 p-1 rounded-full"></i>
                                     </button>
                                 <?php else: ?>
-                                    <span class="text-gray-400 text-[10px] font-bold uppercase italic">Sold Out</span>
+                                    <span class="text-gray-400 text-[10px] font-bold uppercase italic"><?php echo e(__('language.sold_out')); ?></span>
                                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             </div>
                         </div>
@@ -199,7 +209,8 @@
                                 class="absolute inset-0 bg-white/40 backdrop-blur-[1px] flex items-center justify-center z-10 pointer-events-none">
                                 <div
                                     class="bg-black/80 text-white px-4 py-2 rotate-12 border-2 border-amber-500 font-bold uppercase text-xs tracking-widest shadow-2xl">
-                                    Sold Out
+                                    <?php echo e(__('language.sold_out')); ?>
+
                                 </div>
                             </div>
                         <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
@@ -211,14 +222,15 @@
             <div class="text-center py-12">
                 <div class="max-w-md mx-auto">
                     <i class="fas fa-search text-gray-300 text-6xl mb-4"></i>
-                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Item not found</h3>
+                    <h3 class="text-xl font-semibold text-gray-700 mb-2"><?php echo e(__('language.item_not_found')); ?></h3>
                     <p class="text-gray-500 mb-6">
-                        We couldn't find any items matching "<?php echo e($search); ?>".
+                        <?php echo e(__('language.no_items_match')); ?> <?php echo e($search); ?>.
                     </p>
                     <button wire:click="$set('search', '')"
                         class="inline-flex items-center px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-lg transition-colors">
                         <i class="fas fa-times mr-2"></i>
-                        Clear search
+                        <?php echo e(__('language.clear_search')); ?>
+
                     </button>
                 </div>
             </div>
@@ -227,40 +239,36 @@
     
     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($hasMore): ?>
         <div x-data x-intersect="$wire.loadMore()" class="h-10 flex justify-center items-center mt-10">
-            <span class="text-gray-400 text-sm">Loading more...</span>
+            <span class="text-gray-400 text-sm"> <?php echo e(__('language.loading_more')); ?></span>
         </div>
     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+    
+    <div x-data="{ show: false, message: '' }"
+        x-on:notify-success.window="show = true; message = $event.detail.message; setTimeout(() => show = false, 3000)"
+        class="fixed top-6 right-6 z-[9999] w-full max-w-sm"  style="display: none;"
+        x-show="show" x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 translate-x-10" 
+        x-transition:enter-end="opacity-100 translate-x-0" x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100 translate-x-0" x-transition:leave-end="opacity-0 translate-x-10"
+        >
+        <div
+            class="bg-white/90 backdrop-blur-lg border-l-4 border-green-500 shadow-2xl rounded-2xl p-4 flex items-center gap-4 border border-stone-200">
+            
+            <div class="flex-shrink-0 w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+                <i class="fas fa-cart-plus text-green-600 text-lg"></i>
+            </div>
 
-<div
-    x-data="{ show: false, message: '' }"
-    x-on:notify-success.window="show = true; message = $event.detail.message; setTimeout(() => show = false, 3000)"
-    class="fixed top-6 right-6 z-[9999] w-full max-w-sm" 
-    style="display: none;"
-    x-show="show"
-    x-transition:enter="transition ease-out duration-300"
-    x-transition:enter-start="opacity-0 translate-x-10" 
-    x-transition:enter-end="opacity-100 translate-x-0"
-    x-transition:leave="transition ease-in duration-200"
-    x-transition:leave-start="opacity-100 translate-x-0"
-    x-transition:leave-end="opacity-0 translate-x-10" 
->
-    <div class="bg-white/90 backdrop-blur-lg border-l-4 border-green-500 shadow-2xl rounded-2xl p-4 flex items-center gap-4 border border-stone-200">
-        
-        <div class="flex-shrink-0 w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
-            <i class="fas fa-cart-plus text-green-600 text-lg"></i>
-        </div>
-        
-        
-        <div class="flex-1">
-            <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-stone-400">Keranjang</h4>
-            <p class="text-xs font-bold text-stone-800 leading-tight" x-text="message"></p>
-        </div>
+            
+            <div class="flex-1">
+                <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-stone-400"><?php echo e(__('language.cart')); ?></h4>
+                <p class="text-xs font-bold text-stone-800 leading-tight" x-text="message"></p>
+            </div>
 
-        
-        <button @click="show = false" class="text-stone-300 hover:text-stone-600 transition-colors px-2">
-            <i class="fas fa-times"></i>
-        </button>
+            
+            <button @click="show = false" class="text-stone-300 hover:text-stone-600 transition-colors px-2">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
     </div>
-</div>
 </div>
 <?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/Pages/menu-page.blade.php ENDPATH**/ ?>
