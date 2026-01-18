@@ -231,5 +231,36 @@
         </div>
     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
+<div
+    x-data="{ show: false, message: '' }"
+    x-on:notify-success.window="show = true; message = $event.detail.message; setTimeout(() => show = false, 3000)"
+    class="fixed top-6 right-6 z-[9999] w-full max-w-sm" 
+    style="display: none;"
+    x-show="show"
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0 translate-x-10" 
+    x-transition:enter-end="opacity-100 translate-x-0"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100 translate-x-0"
+    x-transition:leave-end="opacity-0 translate-x-10" 
+>
+    <div class="bg-white/90 backdrop-blur-lg border-l-4 border-green-500 shadow-2xl rounded-2xl p-4 flex items-center gap-4 border border-stone-200">
+        
+        <div class="flex-shrink-0 w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+            <i class="fas fa-cart-plus text-green-600 text-lg"></i>
+        </div>
+        
+        
+        <div class="flex-1">
+            <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-stone-400">Keranjang</h4>
+            <p class="text-xs font-bold text-stone-800 leading-tight" x-text="message"></p>
+        </div>
+
+        
+        <button @click="show = false" class="text-stone-300 hover:text-stone-600 transition-colors px-2">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+</div>
 </div>
 <?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/Pages/menu-page.blade.php ENDPATH**/ ?>

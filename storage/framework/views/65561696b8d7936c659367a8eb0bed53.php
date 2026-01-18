@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>China Street Food</title>
+    <title><?php echo e(optional(\App\Models\SystemConfig::first())->brand_name ?? config('app.name')); ?></title>
     <!-- Tailwind CSS dari CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome untuk icon -->
@@ -66,6 +66,7 @@ unset($__params);
 unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
+    
 
     <main class="relative overflow-visible">
         <?php echo e($slot); ?>

@@ -67,7 +67,7 @@
                     
                     <div class="bg-amber-50 p-4 rounded-2xl mb-6">
                         <p class="text-xs text-amber-800 font-bold mb-2">Transfer ke Rekening BCA:</p>
-                        <p class="text-xl font-mono font-bold text-stone-800">191 328 6298</p>
+                        <p class="text-xl font-mono font-bold text-stone-800">121 333 4444</p>
                         <p class="text-[10px] text-amber-600 italic">a/n The Dragon Kitchen</p>
                     </div>
 

@@ -46,6 +46,7 @@
 <body class="bg-gray-50 font-sans">
     {{-- Navbar --}}
     <livewire:navbar />
+    
 
     <main class="relative overflow-visible">
         {{ $slot }}
