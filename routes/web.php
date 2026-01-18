@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Livewire\Pages;
 use App\Livewire\Admin;
+use App\Http\Controllers\XenditWebhookController;
 
 // Handle GET requests to livewire/update route (should redirect or show error)
 Route::get('/livewire/update', function () {
