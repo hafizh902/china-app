@@ -136,6 +136,19 @@ return [
     'logout_confirmation_notice' => '退出后，您将被重定向到主页。',
     'cancel' => '取消',
     'confirm_logout' => '是的，退出',
+    'welcome_back' => '欢迎回来',
+    'brand_tagline' => '很高兴再次见到您',
+    'login_title' => '登录账户',
+    'login_subtitle' => '请输入您的账户信息',
+    'email_label' => '电子邮箱地址',
+    'password_label' => '密码',
+    'remember_me' => '记住我',
+    'forgot_password' => '忘记密码？',
+    'login_button' => '立即登录',
+    'loading' => '加载中...',
+    'or' => '或',
+
+    'register_prompt' => '还没有账号？注册',
 
 
 

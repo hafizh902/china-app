@@ -2,12 +2,12 @@
     <div class="max-w-7xl mx-auto">
         <header class="mb-10 flex justify-between items-end">
             <div>
-                <h1 class="text-3xl font-serif font-bold text-stone-800 uppercase tracking-tighter">Monitoring Meja</h1>
-                <p class="text-stone-500 text-sm italic">Status Restoran Hari Ini: <?php echo e(date('d M Y')); ?></p>
+                <h1 class="text-3xl font-serif font-bold text-stone-800 uppercase tracking-tighter">Table monitoring</h1>
+                <p class="text-stone-500 text-sm italic">Restaurant Status Today: <?php echo e(date('d M Y')); ?></p>
             </div>
             <div class="flex gap-4">
                 <div class="bg-white px-4 py-2 rounded-lg shadow-sm border border-stone-200">
-                    <span class="text-[10px] block uppercase font-bold text-stone-400">Total Reservasi</span>
+                    <span class="text-[10px] block uppercase font-bold text-stone-400">Total Reservations</span>
                     <span class="text-xl font-bold text-red-700"><?php echo e($totalReservations); ?></span>
                 </div>
             </div>
@@ -18,12 +18,12 @@
             <div class="lg:col-span-8 bg-white p-10 rounded-[2.5rem] shadow-sm border border-stone-200 relative overflow-hidden">
                 <div class="absolute top-0 right-0 p-10 opacity-5 text-9xl font-serif">監</div>
 
-                <h2 class="text-xl font-bold mb-6 text-stone-800">Jadwal Reservasi Hari Ini</h2>
+                <h2 class="text-xl font-bold mb-6 text-stone-800">Today's Reservation Schedule</h2>
 
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($reservationsByTime->isEmpty()): ?>
                     <div class="text-center py-20 text-stone-400">
                         <i class="fas fa-calendar-times text-6xl mb-4"></i>
-                        <p>Tidak ada reservasi hari ini</p>
+                        <p>No reservations today</p>
                     </div>
                 <?php else: ?>
                     <div class="space-y-6">
@@ -57,19 +57,19 @@
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($selectedReservation): ?>
                     <?php $detail = \App\Models\Reservation::find($selectedReservation); ?>
                     <div class="bg-stone-900 rounded-[2rem] p-8 text-white shadow-2xl sticky top-8 border-t-4 border-red-700">
-                        <h3 class="font-serif text-xl font-bold text-amber-400 mb-6 uppercase tracking-widest">Detail Reservasi</h3>
+                        <h3 class="font-serif text-xl font-bold text-amber-400 mb-6 uppercase tracking-widest">Reservation Detail</h3>
                         
                         <div class="space-y-4 text-sm mb-10">
                             <div class="flex justify-between border-b border-stone-800 pb-2">
-                                <span class="text-stone-500 uppercase text-[10px]">Pemesan</span>
+                                <span class="text-stone-500 uppercase text-[10px]">Orderer</span>
                                 <span class="font-bold"><?php echo e($detail->user->name); ?></span>
                             </div>
                             <div class="flex justify-between border-b border-stone-800 pb-2">
-                                <span class="text-stone-500 uppercase text-[10px]">Meja</span>
+                                <span class="text-stone-500 uppercase text-[10px]">Table</span>
                                 <span class="font-bold text-amber-400">#<?php echo e($detail->table->number); ?> (<?php echo e($detail->table->position); ?>)</span>
                             </div>
                             <div class="flex justify-between border-b border-stone-800 pb-2">
-                                <span class="text-stone-500 uppercase text-[10px]">Waktu</span>
+                                <span class="text-stone-500 uppercase text-[10px]">Time</span>
                                 <span class="font-bold"><?php echo e($detail->reservation_time); ?></span>
                             </div>
                             <div class="flex justify-between border-b border-stone-800 pb-2">
@@ -85,19 +85,18 @@
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($detail->status == 'pending'): ?>
                                 <button wire:click="confirmPayment(<?php echo e($detail->id); ?>)" 
                                     class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition-all uppercase text-xs tracking-widest">
-                                    Konfirmasi Pembayaran
+                                    Payment Confirmation
                                 </button>
                             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             <button wire:click="releaseTable(<?php echo e($detail->id); ?>)" 
-                                class="w-full bg-red-700/20 hover:bg-red-700 text-red-500 hover:text-white border border-red-700/50 font-bold py-3 rounded-xl transition-all uppercase text-xs tracking-widest">
-                                Batalkan & Bebaskan Meja
+                                class="w-full bg-red-700/20 hover:bg-red-700 text-red-500 hover:text-white border border-red-700/50 font-bold py-3 rounded-xl transition-all uppercase text-xs tracking-widest">Cancel & Free Table
                             </button>
                         </div>
                     </div>
                 <?php else: ?>
                     <div class="h-full border-2 border-dashed border-stone-300 rounded-[2rem] flex flex-col items-center justify-center p-10 text-center opacity-40">
                         <i class="fas fa-mouse-pointer text-4xl mb-4"></i>
-                        <p class="text-sm font-medium">Pilih meja yang terisi untuk melihat detail pesanan pelanggan</p>
+                        <p class="text-sm font-medium">Select a table to view customer reservation details</p>
                     </div>
                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
             </div>
