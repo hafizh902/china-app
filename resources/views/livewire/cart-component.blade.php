@@ -119,7 +119,7 @@
                         <span>Rp{{ number_format($subtotal, 0, ',', '.') }}</span>
                     </div>
                     <div class="flex justify-between text-xs text-stone-400 font-medium tracking-wide">
-                        <span>Pajak (10%)</span>
+                        <span>Pajak ({{ \App\Models\SystemConfig::value('tax_percent') ?? '-' }}%)</span>
                         <span>Rp{{ number_format($tax, 0, ',', '.') }}</span>
                     </div>
                     <div class="h-px bg-dashed border-b border-dashed border-stone-200 my-4"></div>

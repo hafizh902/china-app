@@ -1,7 +1,9 @@
 <div class="bg-[#fdfcf8] min-h-screen pb-20">
     
     <div class="relative py-10 mb-10 bg-red-800 text-center overflow-hidden">
-        <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,<svg width=\"60\" height=\"30\" viewBox=\"0 0 60 30\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M0 15Q15 0 30 15Q45 30 60 15\" stroke=\"%23fff\" fill=\"none\"/></svg>');"></div>
+        <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,<svg width=\" 60\" height=\"30\" viewBox=\"0 0 60 30\" xmlns=\"http://www.w3.org/2000/svg\">
+            <path d=\"M0 15Q15 0 30 15Q45 30 60 15\" stroke=\"%23fff\" fill=\"none\" /></svg>');">
+        </div>
         <h1 class="text-3xl font-serif font-black text-amber-400 tracking-[0.3em] uppercase relative z-10">Penyelesaian Pesanan</h1>
         <div class="flex justify-center gap-4 mt-2 relative z-10">
             <span class="h-px w-12 bg-amber-400/50 self-center"></span>
@@ -12,9 +14,9 @@
 
     <div class="max-w-7xl mx-auto px-4 lg:px-10">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-            
+
             <div class="lg:col-span-8 space-y-8">
-                
+
                 
                 <div class="bg-white rounded-[2rem] shadow-sm border border-amber-100 p-8 relative overflow-hidden">
                     <div class="absolute top-0 right-0 p-4 opacity-[0.05] pointer-events-none">
@@ -29,7 +31,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-2">Nama Depan</label>
-                            <input type="text" wire:model.defer="firstName" 
+                            <input type="text" wire:model.defer="firstName"
                                 class="w-full px-5 py-4 bg-stone-50 border-none rounded-2xl focus:ring-2 focus:ring-red-700 transition-all placeholder:text-stone-300 text-sm font-bold <?php $__errorArgs = ['firstName'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -42,7 +44,7 @@ unset($__errorArgs, $__bag); ?>"
                         </div>
                         <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-2">Nama Belakang</label>
-                            <input type="text" wire:model.defer="lastName" 
+                            <input type="text" wire:model.defer="lastName"
                                 class="w-full px-5 py-4 bg-stone-50 border-none rounded-2xl focus:ring-2 focus:ring-red-700 transition-all placeholder:text-stone-300 text-sm font-bold <?php $__errorArgs = ['lastName'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -55,7 +57,7 @@ unset($__errorArgs, $__bag); ?>"
                         </div>
                         <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-2">Email Perjamuan</label>
-                            <input type="email" wire:model.defer="email" 
+                            <input type="email" wire:model.defer="email"
                                 class="w-full px-5 py-4 bg-stone-50 border-none rounded-2xl focus:ring-2 focus:ring-red-700 transition-all placeholder:text-stone-300 text-sm font-bold <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -72,7 +74,7 @@ unset($__errorArgs, $__bag); ?>"
                                 <select wire:model="phoneCode" class="bg-stone-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-red-700">
                                     <option value="+62">+62</option>
                                 </select>
-                                <input type="text" wire:model.defer="phone" 
+                                <input type="text" wire:model.defer="phone"
                                     class="flex-1 px-5 py-4 bg-stone-50 border-none rounded-2xl focus:ring-2 focus:ring-red-700 transition-all placeholder:text-stone-300 text-sm font-bold <?php $__errorArgs = ['phone'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -89,19 +91,19 @@ unset($__errorArgs, $__bag); ?>"
                     
                     <div class="mt-8 flex gap-4">
                         <label class="flex-1 cursor-pointer group">
-                            <input type="radio" wire:model="orderType" value="delivery" class="hidden peer">
+                            <input type="radio" wire:model.live="orderType" value="delivery" class="hidden peer">
                             <div class="p-4 border-2 border-stone-100 rounded-2xl peer-checked:border-red-700 peer-checked:bg-red-50 transition-all group-hover:bg-stone-50">
                                 <div class="flex items-center gap-3">
-                                    <i class="fas fa-motorcycle text-stone-400 peer-checked:text-red-700"></i>
+                                    <i class="fas fa-motorcycle text-stone-400"></i>
                                     <span class="text-sm font-bold text-stone-600">Antar ke Alamat</span>
                                 </div>
                             </div>
                         </label>
                         <label class="flex-1 cursor-pointer group">
-                            <input type="radio" wire:model="orderType" value="pickup" class="hidden peer">
+                            <input type="radio" wire:model.live="orderType" value="pickup" class="hidden peer">
                             <div class="p-4 border-2 border-stone-100 rounded-2xl peer-checked:border-red-700 peer-checked:bg-red-50 transition-all group-hover:bg-stone-50">
                                 <div class="flex items-center gap-3">
-                                    <i class="fas fa-store text-stone-400 peer-checked:text-red-700"></i>
+                                    <i class="fas fa-store text-stone-400"></i>
                                     <span class="text-sm font-bold text-stone-600">Ambil Sendiri</span>
                                 </div>
                             </div>
@@ -111,7 +113,7 @@ unset($__errorArgs, $__bag); ?>"
                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($orderType === 'delivery'): ?>
                     <div class="mt-6 space-y-2 animate-fade-in-down">
                         <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-2">Alamat Lengkap Kediaman</label>
-                        <textarea wire:model.defer="address" rows="3" 
+                        <textarea wire:model.defer="address" rows="3"
                             class="w-full px-5 py-4 bg-stone-50 border-none rounded-2xl focus:ring-2 focus:ring-red-700 transition-all text-sm font-bold"
                             placeholder="Jl. Naga Emas No. 88, Cluster Jade..."></textarea>
                     </div>
@@ -119,7 +121,7 @@ unset($__errorArgs, $__bag); ?>"
 
                     <div class="mt-6 space-y-2">
                         <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-2">Catatan Khusus (Opsional)</label>
-                        <textarea wire:model="instructions" rows="2" 
+                        <textarea wire:model="instructions" rows="2"
                             class="w-full px-5 py-4 bg-stone-50 border-none rounded-2xl focus:ring-2 focus:ring-red-700 transition-all text-sm font-bold italic"
                             placeholder="Contoh: Kurangi micin, ekstra sambal..."></textarea>
                     </div>
@@ -131,7 +133,7 @@ unset($__errorArgs, $__bag); ?>"
                         <span class="w-8 h-8 bg-red-700 text-white rounded-lg flex items-center justify-center text-sm italic">2</span>
                         Metode Pembayaran
                     </h2>
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <label class="relative cursor-pointer group">
                             <input type="radio" wire:model="payment" value="cash" class="hidden peer">
@@ -191,7 +193,7 @@ unset($__errorArgs, $__bag); ?>"
                                 <span>Rp<?php echo e(number_format($deliveryFee, 0, ',', '.')); ?></span>
                             </div>
                             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                            
+
                             <div class="pt-4 mt-4 border-t border-white/10 flex justify-between items-end">
                                 <div>
                                     <p class="text-[10px] text-red-500 uppercase font-black tracking-widest mb-1">Total Bayar</p>
@@ -203,11 +205,11 @@ unset($__errorArgs, $__bag); ?>"
                             </div>
                         </div>
 
-                        <button 
+                        <button
                             wire:click="placeOrder"
                             wire:loading.attr="disabled"
                             class="w-full mt-10 bg-red-700 hover:bg-red-600 text-white py-5 rounded-2xl font-black uppercase tracking-[0.3em] text-[11px] transition-all active:scale-95 shadow-lg shadow-red-900/20 flex items-center justify-center gap-3 overflow-hidden relative group">
-                            
+
                             <div wire:loading.remove wire:target="placeOrder" class="flex items-center gap-3">
                                 <span>Selesaikan Pembayaran</span>
                                 <i class="fas fa-dragon group-hover:translate-x-1 transition-transform"></i>
@@ -224,7 +226,7 @@ unset($__errorArgs, $__bag); ?>"
                     </div>
 
                     <p class="text-[10px] text-stone-400 text-center uppercase tracking-widest">
-                        <i class="fas fa-lock mr-1"></i> Terenkripsi & Aman 
+                        <i class="fas fa-lock mr-1"></i> Terenkripsi & Aman
                     </p>
                 </div>
             </div>
@@ -232,13 +234,33 @@ unset($__errorArgs, $__bag); ?>"
     </div>
 
     <style>
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
-        @keyframes fade-in-down {
-            0% { opacity: 0; transform: translateY(-10px); }
-            100% { opacity: 1; transform: translateY(0); }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
         }
-        .animate-fade-in-down { animation: fade-in-down 0.3s ease-out; }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        @keyframes fade-in-down {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-down {
+            animation: fade-in-down 0.3s ease-out;
+        }
     </style>
 </div><?php /**PATH E:\12 RPL\china-app\resources\views/livewire/Pages/checkout-page.blade.php ENDPATH**/ ?>

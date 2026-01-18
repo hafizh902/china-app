@@ -28,6 +28,14 @@ class CheckoutPage extends Component
         'address.required_if' => 'Address need to be filled for delivery.',
     ];
 
+    // Auto-fill email saat component dimuat
+    public function mount()
+    {
+        if (Auth::check()) {
+            $this->email = Auth::user()->email;
+        }
+    }
+
     public function placeOrder()
     {
         $this->validate();
@@ -45,7 +53,6 @@ class CheckoutPage extends Component
 
         $config = SystemConfig::firstOrCreate([]);
         
-        // Hitung berdasarkan config
         $subtotal = collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']);
         $taxPercent = $config->tax_percent / 100;
         $tax = $subtotal * $taxPercent;
