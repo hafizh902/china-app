@@ -95,14 +95,10 @@
     <div class="px-6 py-12 bg-gradient-to-b from-gray-50 to-amber-50/40">
         @if ($menuItems->count() > 0)
             {{-- Grid Utama: Kita set grid-rows agar bisa di-subgrid oleh anak-anaknya --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12">
+            <div class="flex flex-wrap justify-center gap-x-8 gap-y-12">
                 @foreach ($menuItems as $item)
                     {{-- Card Container: Diberi display grid dan span baris agar konsisten --}}
-                    <div
-                        class="group relative bg-white rounded-2xl overflow-hidden
-                    shadow-sm hover:shadow-2xl transition-all duration-500
-                    transform hover:-translate-y-2 border border-amber-100
-                    flex flex-col h-full {{ !$item->is_available ? 'grayscale' : '' }}">
+                  <div class="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-amber-100 flex flex-col h-full w-full sm:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)] xl:w-[calc(25%-2rem)] max-w-[350px] {{ !$item->is_available ? 'grayscale' : '' }}">
 
                         {{-- 1. Image Container (Fixed Height) --}}
                         <div class="relative h-64 overflow-hidden flex-shrink-0"
@@ -121,7 +117,7 @@
                                 <span
                                     class="px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold text-white shadow-lg
                         {{ $item->is_available ? 'bg-red-600 border border-amber-400' : 'bg-gray-500' }}">
-                                  {{ $item->is_available ? __('language.available') : __('language.sold_out') }}
+                                    {{ $item->is_available ? __('language.available') : __('language.sold_out') }}
                                 </span>
                             </div>
 
@@ -167,7 +163,7 @@
                             {{-- Deskripsi: Menggunakan flex-grow agar mendorong tombol ke bawah --}}
                             <div class="mt-3 flex-grow">
                                 <p class="text-gray-500 text-sm italic line-clamp-2">
-                                  {{ $item->description ?? __('language.no_description') }}
+                                    {{ $item->description ?? __('language.no_description') }}
 
                                 </p>
                             </div>
@@ -182,12 +178,14 @@
                                     <button
                                         wire:click="$dispatch('add-to-cart', [{{ $item->id }}, '{{ $item->name }}', {{ $item->price }}, '{{ $item->image }}']).to('cart-component')"
                                         class="relative overflow-hidden group/btn bg-red-700 hover:bg-red-800 text-white flex items-center gap-2 px-4 py-2 rounded-xl transition-all shadow-md active:scale-95">
-                                        <span class="text-[11px] font-bold uppercase tracking-widest">{{ __('language.add') }}</span>
+                                        <span
+                                            class="text-[11px] font-bold uppercase tracking-widest">{{ __('language.add') }}</span>
                                         <i
                                             class="fas fa-plus text-[9px] bg-amber-400 text-red-900 p-1 rounded-full"></i>
                                     </button>
                                 @else
-                                    <span class="text-gray-400 text-[10px] font-bold uppercase italic">{{ __('language.sold_out') }}</span>
+                                    <span
+                                        class="text-gray-400 text-[10px] font-bold uppercase italic">{{ __('language.sold_out') }}</span>
                                 @endif
                             </div>
                         </div>
@@ -242,7 +240,8 @@
 
             {{-- Teks --}}
             <div class="flex-1">
-                <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-stone-400">{{ __('language.cart') }}</h4>
+                <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-stone-400">{{ __('language.cart') }}
+                </h4>
                 <p class="text-xs font-bold text-stone-800 leading-tight" x-text="message"></p>
             </div>
 
