@@ -156,12 +156,36 @@
                         </div>
 
                         
-                        <div class="bg-amber-50 p-6 rounded-2xl border border-amber-100">
-                            <h4 class="text-xs font-black text-amber-900 uppercase mb-2"><?php echo e(__('language.need_help')); ?>
+                        <div
+                            class="group bg-gradient-to-br from-amber-50 to-white p-6 rounded-[2rem] border border-amber-100 shadow-sm hover:shadow-md transition-all duration-300">
+                            <div class="flex items-start gap-4">
+                                
+                                <div
+                                    class="flex-shrink-0 w-10 h-10 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-700">
+                                    <i class="fas fa-comment-dots text-lg"></i>
+                                </div>
 
-                            </h4>
-                            <p class="text-xs text-amber-800/70 leading-relaxed font-medium">
-                                <?php echo e(__('language.contact_whatsapp')); ?></p>
+                                
+                                <div class="flex-1">
+                                    <h4 class="text-[10px] font-black text-amber-900 uppercase tracking-[0.2em] mb-1">
+                                        <?php echo e(__('language.need_help')); ?>
+
+                                    </h4>
+                                    <p class="text-xs text-amber-800/70 leading-relaxed font-bold italic mb-4">
+                                        <?php echo e(__('language.contact_whatsapp')); ?>
+
+                                    </p>
+
+                                    
+                                    <a href="https://wa.me/<?php echo e(\App\Models\SystemConfig::get('footer_phone')[0]['footer_phone'] ?? ''); ?>"
+                                        target="_blank"
+                                        class="inline-flex items-center gap-3 px-4 py-2 bg-stone-900 hover:bg-[#25D366] text-white rounded-xl transition-all duration-300 shadow-lg shadow-stone-900/10 group/wa active:scale-95">
+                                        <i
+                                            class="fab fa-whatsapp text-base group-hover/wa:rotate-12 transition-transform"></i>
+                                        <span class="text-[10px] font-black uppercase tracking-widest">Our Whatsapp</span>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

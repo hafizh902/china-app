@@ -147,8 +147,23 @@ return [
     'login_button' => '立即登录',
     'loading' => '加载中...',
     'or' => '或',
-
     'register_prompt' => '还没有账号？注册',
+    'register_title' => '注册并畅享最美味的中式佳肴！',
+    'join_us' => '加入我们',
+    'name' => '姓名',
+    'email_address' => '电子邮箱地址',
+    'send_verification_code' => '发送验证码',
+    'verification_code' => '验证码',
+    'verify_code' => '验证验证码',
+    'resend_code' => '重新发送验证码',
+    'confirm' => '确认',
+    'create_account' => '创建账户',
+    'already_have_account' => '已经有账户？',
+    'login_here' => '在此登录',
+    'join_benefits_title' => '🎉 加入即可享受：',
+    'special_menu' => '特色菜单',
+    'member_discount' => '会员专属折扣',
+    'free_delivery' => '免运费',
 
 
 

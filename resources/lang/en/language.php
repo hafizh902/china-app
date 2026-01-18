@@ -151,7 +151,7 @@ return [
     'loading' => 'Loading...',
     'or' => 'Or',
     'register_prompt' => 'Don’t have an account? Register',
-    'register_title' => 'Sign Up & Enjoy the Finest Chinese Cuisine!',
+    'register_title' => 'Sign Up & Enjoy the Best Chinese Food!',
     'join_us' => 'Join Us',
     'name' => 'Name',
     'email_address' => 'Email Address',

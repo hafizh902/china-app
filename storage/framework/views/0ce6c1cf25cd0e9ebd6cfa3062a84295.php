@@ -233,7 +233,7 @@
                                 <span>Rp<?php echo e(number_format($selectedOrder->subtotal, 0, ',', '.')); ?></span>
                             </div>
                             <div class="flex justify-between text-xs text-stone-500">
-                                <span><?php echo e(__('language.restaurant_tax')); ?>(10%)</span>
+                                <span><?php echo e(__('language.restaurant_tax')); ?>(<?php echo e(\App\Models\SystemConfig::value('tax_percent') ?? '-'); ?>%)</span>
                                 <span>Rp<?php echo e(number_format($selectedOrder->tax, 0, ',', '.')); ?></span>
                             </div>
                             <div class="pt-4 border-t-2 border-stone-800 flex justify-between items-end">
