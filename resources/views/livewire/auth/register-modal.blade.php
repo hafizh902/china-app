@@ -29,10 +29,10 @@
                     <i class="fas fa-user-plus text-red-600 text-3xl"></i>
                 </div>
                 <h2 class="text-3xl font-bold text-white mb-2" style="font-family: 'Noto Sans SC', sans-serif;">
-                    加入我们
+                    {{ __('language.join_us') }}
                 </h2>
                 <p class="text-yellow-100 text-sm">
-                    Daftar & Nikmati Makanan China Terlezat!
+                    {{ __('language.register_title') }}
                 </p>
             </div>
         </div>
@@ -62,7 +62,7 @@
                 <form wire:submit.prevent="sendVerificationCode" class="space-y-6">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">
-                            <i class="fas fa-envelope mr-2 text-red-500"></i>Email Address
+                            <i class="fas fa-envelope mr-2 text-red-500"></i> {{ __('language.email_address') }}
                         </label>
 
                         <input wire:model="email" type="email"
@@ -74,7 +74,7 @@
 
                         <button type="submit"
                             class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl">
-                            Kirim Kode Verifikasi
+                             {{ __('language.send_verification_code') }}
                         </button>
                     </div>
                 </form>
@@ -83,7 +83,7 @@
                 <form wire:submit.prevent="verifyCode" class="space-y-6">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">
-                            <i class="fas fa-shield-alt mr-2 text-red-500"></i>Kode Verifikasi
+                            <i class="fas fa-shield-alt mr-2 text-red-500"></i> {{ __('language.verification_code') }}
                         </label>
 
                         <input wire:model="verification_code" type="text"
@@ -95,12 +95,12 @@
 
                         <button type="submit"
                             class="mt-4 w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl">
-                            Verifikasi Kode
+                            {{ __('language.verify_code') }}
                         </button>
 
                         <button type="button" wire:click="sendVerificationCode"
                             class="mt-2 text-sm text-gray-500 underline w-full">
-                            Kirim ulang kode
+                            {{ __('language.resend_code') }}
                         </button>
                     </div>
                 </form>
@@ -109,25 +109,25 @@
                 <form wire:submit.prevent="register" class="space-y-6">
 
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Nama</label>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">{{ __('language.name') }}</label>
                         <input wire:model="name" type="text" class="w-full py-3 border-2 rounded-xl">
                         @error('name') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">{{ __('language.password_label') }}</label>
                         <input wire:model="password" type="password" class="w-full py-3 border-2 rounded-xl">
                         @error('password') <p class="text-sm text-red-600">{{ $message }}</p> @enderror
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Konfirmasi</label>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">{{ __('language.confirm') }}</label>
                         <input wire:model="password_confirmation" type="password" class="w-full py-3 border-2 rounded-xl">
                     </div>
 
                     <button type="submit"
                         class="w-full bg-gradient-to-r from-red-600 to-red-700 text-white font-bold py-4 rounded-xl">
-                        Buat Akun
+                       {{ __('language.create_account') }}
                     </button>
 
                 </form>
@@ -139,12 +139,12 @@
             <!-- Login Link -->
             <div class="mt-6 text-center">
                 <p class="text-sm text-gray-600">
-                    Sudah punya akun?
+                    {{ __('language.already_have_account') }}
                     <button type="button" wire:click=" 
                         $dispatch('close-register-modal');
                         $dispatch('open-login-modal');"
                         class="font-semibold text-red-600 hover:text-red-700 transition-colors underline">
-                        Masuk di sini
+                       {{ __('language.login_here') }}
                     </button>
                 </p>
             </div>
@@ -154,17 +154,17 @@
                 <div class="text-center">
                     <h4 class="text-sm font-semibold text-gray-800 mb-2"
                         style="font-family: 'Noto Sans SC', sans-serif;">
-                        🎉 Bergabunglah & Dapatkan:
+                              {{ __('language.join_benefits_title') }}
                     </h4>
                     <div class="flex justify-center space-x-4 text-xs text-gray-600">
                         <span class="flex items-center">
-                            <i class="fas fa-utensils text-red-500 mr-1"></i>Menu Spesial
+                            <i class="fas fa-utensils text-red-500 mr-1"></i>{{ __('language.special_menu') }}
                         </span>
                         <span class="flex items-center">
-                            <i class="fas fa-star text-yellow-500 mr-1"></i>Diskon Member
+                            <i class="fas fa-star text-yellow-500 mr-1"></i>{{ __('language.member_discount') }}
                         </span>
                         <span class="flex items-center">
-                            <i class="fas fa-truck text-green-500 mr-1"></i>Gratis Ongkir
+                            <i class="fas fa-truck text-green-500 mr-1"></i>{{ __('language.free_delivery') }}
                         </span>
                     </div>
                 </div>
