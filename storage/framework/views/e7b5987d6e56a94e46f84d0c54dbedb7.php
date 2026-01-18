@@ -21,7 +21,7 @@
                     <a href="#" class="w-8 h-8 rounded-full bg-stone-800 flex items-center justify-center hover:bg-red-700 transition-all text-white text-xs border border-stone-700">
                         <i class="fab fa-instagram"></i>
                     </a>
-                    <a href="#" class="w-8 h-8 rounded-full bg-stone-800 flex items-center justify-center hover:bg-red-700 transition-all text-white text-xs border border-stone-700">
+                    <a href="https://wa.me/<?php echo e(\App\Models\SystemConfig::get('footer_phone')[0]['footer_phone'] ?? ''); ?>" class="w-8 h-8 rounded-full bg-stone-800 flex items-center justify-center hover:bg-red-700 transition-all text-white text-xs border border-stone-700">
                         <i class="fab fa-whatsapp"></i>
                     </a>
                 </div>

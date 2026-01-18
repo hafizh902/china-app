@@ -20,25 +20,68 @@ class ConfigPage extends Component
     public array $form = [];
 
     public $brand_logo;
+    public string $phoneCode = '+62';
+    public string $phoneNumber = '';
 
     public string $activeTab = 'page';
 
-    public function mount()
-    {
-        $this->config = SystemConfig::firstOrCreate([]);
+public function updatedPhoneCode($value)
+{
+    $this->updateFooterPhone();
+}
 
-        $this->form = [
-            'brand_name'     => $this->config->brand_name,
-            'brand_logo'     => $this->config->brand_logo,
-            'footer_address' => $this->config->footer_address,
-            'footer_phone'   => $this->config->footer_phone,
-            'active_from'    => $this->config->active_from,
-            'active_until'   => $this->config->active_until,
-            'site_closed'    => (bool) $this->config->site_closed,
-            'tax_percent'    => $this->config->tax_percent,
-            'delivery_fee'   => $this->config->delivery_fee,
-        ];
+public function updatedPhoneNumber($value)
+{
+    $this->updateFooterPhone();
+}
+
+private function updateFooterPhone()
+{
+    $this->form['footer_phone'] = $this->phoneCode . $this->phoneNumber;
+}
+
+
+public function mount()
+{
+    $this->config = SystemConfig::firstOrCreate([]);
+
+    // default
+    $this->phoneCode = '+62';
+    $this->phoneNumber = '';
+
+    if ($this->config->footer_phone) {
+        $phone = $this->config->footer_phone;
+
+        // jika nomor DB sudah include kode, bisa biarkan $phoneCode sesuai dropdown
+        // tapi ambil hanya nomor setelah kode +62 / +1 / dsb
+        foreach (['+62', '+1', '+44'] as $code) {
+            if (str_starts_with($phone, $code)) {
+                $this->phoneCode = $code;
+                $this->phoneNumber = substr($phone, strlen($code)); // ambil sisanya tanpa trim
+                break;
+            }
+        }
+
+        // jika tidak ada kode yang match, biarkan semua di phoneNumber
+        if (!$this->phoneNumber) {
+            $this->phoneNumber = $phone;
+        }
     }
+
+    $this->form = [
+        'brand_name'     => $this->config->brand_name,
+        'brand_logo'     => $this->config->brand_logo,
+        'footer_address' => $this->config->footer_address,
+        'footer_phone'   => $this->config->footer_phone,
+        'active_from'    => $this->config->active_from,
+        'active_until'   => $this->config->active_until,
+        'site_closed'    => (bool) $this->config->site_closed,
+        'tax_percent'    => $this->config->tax_percent,
+        'delivery_fee'   => $this->config->delivery_fee,
+    ];
+}
+
+
 
     public function save(SupabaseStorageService $storage)
     {
@@ -77,16 +120,7 @@ class ConfigPage extends Component
             );
 
             $this->config = SystemConfig::first();
-
-            $this->dispatchBrowserEvent('toast', [
-                'type' => 'success',
-                'message' => 'Settings saved successfully'
-            ]);
         } catch (\Throwable $e) {
-            $this->dispatchBrowserEvent('toast', [
-                'type' => 'error',
-                'message' => $e->getMessage()
-            ]);
         }
     }
 

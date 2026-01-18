@@ -6,9 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo e(optional(\App\Models\SystemConfig::first())->brand_name ?? config('app.name')); ?></title>
     
-    <?php
-    $brandLogo = optional(\App\Models\SystemConfig::get('brand_logo'));
-    ?>
+<?php
+    $brandLogo = \App\Models\SystemConfig::value('brand_logo'); // simpan nama file di DB
+?>
+
+<?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($brandLogo): ?>
+    <link rel="icon" href="https://bbbvjqzpktarmsblmblv.supabase.co/storage/v1/object/public/chinaon/<?php echo e($brandLogo); ?>?v=<?php echo e(time()); ?>">
+<?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+
+
     <!-- Tailwind CSS dari CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome untuk icon -->

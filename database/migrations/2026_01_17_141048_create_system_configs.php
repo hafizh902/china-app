@@ -11,7 +11,7 @@ return new class extends Migration {
             $table->id();
 
             // Page Settings
-            $table->string('brand_name');
+            $table->string('brand_name')->default('Default Brand');
             $table->string('brand_logo')->nullable();
             $table->text('footer_address')->nullable();
             $table->string('footer_phone')->nullable();
