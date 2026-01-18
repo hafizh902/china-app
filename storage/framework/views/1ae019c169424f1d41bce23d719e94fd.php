@@ -74,6 +74,7 @@ unset($__params);
 unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
+    
 
     <main class="relative overflow-visible">
         <?php echo e($slot); ?>

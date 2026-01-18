@@ -5,6 +5,7 @@ namespace App\Livewire\Pages;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\SystemConfig;
 
 class CheckoutPage extends Component
 {
@@ -31,6 +32,14 @@ class CheckoutPage extends Component
         'address.required_if' => 'Address need to be filled for delivery.',
     ];
 
+    // Auto-fill email saat component dimuat
+    public function mount()
+    {
+        if (Auth::check()) {
+            $this->email = Auth::user()->email;
+        }
+    }
+
     public function placeOrder()
     {
         $this->validate();
@@ -41,17 +50,18 @@ class CheckoutPage extends Component
             return;
         }
 
-        // Hitung ulang subtotal, tax, total
-        $subtotal = collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']);
-        $tax = $subtotal * 0.1;
-        $deliveryFee = $this->orderType === 'delivery' ? 29900 : 0;
-        $total = $subtotal + $tax + $deliveryFee;
-
-        // Pastikan user sudah login
         if (!Auth::check()) {
             $this->dispatch('toast', message: 'Please log in to place an order.');
             return redirect()->route('login');
         }
+
+        $config = SystemConfig::firstOrCreate([]);
+        
+        $subtotal = collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']);
+        $taxPercent = $config->tax_percent / 100;
+        $tax = $subtotal * $taxPercent;
+        $deliveryFee = $this->orderType === 'delivery' ? $config->delivery_fee : 0;
+        $total = $subtotal + $tax + $deliveryFee;
 
         $order = User::find(Auth::id())->orders()->create([
             'order_number' => 'ORD-' . now()->format('Ymd') . rand(1000, 9999),
@@ -72,7 +82,7 @@ class CheckoutPage extends Component
             $order->items()->create([
                 'menu_id'    => $item['id'],
                 'menu_name'  => $item['name'],
-                'menu_price' => $item['price'], // WAJIB sesuai DB
+                'menu_price' => $item['price'],
                 'quantity'   => $item['quantity'],
                 'subtotal'   => $item['price'] * $item['quantity'],
             ]);
@@ -86,9 +96,12 @@ class CheckoutPage extends Component
     public function render()
     {
         $cart = session()->get('cart', []);
+        $config = SystemConfig::firstOrCreate([]);
+        
         $subtotal = collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']);
-        $tax = $subtotal * 0.1;
-        $deliveryFee = $this->orderType === 'delivery' ? 29900 : 0;
+        $taxPercent = $config->tax_percent / 100;
+        $tax = $subtotal * $taxPercent;
+        $deliveryFee = $this->orderType === 'delivery' ? $config->delivery_fee : 0;
         $total = $subtotal + $tax + $deliveryFee;
 
         return view('livewire.Pages.checkout-page', compact('cart', 'subtotal', 'tax', 'deliveryFee', 'total'));

@@ -2,24 +2,21 @@
 
 namespace App\Livewire;
 
+use App\Models\SystemConfig;
 use Livewire\Component;
 
-// Komponen Livewire untuk mengelola keranjang belanja
 class CartComponent extends Component
 {
-    // Array untuk menyimpan item di keranjang
     public $cart = [];
     protected $listeners = [
         'add-to-cart' => 'addToCart',
     ];
 
-    // Private method to build image URL from image path
     private function buildImageUrl($image)
     {
         return $image ? rtrim(config('services.supabase.url'), '/') . '/storage/v1/object/public/' . config('services.supabase.bucket') . '/' . $image : null;
     }
 
-    // Private method to normalize cart items
     private function normalizeCart()
     {
         foreach ($this->cart as $id => $item) {
@@ -30,7 +27,6 @@ class CartComponent extends Component
         session()->put('cart', $this->cart);
     }
 
-    // Method yang dipanggil saat komponen pertama kali dimuat
     public function mount()
     {
         $this->cart = session()->get('cart', []);
@@ -42,7 +38,6 @@ class CartComponent extends Component
         $this->dispatch('close-cart');
     }
 
-    // Method untuk menambah item ke keranjang
     public function addToCart($id, $name, $price, $image = null)
     {
         static $processing = false;
@@ -75,7 +70,6 @@ class CartComponent extends Component
         $processing = false;
     }
 
-    // Method untuk menghapus item dari keranjang
     public function removeItem($id)
     {
         $cart = session()->get('cart', []);
@@ -86,10 +80,8 @@ class CartComponent extends Component
         $this->dispatch('cart-updated');
     }
 
-    // Method untuk mengupdate quantity item
     public function updateQuantity($id, $qty)
     {
-        // Jika quantity kurang dari 1, hapus item
         if ($qty < 1) {
             $this->removeItem($id);
             return;
@@ -103,20 +95,21 @@ class CartComponent extends Component
         $this->dispatch('cart-updated');
     }
 
-    // Computed property untuk menghitung subtotal
     public function getSubtotalProperty()
     {
         return collect($this->cart)->sum(fn($item) => $item['price'] * $item['quantity']);
     }
 
-    // Method render untuk menampilkan view
     public function render()
     {
+        $config = SystemConfig::firstOrCreate([]);
+        $taxPercent = $config->tax_percent / 100; // Konversi persen ke desimal
+        
         return view('livewire.cart-component', [
             'subtotal' => $this->subtotal,
-            'tax' => $this->subtotal * 0.1, // Pajak 10%
-            'total' => $this->subtotal * 1.1, // Total dengan pajak
-            'count' => collect($this->cart)->sum('quantity'), // Total jumlah item
+            'tax' => $this->subtotal * $taxPercent,
+            'total' => $this->subtotal + ($this->subtotal * $taxPercent),
+            'count' => collect($this->cart)->sum('quantity'),
         ]);
     }
 }
