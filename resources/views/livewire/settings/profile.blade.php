@@ -1,116 +1,151 @@
-<section class="w-full bg-[#fdfcf8] min-h-screen pb-10">
+<section class="w-full bg-[#fdfcf8] min-h-screen pb-20">
     @include('partials.settings-heading')
 
     <flux:heading class="sr-only">{{ __('Profile Settings') }}</flux:heading>
 
-    <div class="max-w-3xl mx-auto my-6 px-4">
+    <div class="max-w-3xl mx-auto mt-10 px-4 space-y-8">
 
-        {{-- KARTU UTAMA --}}
-        <div class="bg-white rounded-[1.5rem] shadow-lg border border-amber-100 overflow-hidden mb-6">
+        {{-- KARTU UTAMA: PROFILE INFORMATION --}}
+        <div
+            class="group bg-white rounded-[2.5rem] shadow-sm hover:shadow-xl hover:shadow-red-900/5 border border-stone-100 transition-all duration-500 overflow-hidden">
 
-            <div class="relative bg-gradient-to-r from-red-800 to-red-700 p-5">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-4">
-                        <div class="p-2.5 bg-white/10 backdrop-blur-md rounded-lg border border-white/20">
-                            <i class="fas fa-user-edit text-xl text-amber-400"></i>
-                        </div>
-                        <div>
-                            <h2 class="text-xl font-serif font-bold text-white tracking-tight">
-                                {{ __('Profile Information') }}</h2>
-                        </div>
+            {{-- Header dengan Aksen Gradien --}}
+            <div class="relative bg-gradient-to-r from-stone-900 to-stone-800 p-8">
+                {{-- Ornamen Latar Belakang --}}
+                <div class="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
+                    <div class="absolute -right-4 -top-4 text-white text-6xl rotate-12 uppercase font-black italic">
+                        Profile</div>
+                </div>
+
+                <div class="relative z-10 flex items-center gap-5">
+                    <div
+                        class="w-14 h-14 bg-amber-400 rounded-2xl flex items-center justify-center shadow-lg shadow-amber-400/20 transform -rotate-3 group-hover:rotate-0 transition-transform duration-500">
+                        <i class="fas fa-user-edit text-2xl text-red-800"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-serif font-bold text-white tracking-tight uppercase italic">
+                            {{ __('Profile Information') }}
+                        </h2>
+                        <p class="text-[10px] text-amber-200 uppercase tracking-[0.3em] font-black opacity-80">Personal
+                            Details</p>
                     </div>
                 </div>
             </div>
 
-            <div class="p-6">
-                <form wire:submit="updateProfileInformation" class="space-y-5">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="p-8 md:p-10">
+                <form wire:submit="updateProfileInformation" class="space-y-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-                        {{-- Input Nama dengan Highlight --}}
-                        <div class="space-y-1">
-                            <flux:input wire:model="name" :label="__('Name')" type="text" required
-                                class="w-full !bg-amber-50/30 border-amber-200/60 focus:!bg-white focus:border-red-600 focus:ring-1 focus:ring-red-600 rounded-xl transition-all duration-300 shadow-inner"
+                        {{-- Input Nama --}}
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">Full
+                                Name</label>
+                            <flux:input wire:model="name" type="text" required {{-- Gunakan style untuk memaksa warna placeholder --}}
+                                style="--flux-input-placeholder: #78716c; opacity: 1 !important;"
+                                class="w-full !bg-stone-100 !border-stone-200 shadow-inner focus:!bg-white focus:!border-red-600 focus:!ring-red-600 rounded-2xl transition-all duration-300 font-bold text-stone-800 py-3.5"
                                 placeholder="Masukkan nama lengkap" />
                         </div>
-
-                        {{-- Input Email dengan Highlight --}}
-                        <div class="space-y-1">
-                            <flux:input wire:model="email" :label="__('Email')" type="email" required
-                                class="w-full !bg-amber-50/30 border-amber-200/60 focus:!bg-white focus:border-red-600 focus:ring-1 focus:ring-red-600 rounded-xl transition-all duration-300 shadow-inner"
+                        {{-- Input Email --}}
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">Email
+                                Address</label>
+                            <flux:input wire:model="email" type="email" required
+                                style="--flux-input-placeholder: #78716c; opacity: 1 !important;"
+                                class="w-full !bg-stone-100 !border-stone-200 shadow-inner focus:!bg-white focus:!border-red-600 focus:!ring-red-600 rounded-2xl transition-all duration-300 font-bold text-stone-800 py-3.5"
                                 placeholder="alamat@email.com" />
                         </div>
 
-                    </div>
+                        {{-- Info Box --}}
+                        @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !auth()->user()->hasVerifiedEmail())
+                            <div class="p-4 bg-amber-50/50 rounded-2xl border border-amber-100 flex items-center gap-4">
+                                <div
+                                    class="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-red-600 border border-amber-100">
+                                    <i class="fas fa-envelope-open-text text-sm"></i>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span
+                                        class="text-[9px] font-black text-amber-800 uppercase tracking-tighter">Verification
+                                        Required</span>
+                                    <button wire:click.prevent="resendVerificationNotification"
+                                        class="text-xs text-red-700 font-black hover:text-red-800 underline decoration-red-200 underline-offset-4 tracking-tight uppercase transition-colors">
+                                        {{ __('Resend Verification Email') }}
+                                    </button>
+                                </div>
+                            </div>
+                        @endif
 
-                    {{-- Info Box (Tampil jika email belum verifikasi) --}}
-                    @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !auth()->user()->hasVerifiedEmail())
-                        <div class="p-3 bg-red-50/50 rounded-xl border border-red-100 flex items-center gap-3">
-                            <i class="fas fa-envelope-open-text text-red-600 text-xs"></i>
-                            <button wire:click.prevent="resendVerificationNotification"
-                                class="text-[11px] text-red-700 font-bold hover:underline italic">
-                                {{ __('Resend Verification Email') }}
+                        {{-- Footer Action --}}
+                        <div class="flex items-center justify-between pt-8 border-t border-stone-100">
+                            <x-action-message
+                                class="text-[10px] font-black text-green-600 flex items-center gap-2 uppercase tracking-[0.2em]"
+                                on="profile-updated">
+                                <div class="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-check text-[8px]"></i>
+                                </div>
+                                {{ __('Saved') }}
+                            </x-action-message>
+
+                            <button type="submit"
+                                class="group relative overflow-hidden bg-red-700 hover:bg-stone-900 text-white font-black py-4 px-10 rounded-2xl transition-all duration-500 shadow-xl shadow-red-700/20 active:scale-95 text-[10px] tracking-[0.2em] uppercase">
+                                <span class="relative z-10 flex items-center gap-3">
+                                    <i class="fas fa-save opacity-50"></i> {{ __('Update Profile') }}
+                                </span>
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]">
+                                </div>
                             </button>
                         </div>
-                    @endif
-
-                    <div class="flex items-center justify-between pt-5 border-t border-amber-50">
-                        <x-action-message class="text-xs font-bold text-green-600 flex items-center gap-1"
-                            on="profile-updated">
-                            <i class="fas fa-check-circle"></i> {{ __('Saved.') }}
-                        </x-action-message>
-
-                        <button type="submit"
-                            class="group relative overflow-hidden bg-red-700 hover:bg-red-800 text-white font-bold py-2.5 px-8 rounded-xl transition-all shadow-md active:scale-95 text-xs tracking-[0.2em] uppercase">
-                            <span class="relative z-10 flex items-center gap-2">
-                                {{ __('Update Profile') }}
-                            </span>
-                            <div
-                                class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]">
-                            </div>
-                        </button>
-                    </div>
                 </form>
             </div>
         </div>
-        {{-- KARTU: Ubah Password --}}
-        <div class="bg-white rounded-[1.5rem] shadow-lg border border-amber-100 overflow-hidden mb-6">
-            <div class="p-5 flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="p-2.5 bg-red-50 rounded-lg border border-red-100">
-                        <i class="fas fa-shield-alt text-xl text-red-700"></i>
+
+        {{-- SEKSI KEAMANAN --}}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {{-- KARTU: Ubah Password --}}
+            <div
+                class="bg-white rounded-[2rem] shadow-sm border border-stone-100 p-8 flex flex-col justify-between hover:shadow-lg transition-all duration-500 group">
+                <div class="flex items-start gap-4 mb-8">
+                    <div
+                        class="p-4 bg-red-50 rounded-2xl border border-red-100 group-hover:bg-red-700 group-hover:text-white transition-colors duration-500 text-red-700">
+                        <i class="fas fa-shield-alt text-2xl"></i>
                     </div>
                     <div>
-                        <h2 class="text-lg font-serif font-bold text-slate-800 tracking-tight">
-                            {{ __('Security & Password') }}</h2>
-                        <p class="text-[11px] text-gray-400 italic">
-                            Make sure your account stays safe.</p>
+                        <h2 class="text-lg font-serif font-bold text-stone-800 tracking-tight leading-none mb-2">
+                            {{ __('Security') }}
+                        </h2>
+                        <p class="text-[10px] text-stone-400 font-medium italic">
+                            Update your account password regularly.</p>
                     </div>
                 </div>
 
                 <button wire:click="openPasswordModal"
-                    class="bg-amber-400 hover:bg-amber-500 text-red-900 font-bold py-2 px-5 rounded-xl text-xs uppercase tracking-widest transition-all shadow-sm active:scale-95">
+                    class="w-full bg-stone-100 hover:bg-amber-400 text-stone-600 hover:text-red-900 font-black py-4 rounded-2xl text-[10px] uppercase tracking-widest transition-all active:scale-95 shadow-sm">
                     {{ __('Change Password') }}
                 </button>
             </div>
-        </div>
 
-        {{-- DANGER ZONE --}}
-        <div
-            class="bg-gray-50/50 rounded-[1.2rem] border border-red-100 p-4 flex items-center justify-between shadow-sm">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 bg-red-100/50 rounded-full flex items-center justify-center text-red-700">
-                    <i class="fas fa-trash-alt text-[10px]"></i>
+            {{-- DANGER ZONE --}}
+            <div class="bg-stone-50 rounded-[2rem] border border-stone-200 p-8 flex flex-col justify-between group">
+                <div class="flex items-start gap-4 mb-8 text-stone-400">
+                    <div
+                        class="p-4 bg-stone-200/50 rounded-2xl border border-stone-200 group-hover:bg-red-100 group-hover:text-red-600 transition-colors duration-500">
+                        <i class="fas fa-trash-alt text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2
+                            class="text-lg font-serif font-bold text-stone-600 group-hover:text-red-800 transition-colors duration-500 tracking-tight leading-none mb-2">
+                            {{ __('Danger Zone') }}
+                        </h2>
+                        <p class="text-[10px] italic font-medium">
+                            Account data will be lost forever.</p>
+                    </div>
                 </div>
-                <div class="text-[11px]">
-                    <p class="font-bold text-red-800 uppercase tracking-tighter leading-none mb-1">Delete account</p>
-                    <p class="text-gray-400 italic">
-                        Data will be permanently deleted.</p>
+
+                <div class="w-full">
+                    <livewire:settings.delete-user-form />
                 </div>
             </div>
-            <livewire:settings.delete-user-form />
         </div>
-
-
     </div>
 
     <style>
