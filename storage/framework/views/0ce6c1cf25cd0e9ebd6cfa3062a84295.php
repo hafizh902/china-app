@@ -271,28 +271,27 @@
         </div>
     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
     <style>
-        @media print {
-            body * {
-                visibility: hidden;
-            }
+@media print {
+    body {
+        margin: 0;
+    }
 
-            #invoice,
-            #invoice * {
-                visibility: visible;
-            }
+    .modal,
+    .modal * {
+        all: unset;
+    }
 
-            #invoice {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                box-shadow: none;
-            }
+    #invoice {
+        display: block;
+        position: static;
+        width: 100%;
+    }
 
-            .print\:hidden {
-                display: none !important;
-            }
-        }
+    .print\:hidden {
+        display: none !important;
+    }
+}
+
 
         .animate-zoom-in {
             animation: zoomIn 0.2s ease-out;

@@ -72,7 +72,7 @@
                                     {{-- Thumbnail dengan efek zoom --}}
                                     <div
                                         class="w-16 h-16 bg-stone-100 rounded-2xl flex-shrink-0 border border-stone-100 overflow-hidden relative">
-                                        @if($item->menu && $item->menu->image_url)
+                                        @if ($item->menu && $item->menu->image_url)
                                             <img src="{{ $item->menu->image_url }}"
                                                 class="w-full h-full object-cover transition-transform duration-500 group-hover/item:scale-110"
                                                 alt="{{ $item->menu_name }}">
@@ -112,7 +112,8 @@
                         <button wire:click="viewInvoice({{ $order->id }})"
                             class="flex items-center gap-3 px-6 py-3 bg-stone-900 hover:bg-red-700 text-white rounded-xl transition-all duration-300 shadow-lg shadow-stone-900/10 active:scale-95 group/btn">
                             <i class="fas fa-receipt text-amber-400 group-hover/btn:rotate-12 transition-transform"></i>
-                            <span class="text-[10px] font-black uppercase tracking-[0.2em]">{{ __('language.digital_receipt') }}</span>
+                            <span
+                                class="text-[10px] font-black uppercase tracking-[0.2em]">{{ __('language.digital_receipt') }}</span>
                         </button>
                     </div>
                 </div>
@@ -127,8 +128,10 @@
                         <i class="fas fa-scroll text-4xl text-stone-200"></i>
                     </div>
                 </div>
-                <h3 class="font-serif text-2xl text-stone-800 font-bold mb-2 italic"></h3>{{ __('language.no_order_history') }}</h3>
-                <p class="text-stone-400 text-sm max-w-xs mx-auto mb-8 font-medium">{{ __('language.no_order_desc') }}</p>
+                <h3 class="font-serif text-2xl text-stone-800 font-bold mb-2 italic"></h3>
+                {{ __('language.no_order_history') }}</h3>
+                <p class="text-stone-400 text-sm max-w-xs mx-auto mb-8 font-medium">{{ __('language.no_order_desc') }}
+                </p>
                 <a wire:navigate href="/menu"
                     class="inline-flex items-center gap-3 bg-red-700 hover:bg-red-800 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-xl shadow-red-900/20 transition-all active:scale-95">
                     <i class="fas fa-utensils"></i>
@@ -166,10 +169,13 @@
                                 </h1>
                             </div>
                             <p class="text-xs text-stone-500 italic">Golden Dragon Pavilion</p>
-                            <p class="text-[10px] text-stone-400 mt-1 uppercase tracking-widest"> <span>{{ \App\Models\SystemConfig::get('footer_address')[0]['footer_address'] ?? '' }}</span></p>
+                            <p class="text-[10px] text-stone-400 mt-1 uppercase tracking-widest">
+                                <span>{{ \App\Models\SystemConfig::get('footer_address')[0]['footer_address'] ?? '' }}</span>
+                            </p>
                         </div>
                         <div class="text-right">
-                            <h2 class="text-xl font-serif font-bold text-red-800 uppercase tracking-widest">{{ __('language.payment_receipt') }}</h2>
+                            <h2 class="text-xl font-serif font-bold text-red-800 uppercase tracking-widest">
+                                {{ __('language.payment_receipt') }}</h2>
                             <p class="text-xs font-mono text-stone-500 mt-1">#{{ $selectedOrder->order_number }}</p>
                         </div>
                     </div>
@@ -177,12 +183,14 @@
                     {{-- Detail Pelanggan --}}
                     <div class="grid grid-cols-2 gap-8 py-8 text-sm relative z-10">
                         <div>
-                            <p class="text-[10px] font-black text-stone-400 uppercase tracking-[0.2em] mb-2">{{ __('language.bill_to') }}</p>
+                            <p class="text-[10px] font-black text-stone-400 uppercase tracking-[0.2em] mb-2">
+                                {{ __('language.bill_to') }}</p>
                             <p class="font-bold text-stone-800 text-base">{{ auth()->user()->name }}</p>
                             <p class="text-stone-500 text-xs">{{ auth()->user()->email }}</p>
                         </div>
                         <div class="text-right">
-                            <p class="text-[10px] font-black text-stone-400 uppercase tracking-[0.2em] mb-2">{{ __('language.transaction_time:') }}</p>
+                            <p class="text-[10px] font-black text-stone-400 uppercase tracking-[0.2em] mb-2">
+                                {{ __('language.transaction_time:') }}</p>
                             <p class="font-bold text-stone-800">{{ $selectedOrder->created_at->format('d F Y') }}</p>
                             <p class="text-stone-500 text-xs italic">{{ $selectedOrder->created_at->format('H:i T') }}
                             </p>
@@ -230,7 +238,8 @@
                                 <span>Rp{{ number_format($selectedOrder->tax, 0, ',', '.') }}</span>
                             </div>
                             <div class="pt-4 border-t-2 border-stone-800 flex justify-between items-end">
-                                <span class="text-[10px] font-black uppercase text-red-800">{{ __('language.final_total') }}</span>
+                                <span
+                                    class="text-[10px] font-black uppercase text-red-800">{{ __('language.final_total') }}</span>
                                 <span class="text-2xl font-black text-stone-900 tracking-tighter">
                                     Rp{{ number_format($selectedOrder->total, 0, ',', '.') }}
                                 </span>
@@ -262,27 +271,26 @@
     @endif
     <style>
         @media print {
-            body * {
-                visibility: hidden;
+            body {
+                margin: 0;
             }
 
-            #invoice,
-            #invoice * {
-                visibility: visible;
+            .modal,
+            .modal * {
+                all: unset;
             }
 
             #invoice {
-                position: absolute;
-                left: 0;
-                top: 0;
+                display: block;
+                position: static;
                 width: 100%;
-                box-shadow: none;
             }
 
             .print\:hidden {
                 display: none !important;
             }
         }
+
 
         .animate-zoom-in {
             animation: zoomIn 0.2s ease-out;
