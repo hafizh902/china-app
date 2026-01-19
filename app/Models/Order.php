@@ -13,6 +13,12 @@ class Order extends Model
         'order_number',
         'status',
         'order_type',
+
+        'payment_method',
+        'payment_status',
+        'xendit_invoice_id',
+        'xendit_invoice_url',
+
         'delivery_address',
         'customer_name',
         'customer_email',
@@ -32,5 +38,21 @@ class Order extends Model
     public function items()
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function markAsPaid(): void
+    {
+        $this->update([
+            'payment_status' => 'paid',
+            'status' => 'processing',
+        ]);
+    }
+
+    public function markAsExpired(): void
+    {
+        $this->update([
+            'payment_status' => 'expired',
+            'status' => 'cancelled',
+        ]);
     }
 }

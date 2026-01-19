@@ -70,5 +70,10 @@ class Profile extends Component
         $user->sendEmailVerificationNotification();
 
         Session::flash('status', 'verification-link-sent');
+    
+    }
+    public function openPasswordModal(): void
+    {
+        $this->dispatch('open-reset-password-modal');
     }
 }

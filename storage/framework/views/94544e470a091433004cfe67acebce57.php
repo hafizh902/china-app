@@ -4,10 +4,10 @@
         <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,<svg width=\" 60\" height=\"30\" viewBox=\"0 0 60 30\" xmlns=\"http://www.w3.org/2000/svg\">
             <path d=\"M0 15Q15 0 30 15Q45 30 60 15\" stroke=\"%23fff\" fill=\"none\" /></svg>');">
         </div>
-        <h1 class="text-3xl font-serif font-black text-amber-400 tracking-[0.3em] uppercase relative z-10">Penyelesaian Pesanan</h1>
+        <h1 class="text-3xl font-serif font-black text-amber-400 tracking-[0.3em] uppercase relative z-10"><?php echo e(__('language.order_completion')); ?></h1>
         <div class="flex justify-center gap-4 mt-2 relative z-10">
             <span class="h-px w-12 bg-amber-400/50 self-center"></span>
-            <span class="text-red-100 text-[10px] uppercase tracking-[0.4em] font-bold">The Imperial Banquet</span>
+            <span class="text-red-100 text-[10px] uppercase tracking-[0.4em] font-bold"><?php echo e(__('language.imperial_banquet')); ?></span>
             <span class="h-px w-12 bg-amber-400/50 self-center"></span>
         </div>
     </div>
@@ -25,12 +25,13 @@
 
                     <h2 class="text-xl font-serif font-bold mb-8 flex items-center gap-3 text-stone-800">
                         <span class="w-8 h-8 bg-red-700 text-white rounded-lg flex items-center justify-center text-sm italic">1</span>
-                        Informasi Pengiriman
+                        <?php echo e(__('language.delivery_information')); ?>
+
                     </h2>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-2">Nama Depan</label>
+                            <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-2"><?php echo e(__('language.first_name')); ?></label>
                             <input type="text" wire:model.defer="firstName"
                                 class="w-full px-5 py-4 bg-stone-50 border-none rounded-2xl focus:ring-2 focus:ring-red-700 transition-all placeholder:text-stone-300 text-sm font-bold <?php $__errorArgs = ['firstName'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -40,10 +41,10 @@ $message = $__bag->first($__errorArgs[0]); ?> ring-2 ring-red-500 <?php unset($m
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>"
-                                placeholder="Contoh: Budi">
+                                placeholder="Example: John">
                         </div>
                         <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-2">Nama Belakang</label>
+                            <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-2"><?php echo e(__('language.last_name')); ?></label>
                             <input type="text" wire:model.defer="lastName"
                                 class="w-full px-5 py-4 bg-stone-50 border-none rounded-2xl focus:ring-2 focus:ring-red-700 transition-all placeholder:text-stone-300 text-sm font-bold <?php $__errorArgs = ['lastName'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -53,10 +54,10 @@ $message = $__bag->first($__errorArgs[0]); ?> ring-2 ring-red-500 <?php unset($m
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>"
-                                placeholder="Contoh: Santoso">
+                                placeholder="Example: Doe">
                         </div>
                         <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-2">Email Perjamuan</label>
+                            <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-2"><?php echo e(__('language.banquet_email')); ?></label>
                             <input type="email" wire:model.defer="email"
                                 class="w-full px-5 py-4 bg-stone-50 border-none rounded-2xl focus:ring-2 focus:ring-red-700 transition-all placeholder:text-stone-300 text-sm font-bold <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -66,10 +67,10 @@ $message = $__bag->first($__errorArgs[0]); ?> ring-2 ring-red-500 <?php unset($m
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>"
-                                placeholder="budi@email.com">
+                                placeholder="JohnDoe@email.com">
                         </div>
                         <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-2">Nomor Telepon</label>
+                            <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-2"><?php echo e(__('language.phone_number')); ?></label>
                             <div class="flex gap-2">
                                 <select wire:model="phoneCode" class="bg-stone-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-red-700">
                                     <option value="+62">+62</option>
@@ -95,7 +96,7 @@ unset($__errorArgs, $__bag); ?>"
                             <div class="p-4 border-2 border-stone-100 rounded-2xl peer-checked:border-red-700 peer-checked:bg-red-50 transition-all group-hover:bg-stone-50">
                                 <div class="flex items-center gap-3">
                                     <i class="fas fa-motorcycle text-stone-400"></i>
-                                    <span class="text-sm font-bold text-stone-600">Antar ke Alamat</span>
+                                    <span class="text-sm font-bold text-stone-600"><?php echo e(__('language.delivery')); ?></span>
                                 </div>
                             </div>
                         </label>
@@ -104,7 +105,7 @@ unset($__errorArgs, $__bag); ?>"
                             <div class="p-4 border-2 border-stone-100 rounded-2xl peer-checked:border-red-700 peer-checked:bg-red-50 transition-all group-hover:bg-stone-50">
                                 <div class="flex items-center gap-3">
                                     <i class="fas fa-store text-stone-400"></i>
-                                    <span class="text-sm font-bold text-stone-600">Ambil Sendiri</span>
+                                    <span class="text-sm font-bold text-stone-600"><?php echo e(__('language.pickup')); ?></span>
                                 </div>
                             </div>
                         </label>
@@ -112,7 +113,7 @@ unset($__errorArgs, $__bag); ?>"
 
                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($orderType === 'delivery'): ?>
                     <div class="mt-6 space-y-2 animate-fade-in-down">
-                        <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-2">Alamat Lengkap Kediaman</label>
+                        <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-2"><?php echo e(__('language.full_address')); ?></label>
                         <textarea wire:model.defer="address" rows="3"
                             class="w-full px-5 py-4 bg-stone-50 border-none rounded-2xl focus:ring-2 focus:ring-red-700 transition-all text-sm font-bold"
                             placeholder="Jl. Naga Emas No. 88, Cluster Jade..."></textarea>
@@ -120,10 +121,10 @@ unset($__errorArgs, $__bag); ?>"
                     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
                     <div class="mt-6 space-y-2">
-                        <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-2">Catatan Khusus (Opsional)</label>
+                        <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-2"><?php echo e(__('language.special_notes')); ?></label>
                         <textarea wire:model="instructions" rows="2"
                             class="w-full px-5 py-4 bg-stone-50 border-none rounded-2xl focus:ring-2 focus:ring-red-700 transition-all text-sm font-bold italic"
-                            placeholder="Contoh: Kurangi micin, ekstra sambal..."></textarea>
+                            placeholder="Example: Reduce MSG, add extra chili sauce..."></textarea>
                     </div>
                 </div>
 
@@ -131,7 +132,8 @@ unset($__errorArgs, $__bag); ?>"
                 <div class="bg-white rounded-[2rem] shadow-sm border border-amber-100 p-8">
                     <h2 class="text-xl font-serif font-bold mb-8 flex items-center gap-3 text-stone-800">
                         <span class="w-8 h-8 bg-red-700 text-white rounded-lg flex items-center justify-center text-sm italic">2</span>
-                        Metode Pembayaran
+                        <?php echo e(__('language.payment_method')); ?>
+
                     </h2>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -139,16 +141,24 @@ unset($__errorArgs, $__bag); ?>"
                             <input type="radio" wire:model="payment" value="cash" class="hidden peer">
                             <div class="p-6 border-2 border-stone-100 rounded-2xl peer-checked:border-red-700 peer-checked:bg-red-50 transition-all">
                                 <i class="fas fa-money-bill-wave text-2xl text-stone-300 peer-checked:text-red-700 mb-3 block"></i>
-                                <p class="text-sm font-bold text-stone-800 uppercase tracking-tighter">Tunai / COD</p>
-                                <p class="text-[10px] text-stone-400 mt-1 uppercase">Bayar saat barang tiba</p>
+                                <p class="text-sm font-bold text-stone-800 uppercase tracking-tighter"><?php echo e(__('language.cash_cod')); ?></p>
+                                <p class="text-[10px] text-stone-400 mt-1 uppercase"><?php echo e(__('language.pay_on_arrival')); ?></p>
                             </div>
                         </label>
                         <label class="relative cursor-pointer group">
                             <input type="radio" wire:model="payment" value="card" class="hidden peer">
                             <div class="p-6 border-2 border-stone-100 rounded-2xl peer-checked:border-red-700 peer-checked:bg-red-50 transition-all">
                                 <i class="fas fa-credit-card text-2xl text-stone-300 peer-checked:text-red-700 mb-3 block"></i>
-                                <p class="text-sm font-bold text-stone-800 uppercase tracking-tighter">Kartu Kredit/Debit</p>
-                                <p class="text-[10px] text-stone-400 mt-1 uppercase">Transaksi instan & aman</p>
+                                <p class="text-sm font-bold text-stone-800 uppercase tracking-tighter"><?php echo e(__('language.card_payment')); ?></p>
+                                <p class="text-[10px] text-stone-400 mt-1 uppercase"><?php echo e(__('language.secure_payment')); ?></p>
+                            </div>
+                        </label>
+                        <label class="relative cursor-pointer group">
+                            <input type="radio" wire:model="payment" value="xendit" class="hidden peer">
+                            <div class="p-6 border-2 border-stone-100 rounded-2xl peer-checked:border-red-700 peer-checked:bg-red-50 transition-all">
+                                <i class="fas fa-qrcode text-2xl text-stone-300 peer-checked:text-red-700 mb-3 block"></i>
+                                <p class="text-sm font-bold text-stone-800 uppercase tracking-tighter">QRIS / E-Wallet</p>
+                                <p class="text-[10px] text-stone-400 mt-1 uppercase">Pembayaran Online</p>
                             </div>
                         </label>
                     </div>
@@ -162,7 +172,8 @@ unset($__errorArgs, $__bag); ?>"
                         <div class="absolute -right-10 -bottom-10 opacity-10 text-[12rem] font-serif italic pointer-events-none text-amber-400">福</div>
 
                         <h2 class="text-lg font-serif font-bold mb-6 tracking-widest uppercase flex items-center gap-3">
-                            Ringkasan Menu
+                            <?php echo e(__('language.order_summary')); ?>
+
                             <span class="h-px flex-1 bg-white/20"></span>
                         </h2>
 
@@ -171,7 +182,7 @@ unset($__errorArgs, $__bag); ?>"
                             <div class="flex justify-between items-start gap-4 animate-fade-in text-sm">
                                 <div class="flex-1">
                                     <p class="font-bold text-amber-50 leading-tight"><?php echo e($item['name']); ?></p>
-                                    <p class="text-[10px] text-stone-400 uppercase tracking-widest mt-1">Porsi × <?php echo e($item['quantity']); ?></p>
+                                    <p class="text-[10px] text-stone-400 uppercase tracking-widest mt-1"><?php echo e(__('language.portion')); ?> × <?php echo e($item['quantity']); ?></p>
                                 </div>
                                 <span class="font-mono text-xs text-amber-400">Rp<?php echo e(number_format($item['price'] * $item['quantity'], 0, ',', '.')); ?></span>
                             </div>
@@ -180,23 +191,23 @@ unset($__errorArgs, $__bag); ?>"
 
                         <div class="space-y-3 border-t border-white/10 pt-6">
                             <div class="flex justify-between text-xs text-stone-400 font-medium tracking-wide">
-                                <span>Subtotal</span>
+                                <span><?php echo e(__('language.subtotal')); ?></span>
                                 <span>Rp<?php echo e(number_format($subtotal, 0, ',', '.')); ?></span>
                             </div>
                             <div class="flex justify-between text-xs text-stone-400 font-medium tracking-wide">
-                                <span>Pajak Restoran</span>
+                                <span><?php echo e(__('language.restaurant_tax')); ?></span>
                                 <span>Rp<?php echo e(number_format($tax, 0, ',', '.')); ?></span>
                             </div>
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($deliveryFee > 0): ?>
                             <div class="flex justify-between text-xs text-amber-500 font-medium tracking-wide">
-                                <span>Biaya Pengiriman</span>
+                                <span><?php echo e(__('language.delivery_fee')); ?></span>
                                 <span>Rp<?php echo e(number_format($deliveryFee, 0, ',', '.')); ?></span>
                             </div>
                             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
                             <div class="pt-4 mt-4 border-t border-white/10 flex justify-between items-end">
                                 <div>
-                                    <p class="text-[10px] text-red-500 uppercase font-black tracking-widest mb-1">Total Bayar</p>
+                                    <p class="text-[10px] text-red-500 uppercase font-black tracking-widest mb-1"><?php echo e(__('language.total_payment')); ?></p>
                                     <p class="text-3xl font-serif font-black text-amber-400 tracking-tighter">
                                         Rp<?php echo e(number_format($total, 0, ',', '.')); ?>
 
@@ -211,7 +222,7 @@ unset($__errorArgs, $__bag); ?>"
                             class="w-full mt-10 bg-red-700 hover:bg-red-600 text-white py-5 rounded-2xl font-black uppercase tracking-[0.3em] text-[11px] transition-all active:scale-95 shadow-lg shadow-red-900/20 flex items-center justify-center gap-3 overflow-hidden relative group">
 
                             <div wire:loading.remove wire:target="placeOrder" class="flex items-center gap-3">
-                                <span>Selesaikan Pembayaran</span>
+                                <span><?php echo e(__('language.complete_payment')); ?></span>
                                 <i class="fas fa-dragon group-hover:translate-x-1 transition-transform"></i>
                             </div>
 
@@ -220,13 +231,14 @@ unset($__errorArgs, $__bag); ?>"
                                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
                                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                 </svg>
-                                <span>Memproses Pembayaran...</span>
+                                <span><?php echo e(__('language.processing_payment')); ?></span>
                             </div>
                         </button>
                     </div>
 
                     <p class="text-[10px] text-stone-400 text-center uppercase tracking-widest">
-                        <i class="fas fa-lock mr-1"></i> Terenkripsi & Aman
+                        <i class="fas fa-lock mr-1"></i> <?php echo e(__('language.secure_encrypted')); ?>
+
                     </p>
                 </div>
             </div>

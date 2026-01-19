@@ -6,6 +6,8 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\SystemConfig;
+use App\Services\Xendit\InvoiceService;
+
 
 class CheckoutPage extends Component
 {
@@ -51,22 +53,24 @@ class CheckoutPage extends Component
         }
 
         if (!Auth::check()) {
-            $this->dispatch('toast', message: 'Please log in to place an order.');
             return redirect()->route('login');
         }
 
         $config = SystemConfig::firstOrCreate([]);
-        
+
         $subtotal = collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']);
-        $taxPercent = $config->tax_percent / 100;
-        $tax = $subtotal * $taxPercent;
+        $tax = $subtotal * ($config->tax_percent / 100);
         $deliveryFee = $this->orderType === 'delivery' ? $config->delivery_fee : 0;
         $total = $subtotal + $tax + $deliveryFee;
 
-        $order = User::find(Auth::id())->orders()->create([
+        $order = Auth::user()->orders()->create([
             'order_number' => 'ORD-' . now()->format('Ymd') . rand(1000, 9999),
             'status' => 'pending',
             'order_type' => $this->orderType,
+
+            'payment_method' => $this->payment,
+            'payment_status' => 'pending',
+
             'delivery_address' => $this->orderType === 'delivery' ? $this->address : null,
             'customer_name' => $this->firstName . ' ' . $this->lastName,
             'customer_email' => $this->email,
@@ -80,24 +84,44 @@ class CheckoutPage extends Component
 
         foreach ($cart as $item) {
             $order->items()->create([
-                'menu_id'    => $item['id'],
-                'menu_name'  => $item['name'],
+                'menu_id' => $item['id'],
+                'menu_name' => $item['name'],
                 'menu_price' => $item['price'],
-                'quantity'   => $item['quantity'],
-                'subtotal'   => $item['price'] * $item['quantity'],
+                'quantity' => $item['quantity'],
+                'subtotal' => $item['price'] * $item['quantity'],
             ]);
         }
 
         session()->forget('cart');
-        session()->flash('order_success', 'Your order has been placed successfully!');
+
+        // === PAYMENT FLOW ===
+        if ($this->payment === 'xendit') {
+
+            $invoice = InvoiceService::create($order);
+
+            $order->update([
+                'xendit_invoice_id' => $invoice->getId(),
+                'xendit_invoice_url' => $invoice->getInvoiceUrl(),
+            ]);
+
+            return redirect()->away($invoice->getInvoiceUrl());
+        }
+
+        // CASH / COD
+        $order->update([
+            'payment_status' => 'paid',
+            'status' => 'preparing',
+        ]);
+
         return redirect()->route('orders');
     }
+
 
     public function render()
     {
         $cart = session()->get('cart', []);
         $config = SystemConfig::firstOrCreate([]);
-        
+
         $subtotal = collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']);
         $taxPercent = $config->tax_percent / 100;
         $tax = $subtotal * $taxPercent;

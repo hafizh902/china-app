@@ -25,7 +25,7 @@
 
                     <h2 class="text-xl font-serif font-bold mb-8 flex items-center gap-3 text-stone-800">
                         <span class="w-8 h-8 bg-red-700 text-white rounded-lg flex items-center justify-center text-sm italic">1</span>
-                    <?php echo e(__('language.delivery_information')); ?>
+                        <?php echo e(__('language.delivery_information')); ?>
 
                     </h2>
 
@@ -153,6 +153,14 @@ unset($__errorArgs, $__bag); ?>"
                                 <p class="text-[10px] text-stone-400 mt-1 uppercase"><?php echo e(__('language.secure_payment')); ?></p>
                             </div>
                         </label>
+                        <label class="relative cursor-pointer group">
+                            <input type="radio" wire:model="payment" value="xendit" class="hidden peer">
+                            <div class="p-6 border-2 border-stone-100 rounded-2xl peer-checked:border-red-700 peer-checked:bg-red-50 transition-all">
+                                <i class="fas fa-qrcode text-2xl text-stone-300 peer-checked:text-red-700 mb-3 block"></i>
+                                <p class="text-sm font-bold text-stone-800 uppercase tracking-tighter">QRIS / E-Wallet</p>
+                                <p class="text-[10px] text-stone-400 mt-1 uppercase">Pembayaran Online</p>
+                            </div>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -164,7 +172,7 @@ unset($__errorArgs, $__bag); ?>"
                         <div class="absolute -right-10 -bottom-10 opacity-10 text-[12rem] font-serif italic pointer-events-none text-amber-400">福</div>
 
                         <h2 class="text-lg font-serif font-bold mb-6 tracking-widest uppercase flex items-center gap-3">
-                           <?php echo e(__('language.order_summary')); ?>
+                            <?php echo e(__('language.order_summary')); ?>
 
                             <span class="h-px flex-1 bg-white/20"></span>
                         </h2>
