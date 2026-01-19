@@ -44,18 +44,25 @@ class LoginModal extends Component
             'password' => 'required|min:6',
         ]);
 
-        if (Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
+        if (Auth::attempt(
+            ['email' => $this->email, 'password' => $this->password],
+            $this->remember
+        )) {
+            request()->session()->invalidate();
+            request()->session()->regenerateToken();
+            request()->session()->regenerate();
+
             $this->closeModal();
 
-            // Dispatch success alert
             $this->dispatch('alert', [
                 'type' => 'success',
-                'message' => 'Selamat datang kembali, ' . Auth::user()->name . '! Semoga hari Anda menyenangkan.',
-                'title' => 'Login Berhasil'
+                'title' => 'Login Berhasil',
+                'message' => 'Selamat datang kembali, ' . Auth::user()->name . '!'
             ]);
 
-            return redirect('/');
+            return redirect()->intended('/');
         }
+
 
         $this->addError('email', 'Email atau password salah.');
     }
