@@ -59,82 +59,76 @@ class RegisterModal extends Component
         if ($this->step !== 3) {
             return;
         }
-
+    
         $this->validate([
             'name' => 'required|min:3',
-            'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8|confirmed',
         ]);
-
+    
         $user = User::create([
             'name' => $this->name,
             'email' => $this->email,
             'password' => Hash::make($this->password),
         ]);
 
-        // Kalau email langsung dianggap valid
         $user->markEmailAsVerified();
-
+    
         event(new Registered($user));
-
-        // Login + segarkan session (INI INTINYA)
+    
         Auth::login($user);
-
-        request()->session()->invalidate();
-        request()->session()->regenerateToken();
-        request()->session()->regenerate();
+    
         $this->closeModal();
-
+    
         $this->dispatch('alert', [
             'type' => 'success',
             'title' => 'Pendaftaran Berhasil',
             'message' => 'Terima kasih telah bergabung, ' . $user->name . '!',
         ]);
-
-        return redirect()->intended('/');
+    
+        return redirect('/');
     }
-
+    
     /* ================= STEP 1 ================= */
     public function sendVerificationCode()
     {
         $this->validate([
             'email' => 'required|email',
         ]);
-
+    
         $this->generated_code = rand(100000, 999999);
-
+    
         session([
             'register_otp' => $this->generated_code,
             'register_email' => $this->email,
             'register_otp_expires_at' => now()->addMinutes(10),
         ]);
-
+    
         Mail::to($this->email)->send(
             new VerifyEmailOtpMail($this->generated_code)
         );
-
+    
         $this->step = 2; // ⬅️ WAJIB
     }
+    
 
-
-    /* ================= STEP 2 ================= */
-    public function verifyCode()
-    {
-        $this->validate([
-            'verification_code' => 'required',
-        ]);
-
-        if (
-            session('register_otp') != $this->verification_code ||
-            now()->greaterThan(session('register_otp_expires_at'))
-        ) {
-            $this->addError('verification_code', 'Kode verifikasi tidak valid atau kadaluarsa.');
-            return;
-        }
-
-        $this->step = 3; // ⬅️ PINDAH KE FORM USER + PASSWORD
-    }
-
+ /* ================= STEP 2 ================= */
+ public function verifyCode()
+ {
+     $this->validate([
+         'verification_code' => 'required',
+     ]);
+ 
+     if (
+         session('register_otp') != $this->verification_code ||
+         now()->greaterThan(session('register_otp_expires_at'))
+     ) {
+         $this->addError('verification_code', 'Kode verifikasi tidak valid atau kadaluarsa.');
+         return;
+     }
+ 
+     $this->step = 3; // ⬅️ PINDAH KE FORM USER + PASSWORD
+ }
+ 
 
 
     public function render()
