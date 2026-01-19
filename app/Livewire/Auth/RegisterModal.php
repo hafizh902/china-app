@@ -79,7 +79,7 @@ class RegisterModal extends Component
         session()->regenerate();
 
         $this->closeModal();
-
+    
         $this->dispatch('alert', [
             'type' => 'success',
             'title' => 'Pendaftaran Berhasil',
