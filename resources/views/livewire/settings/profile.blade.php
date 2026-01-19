@@ -46,17 +46,17 @@
                                 placeholder="Masukkan nama lengkap" />
                         </div>
                         {{-- Input Email --}}
-                        <div class="space-y-2">
+                        {{-- <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">Email
                                 Address</label>
                             <flux:input wire:model="email" type="email" required
                                 style="--flux-input-placeholder: #78716c; opacity: 1 !important;"
                                 class="w-full !bg-stone-100 !border-stone-200 shadow-inner focus:!bg-white focus:!border-red-600 focus:!ring-red-600 rounded-2xl transition-all duration-300 font-bold text-stone-800 py-3.5"
                                 placeholder="alamat@email.com" />
-                        </div>
+                        </div> --}}
 
                         {{-- Info Box --}}
-                        @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !auth()->user()->hasVerifiedEmail())
+                        {{-- @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !auth()->user()->hasVerifiedEmail())
                             <div class="p-4 bg-amber-50/50 rounded-2xl border border-amber-100 flex items-center gap-4">
                                 <div
                                     class="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-red-600 border border-amber-100">
@@ -72,7 +72,7 @@
                                     </button>
                                 </div>
                             </div>
-                        @endif
+                        @endif --}}
 
                         {{-- Footer Action --}}
                         <div class="flex items-center justify-between pt-8 border-t border-stone-100">
