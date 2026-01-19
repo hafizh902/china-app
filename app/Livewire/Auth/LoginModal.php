@@ -11,6 +11,7 @@ class LoginModal extends Component
     public $password;
     public $remember = false;
     public $showModal = false;
+    public $isSubmitting = false;
 
     protected $rules = [
         'email' => 'required|string|email',
@@ -28,7 +29,7 @@ class LoginModal extends Component
     {
         $this->showModal = false;
         $this->resetValidation();
-        $this->reset(['email', 'password', 'remember']);
+        $this->reset(['email', 'password', 'remember', 'isSubmitting']);
     }
 
     protected $listeners = [
@@ -39,12 +40,15 @@ class LoginModal extends Component
 
     public function login()
     {
+        $this->isSubmitting = true;
+
         $this->validate([
             'email' => 'required|email',
             'password' => 'required|min:6',
         ]);
 
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
+            session()->regenerate();
             $this->closeModal();
 
             // Dispatch success alert
@@ -54,9 +58,10 @@ class LoginModal extends Component
                 'title' => 'Login Berhasil'
             ]);
 
-            return redirect('/');
+            return $this->redirect('/', navigate: true);
         }
 
+        $this->isSubmitting = false;
         $this->addError('email', 'Email atau password salah.');
     }
 

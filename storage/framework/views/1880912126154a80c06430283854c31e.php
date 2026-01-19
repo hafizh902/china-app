@@ -48,6 +48,7 @@
             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
             <form wire:submit.prevent="login" novalidate class="space-y-4">
+                <?php echo csrf_field(); ?>
                 <div class="grid grid-cols-1 gap-1">
                     <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1"><?php echo e(__('language.email_label')); ?></label>
                     <div class="relative">
