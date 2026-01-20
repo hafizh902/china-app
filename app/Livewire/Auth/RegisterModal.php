@@ -76,7 +76,8 @@ class RegisterModal extends Component
         event(new Registered($user));
     
         Auth::login($user);
-    
+        session()->regenerate();
+
         $this->closeModal();
     
         $this->dispatch('alert', [
@@ -84,8 +85,8 @@ class RegisterModal extends Component
             'title' => 'Pendaftaran Berhasil',
             'message' => 'Terima kasih telah bergabung, ' . $user->name . '!',
         ]);
-    
-        return redirect('/');
+
+        return $this->redirect('/', navigate: true);
     }
     
     /* ================= STEP 1 ================= */

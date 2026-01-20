@@ -107,4 +107,4 @@
         .animate-zoom-in { animation: zoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
         @keyframes zoom { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
     </style>
-</div><?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/auth/login-modal.blade.php ENDPATH**/ ?>
+</div><?php /**PATH D:\laragon\www\china-app\resources\views/livewire/auth/login-modal.blade.php ENDPATH**/ ?>

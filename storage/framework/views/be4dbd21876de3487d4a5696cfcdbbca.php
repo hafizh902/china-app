@@ -1,5 +1,5 @@
 <div id="register-modal" class="fixed inset-0 z-[9999] overflow-y-auto flex items-center justify-center p-4"
-    style="display: {{ $showModal ? 'flex' : 'none' }}; background-color: rgba(0, 0, 0, {{ $showModal ? '0.6' : '0' }}); backdrop-filter: blur(4px);"
+    style="display: <?php echo e($showModal ? 'flex' : 'none'); ?>; background-color: rgba(0, 0, 0, <?php echo e($showModal ? '0.6' : '0'); ?>); backdrop-filter: blur(4px);"
     @click.self="$wire.closeModal()" @keydown.escape="$wire.closeModal()">
 
     <div class="relative w-full max-w-md bg-white rounded-[2.5rem] shadow-2xl overflow-hidden shadow-red-900/20">
@@ -20,30 +20,33 @@
                     <i class="fas fa-user-plus text-red-700 text-xl"></i>
                 </div>
                 <h2 class="text-xl font-bold text-white uppercase tracking-tight" style="font-family: 'Noto Sans SC', sans-serif;">
-                    {{ __('language.join_us') }}
+                    <?php echo e(__('language.join_us')); ?>
+
                 </h2>
                 <p class="text-yellow-100/80 text-[10px] uppercase tracking-widest font-medium">
-                    {{ __('language.register_title') }}
+                    <?php echo e(__('language.register_title')); ?>
+
                 </p>
             </div>
         </div>
 
         <div class="p-6 max-h-[60vh] overflow-y-auto custom-scrollbar">
-            @if ($errors->any())
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($errors->any()): ?>
                 <div class="mb-4 bg-red-50 border border-red-100 p-3 rounded-xl">
                     <ul class="text-[11px] text-red-700 space-y-0.5 font-medium italic">
-                        @foreach ($errors->all() as $error)
-                            <li>• {{ $error }}</li>
-                        @endforeach
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <li>• <?php echo e($error); ?></li>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     </ul>
                 </div>
-            @endif
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-            @if ($step === 1)
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($step === 1): ?>
                 <form wire:submit.prevent="sendVerificationCode" class="space-y-4">
                     <div>
                         <label class="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">
-                            {{ __('language.email_address') }}
+                            <?php echo e(__('language.email_address')); ?>
+
                         </label>
                         <div class="relative">
                             <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-red-500 text-sm"></i>
@@ -53,25 +56,27 @@
                         </div>
                         <button type="submit"
                             class="mt-4 w-full bg-red-700 hover:bg-stone-900 text-white font-black py-3.5 rounded-xl transition-all shadow-lg shadow-red-700/20 uppercase text-xs tracking-widest active:scale-95">
-                             {{ __('language.send_verification_code') }}
+                             <?php echo e(__('language.send_verification_code')); ?>
+
                         </button>
                     </div>
                 </form>
-            @endif
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-            {{-- Step 2 & 3: Berlakukan style input yang sama (py-3, rounded-xl, text-sm) --}}
-            @if ($step === 2)
+            
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($step === 2): ?>
                 <form wire:submit.prevent="verifyCode" class="space-y-4 text-center">
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{{ __('language.verification_code') }}</label>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2"><?php echo e(__('language.verification_code')); ?></label>
                     <input wire:model="verification_code" type="text"
                         class="w-full text-center tracking-[0.5em] text-xl py-3 bg-stone-50 border-2 border-stone-100 rounded-xl focus:border-red-500 focus:bg-white font-black">
                     <button type="submit" class="w-full bg-red-700 text-white font-black py-3.5 rounded-xl uppercase text-xs tracking-widest shadow-lg shadow-red-700/20 mt-2">
-                        {{ __('language.verify_code') }}
+                        <?php echo e(__('language.verify_code')); ?>
+
                     </button>
                 </form>
-            @endif
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-            @if ($step === 3)
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($step === 3): ?>
                 <form wire:submit.prevent="register" class="space-y-4">
                     <div class="grid gap-4">
                         <input wire:model="name" type="text" placeholder="Full Name" class="w-full py-3 px-4 bg-stone-50 border-2 border-stone-100 rounded-xl focus:border-red-500 text-sm font-bold">
@@ -79,17 +84,20 @@
                         <input wire:model="password_confirmation" type="password" placeholder="Confirm" class="w-full py-3 px-4 bg-stone-50 border-2 border-stone-100 rounded-xl focus:border-red-500 text-sm font-bold">
                     </div>
                     <button type="submit" class="w-full bg-gradient-to-r from-red-700 to-red-800 text-white font-black py-4 rounded-xl uppercase text-xs tracking-[0.2em] shadow-lg shadow-red-700/20 mt-2">
-                       {{ __('language.create_account') }}
+                       <?php echo e(__('language.create_account')); ?>
+
                     </button>
                 </form>
-            @endif
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
             <div class="mt-6 text-center border-t border-stone-100 pt-4">
                 <p class="text-[11px] text-gray-500 font-medium">
-                    {{ __('language.already_have_account') }}
+                    <?php echo e(__('language.already_have_account')); ?>
+
                     <button type="button" wire:click="$dispatch('close-register-modal'); $dispatch('open-login-modal');"
                         class="font-black text-red-700 hover:text-stone-900 transition-colors underline ml-1 uppercase">
-                       {{ __('language.login_here') }}
+                       <?php echo e(__('language.login_here')); ?>
+
                     </button>
                 </p>
             </div>
@@ -97,7 +105,8 @@
             <div class="mt-5 bg-stone-50 p-3 rounded-2xl border border-stone-100">
                 <div class="text-center">
                     <h4 class="text-[10px] font-black text-stone-800 mb-2 uppercase tracking-tighter italic">
-                        ✨ {{ __('language.join_benefits_title') }}
+                        ✨ <?php echo e(__('language.join_benefits_title')); ?>
+
                     </h4>
                     <div class="flex justify-around text-[9px] text-stone-500 font-bold uppercase tracking-tighter">
                         <span class="flex flex-col items-center gap-1"><i class="fas fa-utensils text-red-600"></i>Menu</span>
@@ -108,4 +117,4 @@
             </div>
         </div>
     </div>
-</div>
+</div><?php /**PATH D:\laragon\www\china-app\resources\views/livewire/auth/register-modal.blade.php ENDPATH**/ ?>

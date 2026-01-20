@@ -46,6 +46,7 @@
             @endif
 
             <form wire:submit.prevent="login" novalidate class="space-y-4">
+                @csrf
                 <div class="grid grid-cols-1 gap-1">
                     <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">{{ __('language.email_label') }}</label>
                     <div class="relative">

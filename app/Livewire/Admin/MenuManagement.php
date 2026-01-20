@@ -248,7 +248,7 @@ class MenuManagement extends Component
         };
 
         return view('livewire.Admin.menu-management', [
-            'items' => $query->paginate(10)->withQueryString(),
+            'items' => $query->paginate(8)->withQueryString(),
         ]);
     }
 }
