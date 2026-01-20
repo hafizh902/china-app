@@ -1,175 +1,110 @@
-<!-- Login Modal -->
-<div id="login-modal" class="fixed inset-0 z-[9999] overflow-y-auto flex items-center justify-center"
-    style="display: <?php echo e($showModal ? 'flex' : 'none'); ?>; background-color: rgba(0, 0, 0, <?php echo e($showModal ? '0.5' : '0'); ?>);"
+<div id="login-modal" class="fixed inset-0 z-[9999] overflow-y-auto flex items-center justify-center p-4"
+    style="display: <?php echo e($showModal ? 'flex' : 'none'); ?>; background-color: rgba(0, 0, 0, 0.6); backdrop-blur: 4px;"
     @click.self="$wire.closeModal()" @keydown.escape="$wire.closeModal()">
 
-    <!-- Modal Content -->
-    <div class="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden mx-4">
-
-        <!-- Chinese Pattern Header -->
-        <div class="relative bg-gradient-to-r from-red-600 via-red-700 to-red-800 p-8 text-center">
-            <!-- Decorative Chinese Pattern -->
-            <div class="absolute inset-0 opacity-10">
-                <div class="absolute top-4 left-4 text-yellow-400 text-6xl">🍜</div>
-                <div class="absolute top-2 right-8 text-yellow-400 text-4xl">🥢</div>
-                <div class="absolute bottom-4 left-8 text-yellow-400 text-5xl">🍲</div>
-                <div class="absolute bottom-2 right-4 text-yellow-400 text-3xl">🥟</div>
+    <div class="relative w-full max-w-4xl bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row animate-zoom-in">
+        
+        <div class="relative w-full md:w-5/12 bg-gradient-to-br from-red-600 via-red-700 to-red-800 p-10 flex flex-col items-center justify-center text-center">
+            <div class="absolute inset-0 opacity-10 pointer-events-none">
+                <div class="absolute top-10 left-10 text-yellow-400 text-4xl">🍜</div>
+                <div class="absolute bottom-10 right-10 text-yellow-400 text-4xl">🥟</div>
             </div>
 
-            <!-- Close Button -->
-            <button wire:click="closeModal"
-                class="absolute top-6 right-6 text-white hover:text-yellow-300 transition-colors z-20 bg-red-700 rounded-full w-10 h-10 flex items-center justify-center">
-                <i class="fas fa-times text-lg"></i>
-            </button>
-
-            <!-- Header Content -->
             <div class="relative z-10">
-                <div
-                    class="w-20 h-20 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg border-4 border-white">
-                    <i class="fas fa-user-circle text-red-600 text-3xl"></i>
+                <div class="w-24 h-24 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl border-4 border-white/20">
+                    <i class="fas fa-user-circle text-red-700 text-4xl"></i>
                 </div>
-                <h2 class="text-3xl font-bold text-white mb-2" style="font-family: 'Noto Sans SC', sans-serif;">
-                    欢迎回来
+                <h2 class="text-4xl font-bold text-white mb-3" style="font-family: 'Noto Sans SC', sans-serif;">
+                    <?php echo e(__('language.welcome_back')); ?>
+
                 </h2>
-                <p class="text-yellow-100 text-sm">
-                    Masuk & Nikmati Makanan China Terlezat!
+                <p class="text-yellow-100 text-sm leading-relaxed uppercase tracking-widest font-medium">
+                   <?php echo e(__('language.brand_tagline')); ?>
+
                 </p>
             </div>
         </div>
 
-        <!-- Form Content -->
-        <div class="p-8">
-            <!-- Validation Errors -->
+        <div class="w-full md:w-7/12 p-8 md:p-12 bg-white relative">
+            <button wire:click="closeModal"
+                class="absolute top-6 right-6 text-gray-400 hover:text-red-600 transition-colors z-20">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+
+            <div class="mb-8">
+                <h3 class="text-2xl font-black text-gray-800"><?php echo e(__('language.login_title')); ?></h3>
+                <p class="text-gray-500 text-sm"><?php echo e(__('language.login_subtitle')); ?></p>
+            </div>
+
             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($errors->any()): ?>
-                <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
-                    <div class="flex">
-                        <div class="flex-shrink-0">
-                            <i class="fas fa-exclamation-triangle text-red-500"></i>
-                        </div>
-                        <div class="ml-3">
-                            <ul class="text-sm text-red-700 space-y-1">
-                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <li>• <?php echo e($error); ?></li>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="mb-6 bg-red-50 border-r-4 border-red-500 p-3 rounded-xl flex items-start gap-3">
+                    <i class="fas fa-exclamation-circle text-red-500 mt-1"></i>
+                    <ul class="text-[11px] text-red-700 font-bold leading-tight uppercase">
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <li><?php echo e($error); ?></li>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                    </ul>
                 </div>
             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-            <!-- Login Form -->
-            <form wire:submit.prevent="login" novalidate class="space-y-6">
-                <!-- Email Field -->
-                <div class="relative">
-                    <label for="login-email" class="block text-sm font-semibold text-gray-700 mb-2">
-                        <i class="fas fa-envelope mr-2 text-red-500"></i>Email Address
-                    </label>
+            <form wire:submit.prevent="login" novalidate class="space-y-4">
+                <?php echo csrf_field(); ?>
+                <div class="grid grid-cols-1 gap-1">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1"><?php echo e(__('language.email_label')); ?></label>
                     <div class="relative">
-                        <input wire:model="email" id="login-email" type="email" autocomplete="email"
-                            wire:model.defer="email" autofocus
-                            class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-gray-50 focus:bg-white text-gray-900 placeholder-gray-500"
-                            placeholder="your@email.com">
-                        <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                            <i class="fas fa-envelope"></i>
-                        </div>
+                        <input wire:model.defer="email" type="email"
+                            class="w-full pl-12 pr-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-2xl focus:border-red-500 focus:ring-0 transition-all font-bold text-gray-800"
+                            placeholder="name@email.com">
+                        <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-300"></i>
                     </div>
-                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['email'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                        <p class="mt-1 text-sm text-red-600 flex items-center">
-                            <i class="fas fa-exclamation-circle mr-1"></i><?php echo e($message); ?>
-
-                        </p>
-                    <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 </div>
 
-                <!-- Password Field -->
-                <div class="relative">
-                    <label for="login-password" class="block text-sm font-semibold text-gray-700 mb-2">
-                        <i class="fas fa-lock mr-2 text-red-500"></i>Password
-                    </label>
+                <div class="grid grid-cols-1 gap-1">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1"><?php echo e(__('language.password_label')); ?></label>
                     <div class="relative">
-                        <input wire:model="password" id="login-password" type="password" autocomplete="current-password"
-                            wire:model.defer="password"
-                            class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-gray-50 focus:bg-white text-gray-900 placeholder-gray-500"
-                            placeholder="Masukkan password Anda">
-                        <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                            <i class="fas fa-lock"></i>
-                        </div>
+                        <input wire:model.defer="password" type="password"
+                            class="w-full pl-12 pr-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-2xl focus:border-red-500 focus:ring-0 transition-all font-bold text-gray-800"
+                            placeholder="••••••••">
+                        <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-300"></i>
                     </div>
-                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['password'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                        <p class="mt-1 text-sm text-red-600 flex items-center">
-                            <i class="fas fa-exclamation-circle mr-1"></i><?php echo e($message); ?>
-
-                        </p>
-                    <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 </div>
 
-                <!-- Remember Me -->
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <input wire:model="remember" id="remember_me" type="checkbox"
-                            class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded">
-                        <label for="remember_me" class="ml-2 block text-sm text-gray-700">
-                            Ingat saya
-                        </label>
-                    </div>
-
-                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(Route::has('password.request')): ?>
-                        <div class="text-sm">
-                            <!-- Menggunakan $dispatch untuk membuka modal reset password -->
-                            <a href="javascript:void(0);"
-                                wire:click="
-            $dispatch('close-login-modal'); 
-            $dispatch('open-reset-password-modal');"
-                                class="font-medium text-red-600 hover:text-red-500 transition-colors">
-                                Lupa password?
-                            </a>
-                        </div>
-                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-
-
-
+                <div class="flex items-center justify-between pb-4">
+                    <label class="flex items-center cursor-pointer group">
+                        <input wire:model="remember" type="checkbox" class="h-4 w-4 text-red-600 rounded border-gray-300 focus:ring-0">
+                        <span class="ml-2 text-xs font-bold text-gray-500 group-hover:text-gray-700"><?php echo e(__('language.remember_me')); ?></span>
+                    </label>
+                    <a href="javascript:void(0);" 
+                       wire:click="$dispatch('close-login-modal'); $dispatch('open-reset-password-modal');"
+                       class="text-xs font-bold text-red-600 hover:underline"><?php echo e(__('language.forgot_password')); ?></a>
                 </div>
 
-                <!-- Submit Button -->
-                <button type="submit" wire:loading.attr="disabled" wire:target="login"
-                    class="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed">
-                    <span wire:loading.remove wire:target="login">
-                        <i class="fas fa-sign-in-alt mr-2"></i>Masuk Sekarang
-                    </span>
+                <button type="submit" wire:loading.attr="disabled"
+                    class="w-full bg-red-700 hover:bg-red-800 text-white font-black py-4 rounded-2xl transition-all shadow-lg shadow-red-700/20 active:scale-95 flex items-center justify-center gap-3">
+                    <span wire:loading.remove wire:target="login" class="uppercase tracking-widest text-sm"><?php echo e(__('language.login_button')); ?></span>
+                    <span wire:loading wire:target="login" class="flex items-center gap-2">
+                        <i class="fas fa-circle-notch fa-spin"></i> <?php echo e(__('language.loading')); ?>
 
-                    <span wire:loading wire:target="login">
-                        <i class="fas fa-spinner fa-spin mr-2"></i>Sedang Masuk...
-                    </span>
+                </button>
+
+                
+                <div class="relative flex py-3 items-center">
+                    <div class="flex-grow border-t border-gray-100"></div>
+                    <span class="flex-shrink mx-4 text-[10px] font-bold text-gray-300 uppercase tracking-[0.2em]"><?php echo e(__('language.or')); ?></span>
+                    <div class="flex-grow border-t border-gray-100"></div>
+                </div>
+
+                
+                <button type="button" 
+                    wire:click="$dispatch('close-login-modal'); $dispatch('open-register-modal');"
+                    class="w-full bg-white border-2 border-stone-100 hover:border-red-700 text-stone-600 hover:text-red-700 font-black py-4 rounded-2xl transition-all active:scale-95 flex items-center justify-center gap-3">
+                    <span class="uppercase tracking-widest text-[11px]"><?php echo e(__('language.register_prompt')); ?></span>
                 </button>
             </form>
-
-            <!-- Chinese Food Benefits -->
-            <div class="mt-6 bg-gradient-to-r from-yellow-50 to-red-50 p-4 rounded-xl border border-yellow-200">
-                <div class="text-center">
-                    <h4 class="text-sm font-semibold text-gray-800 mb-2"
-                        style="font-family: 'Noto Sans SC', sans-serif;">
-                        🍜 Selamat Datang Kembali!
-                    </h4>
-                    <p class="text-xs text-gray-600">
-                        Nikmati berbagai menu Chinese food autentik dengan cita rasa terbaik
-                    </p>
-                </div>
-            </div>
         </div>
     </div>
-</div>
-<?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/auth/login-modal.blade.php ENDPATH**/ ?>
+    <style>
+        .animate-zoom-in { animation: zoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes zoom { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+    </style>
+</div><?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/livewire/auth/login-modal.blade.php ENDPATH**/ ?>

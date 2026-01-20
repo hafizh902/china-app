@@ -9,8 +9,6 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-
     --color-zinc-50: #fafafa;
     --color-zinc-100: #f5f5f5;
     --color-zinc-200: #e5e5e5;
@@ -44,6 +42,29 @@
     ::backdrop,
     ::file-selector-button {
         border-color: var(--color-gray-200, currentColor);
+    }
+}
+
+@layer components {
+    /* Memaksa placeholder agar tidak transparan/mati */
+    [data-flux-control]::placeholder {
+        color: #78716c !important; /* Warna stone-500 */
+        opacity: 1 !important;
+        -webkit-text-fill-color: #78716c !important;
+    }
+
+    /* Memastikan input yang tidak aktif tetap punya kontras tinggi */
+    [data-flux-control] {
+        background-color: #f5f5f4 !important; /* stone-100 */
+        border-color: #e7e5e4 !important;     /* stone-200 */
+        color: #1c1917 !important;           /* stone-900 */
+    }
+
+    /* Override focus agar mengikuti tema merah Anda, bukan ring-accent di app.css */
+    [data-flux-control]:focus {
+        background-color: white !important;
+        border-color: #b91c1c !important;     /* red-700 */
+        box-shadow: 0 0 0 1px #b91c1c !important;
     }
 }
 

@@ -1,124 +1,158 @@
-{{-- resources/views/livewire/settings/profile.blade.php --}}
-
-<section class="w-full bg-white **:min-h-screen">
+<section class="w-full bg-[#fdfcf8] min-h-screen pb-20">
     @include('partials.settings-heading')
 
     <flux:heading class="sr-only">{{ __('Profile Settings') }}</flux:heading>
 
-    {{-- Kontainer Utama dengan Lebar Maksimum dan Tengah --}}
-    <div class="max-w-5xl mx-auto my-8 px-4 sm:px-6 lg:px-8">
-        
-        {{-- KARTU UTAMA: Informasi Profil --}}
-        <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8">
-            
-            {{-- Header Kartu dengan Latar Merah --}}
-            <div class="bg-gradient-to-r from-red-700 to-red-600 p-6">
-                <div class="flex items-center">
-                    <div class="p-3 bg-white/20 backdrop-blur-sm rounded-xl mr-4">
-                        <svg class="w-7 h-7 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-                        </svg>
+    <div class="max-w-3xl mx-auto mt-10 px-4 space-y-8">
+
+        {{-- KARTU UTAMA: PROFILE INFORMATION --}}
+        <div
+            class="group bg-white rounded-[2.5rem] shadow-sm hover:shadow-xl hover:shadow-red-900/5 border border-stone-100 transition-all duration-500 overflow-hidden">
+
+            {{-- Header dengan Aksen Gradien --}}
+            <div class="relative bg-gradient-to-r from-stone-900 to-stone-800 p-8">
+                {{-- Ornamen Latar Belakang --}}
+                <div class="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
+                    <div class="absolute -right-4 -top-4 text-white text-6xl rotate-12 uppercase font-black italic">
+                        Profile</div>
+                </div>
+
+                <div class="relative z-10 flex items-center gap-5">
+                    <div
+                        class="w-14 h-14 bg-amber-400 rounded-2xl flex items-center justify-center shadow-lg shadow-amber-400/20 transform -rotate-3 group-hover:rotate-0 transition-transform duration-500">
+                        <i class="fas fa-user-edit text-2xl text-red-800"></i>
                     </div>
                     <div>
-                        <h2 class="text-2xl font-bold text-white">Informasi Profil</h2>
-                        <p class="text-red-100">Kelola identitas Anda di platform kami.</p>
+                        <h2 class="text-2xl font-serif font-bold text-white tracking-tight uppercase italic">
+                            {{ __('Profile Information') }}
+                        </h2>
+                        <p class="text-[10px] text-amber-200 uppercase tracking-[0.3em] font-black opacity-80">Personal
+                            Details</p>
                     </div>
                 </div>
             </div>
 
-            {{-- Isi Kartu Profil --}}
-            <div class="p-8">
-                <form wire:submit="updateProfileInformation" class="space-y-6">
-                    {{-- Input Nama --}}
-                    <div>
-                        <flux:input 
-                            wire:model="name" 
-                            :label="__('Name')" 
-                            type="text" 
-                            required 
-                            autofocus 
-                            autocomplete="name" 
-                            class="w-full text-lg"
-                            style="--tw-ring-color: rgb(185 28 28);" // Custom ring color for focus
-                        />
-                    </div>
+            <div class="p-8 md:p-10">
+                <form wire:submit="updateProfileInformation" class="space-y-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-                    {{-- Input Email & Notifikasi --}}
-                    <div>
-                        <flux:input 
-                            wire:model="email" 
-                            :label="__('Email')" 
-                            type="email" 
-                            required 
-                            autocomplete="email" 
-                            class="w-full text-lg"
-                            style="--tw-ring-color: rgb(185 28 28);"
-                        />
+                        {{-- Input Nama --}}
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">Full
+                                Name</label>
+                            <flux:input wire:model="name" type="text" required {{-- Gunakan style untuk memaksa warna placeholder --}}
+                                style="--flux-input-placeholder: #78716c; opacity: 1 !important;"
+                                class="w-full !bg-stone-100 !border-stone-200 shadow-inner focus:!bg-white focus:!border-red-600 focus:!ring-red-600 rounded-2xl transition-all duration-300 font-bold text-stone-800 py-3.5"
+                                placeholder="Masukkan nama lengkap" />
+                        </div>
+                        {{-- Input Email --}}
+                        {{-- <div class="space-y-2">
+                            <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 ml-1">Email
+                                Address</label>
+                            <flux:input wire:model="email" type="email" required
+                                style="--flux-input-placeholder: #78716c; opacity: 1 !important;"
+                                class="w-full !bg-stone-100 !border-stone-200 shadow-inner focus:!bg-white focus:!border-red-600 focus:!ring-red-600 rounded-2xl transition-all duration-300 font-bold text-stone-800 py-3.5"
+                                placeholder="alamat@email.com" />
+                        </div> --}}
 
-                        {{-- Notifikasi Verifikasi Email --}}
-                        @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! auth()->user()->hasVerifiedEmail())
-                            <div class="mt-4 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded-md">
-                                <div class="flex">
-                                    <div class="flex-shrink-0">
-                                        <svg class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-                                        </svg>
-                                    </div>
-                                    <div class="ml-3">
-                                        <p class="text-sm text-yellow-700">
-                                            {{ __('Your email address is unverified.') }}
-                                            <flux:link class="font-semibold cursor-pointer underline" wire:click.prevent="resendVerificationNotification">
-                                                {{ __('Click here to re-send the verification email.') }}
-                                            </flux:link>
-                                        </p>
-                                        @if (session('status') === 'verification-link-sent')
-                                            <p class="mt-2 text-sm text-green-600 font-medium">
-                                                {{ __('A new verification link has been sent to your email address.') }}
-                                            </p>
-                                        @endif
-                                    </div>
+                        {{-- Info Box --}}
+                        {{-- @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !auth()->user()->hasVerifiedEmail())
+                            <div class="p-4 bg-amber-50/50 rounded-2xl border border-amber-100 flex items-center gap-4">
+                                <div
+                                    class="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-red-600 border border-amber-100">
+                                    <i class="fas fa-envelope-open-text text-sm"></i>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span
+                                        class="text-[9px] font-black text-amber-800 uppercase tracking-tighter">Verification
+                                        Required</span>
+                                    <button wire:click.prevent="resendVerificationNotification"
+                                        class="text-xs text-red-700 font-black hover:text-red-800 underline decoration-red-200 underline-offset-4 tracking-tight uppercase transition-colors">
+                                        {{ __('Resend Verification Email') }}
+                                    </button>
                                 </div>
                             </div>
-                        @endif
-                    </div>
+                        @endif --}}
 
-                    {{-- Tombol Simpan dan Pesan Sukses --}}
-                    <div class="flex items-center justify-between pt-6 border-t border-gray-200 dark:border-gray-700">
-                        <x-action-message class="text-sm font-medium text-green-600 dark:text-green-400" on="profile-updated">
-                            {{ __('Saved.') }}
-                        </x-action-message>
-                        <flux:button variant="primary" type="submit" class="bg-red-700 hover:bg-red-800 font-semibold py-3 px-8 rounded-lg transition-colors">
-                            {{ __('Save Changes') }}
-                        </flux:button>
-                    </div>
+                        {{-- Footer Action --}}
+                        <div class="flex items-center justify-between pt-8 border-t border-stone-100">
+                            <x-action-message
+                                class="text-[10px] font-black text-green-600 flex items-center gap-2 uppercase tracking-[0.2em]"
+                                on="profile-updated">
+                                <div class="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-check text-[8px]"></i>
+                                </div>
+                                {{ __('Saved') }}
+                            </x-action-message>
+
+                            <button type="submit"
+                                class="group relative overflow-hidden bg-red-700 hover:bg-stone-900 text-white font-black py-4 px-10 rounded-2xl transition-all duration-500 shadow-xl shadow-red-700/20 active:scale-95 text-[10px] tracking-[0.2em] uppercase">
+                                <span class="relative z-10 flex items-center gap-3">
+                                    <i class="fas fa-save opacity-50"></i> {{ __('Update Profile') }}
+                                </span>
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]">
+                                </div>
+                            </button>
+                        </div>
                 </form>
             </div>
         </div>
 
-        {{-- KARTU PERINGATAN: Hapus Akun --}}
-        <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-red-200 dark:border-red-900 overflow-hidden">
-            
-            {{-- Header Kartu dengan Latar Merah Muda --}}
-            <div class="bg-red-50 dark:bg-red-950/50 p-6 border-b border-red-200 dark:border-red-900">
-                <div class="flex items-center">
-                    <div class="p-2 bg-red-100 dark:bg-red-900/50 rounded-lg mr-3">
-                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-                        </svg>
+        {{-- SEKSI KEAMANAN --}}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {{-- KARTU: Ubah Password --}}
+            <div
+                class="bg-white rounded-[2rem] shadow-sm border border-stone-100 p-8 flex flex-col justify-between hover:shadow-lg transition-all duration-500 group">
+                <div class="flex items-start gap-4 mb-8">
+                    <div
+                        class="p-4 bg-red-50 rounded-2xl border border-red-100 group-hover:bg-red-700 group-hover:text-white transition-colors duration-500 text-red-700">
+                        <i class="fas fa-shield-alt text-2xl"></i>
                     </div>
-                    <h3 class="text-lg font-bold text-red-800 dark:text-red-400">Hapus Akun</h3>
+                    <div>
+                        <h2 class="text-lg font-serif font-bold text-stone-800 tracking-tight leading-none mb-2">
+                            {{ __('Security') }}
+                        </h2>
+                        <p class="text-[10px] text-stone-400 font-medium italic">
+                            Update your account password regularly.</p>
+                    </div>
+                </div>
+
+                <button wire:click="openPasswordModal"
+                    class="w-full bg-stone-100 hover:bg-amber-400 text-stone-600 hover:text-red-900 font-black py-4 rounded-2xl text-[10px] uppercase tracking-widest transition-all active:scale-95 shadow-sm">
+                    {{ __('Change Password') }}
+                </button>
+            </div>
+
+            {{-- DANGER ZONE --}}
+            <div class="bg-stone-50 rounded-[2rem] border border-stone-200 p-8 flex flex-col justify-between group">
+                <div class="flex items-start gap-4 mb-8 text-stone-400">
+                    <div
+                        class="p-4 bg-stone-200/50 rounded-2xl border border-stone-200 group-hover:bg-red-100 group-hover:text-red-600 transition-colors duration-500">
+                        <i class="fas fa-trash-alt text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2
+                            class="text-lg font-serif font-bold text-stone-600 group-hover:text-red-800 transition-colors duration-500 tracking-tight leading-none mb-2">
+                            {{ __('Danger Zone') }}
+                        </h2>
+                        <p class="text-[10px] italic font-medium">
+                            Account data will be lost forever.</p>
+                    </div>
+                </div>
+
+                <div class="w-full">
+                    <livewire:settings.delete-user-form />
                 </div>
             </div>
-            
-            <div class="p-6">
-                <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
-                    Tindakan ini tidak dapat dibatalkan. Ini akan menghapus akun Anda secara permanent dan menghapus semua data Anda dari server kami.
-                </p>
-
-                {{-- Form Hapus Akun (Fungsionalitas Tidak Diubah) --}}
-                <livewire:settings.delete-user-form />
-            </div>
         </div>
-        
     </div>
+
+    <style>
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+    </style>
 </section>

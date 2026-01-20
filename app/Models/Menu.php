@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 // Model untuk menyimpan data menu makanan
 class Menu extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -35,6 +37,16 @@ class Menu extends Model
             . $this->image;
     }
 
+    public function getCategoryLabelAttribute(): string
+    {
+        return match ($this->category) {
+            'main_course' => 'Main Course',
+            'snacks' => 'Side Dish',
+            'drinks' => 'Drink',
+            'desserts' => 'Dessert',
+            default => '-',
+        };
+    }
 
     public function orderItems()
     {

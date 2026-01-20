@@ -4,7 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>China Street Food</title>
+    <title>{{ optional(\App\Models\SystemConfig::first())->brand_name ?? config('app.name') }}</title>
+    {{-- favicon dinamis --}}
+@php
+    $brandLogo = \App\Models\SystemConfig::value('brand_logo'); // simpan nama file di DB
+@endphp
+
+@if ($brandLogo)
+    <link rel="icon" href="https://bbbvjqzpktarmsblmblv.supabase.co/storage/v1/object/public/chinaon/{{ $brandLogo }}?v={{ time() }}">
+@endif
+
+
     <!-- Tailwind CSS dari CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome untuk icon -->
@@ -33,6 +43,11 @@
             }
         }
     </script>
+    <style>
+        [wire\:cloak] {
+            display: none !important;
+        }
+    </style>
     @livewireStyles
 </head>
 
@@ -40,23 +55,27 @@
     {{-- Navbar --}}
     <livewire:navbar />
     
+    
+
     <main class="relative overflow-visible">
         {{ $slot }}
     </main>
-    
+
     {{-- Modals --}}
     <livewire:auth.login-modal />
     <livewire:auth.register-modal />
     <livewire:auth.reset-password-modal />
     <livewire:logout-modal />
-    
+    <livewire:preview-modal />
+
+
     {{-- Alert --}}
     <livewire:alert-manager />
 
     {{-- LIVEWIRE SCRIPTS WAJIB --}}
     @fluxScripts
     @livewireScripts
-    <script>
+    <!-- <script>
         window.addEventListener('debug-modal', () => {
             console.log('Add New Item clicked')
         })
@@ -65,12 +84,15 @@
             Livewire.on('toast', (message) => {
                 // Tambahkan notifikasi toast sederhana
                 const toast = document.createElement('div');
-                toast.className = 'fixed top-4 right-4 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                toast.className =
+                    'fixed top-4 right-4 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg z-50';
                 toast.textContent = message;
                 document.body.appendChild(toast);
                 setTimeout(() => toast.remove(), 3000);
             });
         });
-    </script>
+    </script> -->
+
 </body>
+
 </html>

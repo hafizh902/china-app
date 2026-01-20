@@ -4,7 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>China Street Food</title>
+    <title><?php echo e(optional(\App\Models\SystemConfig::first())->brand_name ?? config('app.name')); ?></title>
+    
+<?php
+    $brandLogo = \App\Models\SystemConfig::value('brand_logo'); // simpan nama file di DB
+?>
+
+<?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($brandLogo): ?>
+    <link rel="icon" href="https://bbbvjqzpktarmsblmblv.supabase.co/storage/v1/object/public/chinaon/<?php echo e($brandLogo); ?>?v=<?php echo e(time()); ?>">
+<?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+
+
     <!-- Tailwind CSS dari CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome untuk icon -->
@@ -33,6 +43,11 @@
             }
         }
     </script>
+    <style>
+        [wire\:cloak] {
+            display: none !important;
+        }
+    </style>
     <?php echo \Livewire\Mechanisms\FrontendAssets\FrontendAssets::styles(); ?>
 
 </head>
@@ -60,11 +75,13 @@ unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
     
+    
+
     <main class="relative overflow-visible">
         <?php echo e($slot); ?>
 
     </main>
-    
+
     
     <?php
 $__split = function ($name, $params = []) {
@@ -146,7 +163,28 @@ unset($__params);
 unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
-    
+    <?php
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('preview-modal', []);
+
+$key = null;
+
+$key ??= \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::generateKey('lw-3246813348-5', null);
+
+$__html = app('livewire')->mount($__name, $__params, $key);
+
+echo $__html;
+
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
+
+
     
     <?php
 $__split = function ($name, $params = []) {
@@ -156,7 +194,7 @@ $__split = function ($name, $params = []) {
 
 $key = null;
 
-$key ??= \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::generateKey('lw-3246813348-5', null);
+$key ??= \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::generateKey('lw-3246813348-6', null);
 
 $__html = app('livewire')->mount($__name, $__params, $key);
 
@@ -175,7 +213,7 @@ if (isset($__slots)) unset($__slots);
 
     <?php echo \Livewire\Mechanisms\FrontendAssets\FrontendAssets::scripts(); ?>
 
-    <script>
+    <!-- <script>
         window.addEventListener('debug-modal', () => {
             console.log('Add New Item clicked')
         })
@@ -184,13 +222,15 @@ if (isset($__slots)) unset($__slots);
             Livewire.on('toast', (message) => {
                 // Tambahkan notifikasi toast sederhana
                 const toast = document.createElement('div');
-                toast.className = 'fixed top-4 right-4 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                toast.className =
+                    'fixed top-4 right-4 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg z-50';
                 toast.textContent = message;
                 document.body.appendChild(toast);
                 setTimeout(() => toast.remove(), 3000);
             });
         });
-    </script>
+    </script> -->
+
 </body>
-</html>
-<?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/components/layouts/app.blade.php ENDPATH**/ ?>
+
+</html><?php /**PATH D:\laragon\www\12PPLG\china-app\resources\views/components/layouts/app.blade.php ENDPATH**/ ?>

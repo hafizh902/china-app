@@ -3,36 +3,75 @@
         <div class="flex justify-between items-center h-16">
             <!-- Logo dan Brand -->
             <div class="flex items-center space-x-8">
-                <div class="flex items-center space-x-3">
-                    <div
-                        class="w-10 h-10 bg-gradient-to-br from-red-600 to-red-700 rounded-xl flex items-center justify-center shadow-lg">
-                        <i class="fas fa-bowl-food text-yellow-400 text-lg"></i>
+                <a href="/" class="flex items-center space-x-3 group transition-transform active:scale-95">
+                    
+                    <div class="w-12 h-12 flex items-center justify-center overflow-hidden transition-all duration-300">
+
+                        
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($brand_logo) && $brand_logo): ?>
+                            <img src="<?php echo e($brand_logo->temporaryUrl()); ?>" class="w-full h-full object-cover">
+                        <?php else: ?>
+                            
+                            <?php
+                                $dbLogo = \App\Models\SystemConfig::value('brand_logo');
+                            ?>
+
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($dbLogo): ?>
+                                <img src="https://bbbvjqzpktarmsblmblv.supabase.co/storage/v1/object/public/chinaon/<?php echo e($dbLogo); ?>?v=<?php echo e(time()); ?>"
+                                    class="w-full h-full object-cover">
+                            <?php else: ?>
+                                <div class="w-10 h-10 bg-red-700 rounded-xl flex items-center justify-center shadow-md">
+                                    <i class="fas fa-bowl-food text-yellow-400 text-lg"></i>
+                                </div>
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     </div>
-                    <h1 class="text-2xl font-bold bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent"
+
+                    
+                    <h1 class="text-2xl font-bold bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent group-hover:from-red-500 group-hover:to-red-600 transition-all duration-300"
                         style="font-family: 'Noto Sans SC', sans-serif;">
-                        金龍閣
+                        <?php echo e(\App\Models\SystemConfig::value('brand_name') ?? '金龍閣'); ?>
+
                     </h1>
-                </div>
+                </a>
 
                 <!-- Menu navigasi utama -->
                 <div class="hidden lg:flex space-x-1">
                     <a href="<?php echo e(route('home')); ?>"
                         class="px-4 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 font-medium transition-all duration-200 rounded-lg <?php echo e(request()->routeIs('home') ? 'text-red-600 bg-red-50' : ''); ?>">
-                        <i class="fas fa-home mr-2"></i>Home
+                        <i class="fas fa-home mr-2"></i><?php echo e(__('language.home')); ?>
+
                     </a>
                     <a href="<?php echo e(route('menu')); ?>"
                         class="px-4 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 font-medium transition-all duration-200 rounded-lg <?php echo e(request()->routeIs('menu') ? 'text-red-600 bg-red-50' : ''); ?>">
-                        <i class="fas fa-utensils mr-2"></i>Menu
+                        <i class="fas fa-utensils mr-2"></i><?php echo e(__('language.menu')); ?>
+
                     </a>
-                    <a href="<?php echo e(route('orders')); ?>"
-                        class="px-4 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 font-medium transition-all duration-200 rounded-lg <?php echo e(request()->routeIs('orders') ? 'text-red-600 bg-red-50' : ''); ?>">
-                        <i class="fas fa-shopping-bag mr-2"></i>Orders
-                    </a>
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->check()): ?>
+                        <a href="<?php echo e(route('orders')); ?>"
+                            class="px-4 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 font-medium transition-all duration-200 rounded-lg <?php echo e(request()->routeIs('orders') ? 'text-red-600 bg-red-50' : ''); ?>">
+                            <i class="fas fa-shopping-bag mr-2"></i><?php echo e(__('language.orders')); ?>
+
+                        </a>
+                        <a href="<?php echo e(route('reservation')); ?>"
+                            class="px-4 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 font-medium transition-all duration-200 rounded-lg <?php echo e(request()->routeIs('reservation') ? 'text-red-600 bg-red-50' : ''); ?>">
+                            <i class="fas fa-calendar-check mr-2"></i><?php echo e(__('language.reservations')); ?>
+
+                        </a>
+                    <?php else: ?>
+                        <button wire:click="openLoginModal" type="button"
+                            class="px-4 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 font-medium transition-all duration-200 rounded-lg">
+                            <i class="fas fa-shopping-bag mr-2"></i><?php echo e(__('language.orders')); ?>
+
+                        </button>
+                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+
                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->check()): ?>
                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->user()->role === 'admin'): ?>
                             <a href="<?php echo e(route('admin.dashboard')); ?>"
                                 class="px-4 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 font-medium transition-all duration-200 rounded-lg <?php echo e(request()->routeIs('admin.*') ? 'text-red-600 bg-red-50' : ''); ?>">
-                                <i class="fas fa-cog mr-2"></i>Admin
+                                <i class="fas fa-cog mr-2"></i><?php echo e(__('language.admin')); ?>
+
                             </a>
                         <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
@@ -41,18 +80,24 @@
 
             <!-- Bagian kanan navbar: Cart dan Authentication -->
             <div class="flex items-center space-x-4">
-                <div class="hidden md:block w-72">
-                    <div class="relative">
-                        <span
-                            class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 pointer-events-none">
-                            <i class="fas fa-search"></i>
-                        </span>
 
-                        <input type="text" placeholder="Search food..." wire:model.live.debounce.300ms="search"
-                            class="w-full pl-11 pr-4 py-2 text-sm bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition" />
-                    </div>
+                <!-- Language Switcher -->
+                <div class="flex items-center gap-1 font-medium">
+                    <button type="button" wire:click="setLanguage('en')" wire:loading.disable
+                        class="transition-colors
+        <?php echo e(app()->getLocale() === 'en' ? 'text-red-600 font-semibold' : 'text-gray-700 hover:text-red-600'); ?>">
+                        EN
+                    </button>
+
+                    <span class="text-gray-400">|</span>
+
+                    <button type="button" wire:click="setLanguage('cn')" wire:loading.disable
+                        class="transition-colors
+        <?php echo e(app()->getLocale() === 'cn' ? 'text-red-600 font-semibold' : 'text-gray-700 hover:text-red-600'); ?>">
+                        CN
+                    </button>
+
                 </div>
-
                 <!-- Cart Component -->
                 <?php
 $__split = function ($name, $params = []) {
@@ -116,14 +161,14 @@ if (isset($__slots)) unset($__slots);
                                 <a href="<?php echo e(route('user.settings')); ?>"
                                     class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
                                     <i class="fas fa-user-cog mr-3 text-gray-400"></i>
-                                    <span>Pengaturan</span>
+                                    <span><?php echo e(__('language.settings')); ?></span>
                                 </a>
 
                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->user()->role === 'admin'): ?>
                                     <a href="<?php echo e(route('admin.dashboard')); ?>"
                                         class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
                                         <i class="fas fa-cog mr-3 text-gray-400"></i>
-                                        <span>Admin Panel</span>
+                                        <span><?php echo e(__('language.admin_panel')); ?></span>
                                     </a>
                                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
@@ -132,10 +177,8 @@ if (isset($__slots)) unset($__slots);
                                 <button type="button" wire:click="openLogoutModal"
                                     class="flex items-center w-full px-4 py-3 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors">
                                     <i class="fas fa-sign-out-alt mr-3"></i>
-                                    <span>Logout</span>
+                                    <span><?php echo e(__('language.logout')); ?></span>
                                 </button>
-
-
                             </div>
                         </div>
                     </div>
@@ -144,14 +187,17 @@ if (isset($__slots)) unset($__slots);
                     <div class="flex items-center space-x-3">
                         <button wire:click="openLoginModal"
                             class="px-4 py-2 text-gray-700 hover:text-red-600 font-medium transition-colors rounded-lg hover:bg-red-50">
-                            <i class="fas fa-sign-in-alt mr-2"></i>Login
+                            <i class="fas fa-sign-in-alt mr-2"></i><?php echo e(__('language.login')); ?>
+
                         </button>
                         <button wire:click="openRegisterModal"
                             class="px-6 py-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                            <i class="fas fa-user-plus mr-2"></i>Register
+                            <i class="fas fa-user-plus mr-2"></i><?php echo e(__('language.register')); ?>
+
                         </button>
                     </div>
                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+
             </div>
         </div>
 </nav>

@@ -1,187 +1,108 @@
-<!-- Register Modal -->
-<div id="register-modal" class="fixed inset-0 z-[9999] overflow-y-auto flex items-center justify-center"
-    style="display: {{ $showModal ? 'flex' : 'none' }}; background-color: rgba(0, 0, 0, {{ $showModal ? '0.5' : '0' }});"
+<div id="register-modal" class="fixed inset-0 z-[9999] overflow-y-auto flex items-center justify-center p-4"
+    style="display: {{ $showModal ? 'flex' : 'none' }}; background-color: rgba(0, 0, 0, {{ $showModal ? '0.6' : '0' }}); backdrop-filter: blur(4px);"
     @click.self="$wire.closeModal()" @keydown.escape="$wire.closeModal()">
 
-    <!-- Modal Content -->
-    <div class="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden mx-4">
+    <div class="relative w-full max-w-md bg-white rounded-[2.5rem] shadow-2xl overflow-hidden shadow-red-900/20">
 
-        <!-- Chinese Pattern Header -->
-        <div class="relative bg-gradient-to-r from-red-600 via-red-700 to-red-800 p-8 text-center">
-            <!-- Decorative Chinese Pattern -->
-            <div class="absolute inset-0 opacity-10">
-                <div class="absolute top-4 left-4 text-yellow-400 text-6xl">🍜</div>
-                <div class="absolute top-2 right-8 text-yellow-400 text-4xl">🥢</div>
-                <div class="absolute bottom-4 left-8 text-yellow-400 text-5xl">🍲</div>
-                <div class="absolute bottom-2 right-4 text-yellow-400 text-3xl">🥟</div>
+        <div class="relative bg-gradient-to-r from-red-700 to-red-800 p-6 text-center border-b-4 border-yellow-400">
+            <div class="absolute inset-0 opacity-10 pointer-events-none">
+                <div class="absolute top-2 left-4 text-yellow-400 text-4xl">🍜</div>
+                <div class="absolute bottom-2 right-4 text-yellow-400 text-2xl">🥟</div>
             </div>
 
-            <!-- Close Button -->
             <button wire:click="closeModal"
-                class="absolute top-6 right-6 text-white hover:text-yellow-300 transition-colors z-20 bg-red-700 rounded-full w-10 h-10 flex items-center justify-center">
-                <i class="fas fa-times text-lg"></i>
+                class="absolute top-4 right-4 text-white hover:rotate-90 hover:text-yellow-300 transition-all z-20 bg-black/20 hover:bg-black/40 rounded-full w-8 h-8 flex items-center justify-center">
+                <i class="fas fa-times text-sm"></i>
             </button>
 
-            <!-- Header Content -->
             <div class="relative z-10">
-                <div
-                    class="w-20 h-20 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg border-4 border-white">
-                    <i class="fas fa-user-plus text-red-600 text-3xl"></i>
+                <div class="w-14 h-14 bg-yellow-400 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg border-2 border-white rotate-3">
+                    <i class="fas fa-user-plus text-red-700 text-xl"></i>
                 </div>
-                <h2 class="text-3xl font-bold text-white mb-2" style="font-family: 'Noto Sans SC', sans-serif;">
-                    加入我们
+                <h2 class="text-xl font-bold text-white uppercase tracking-tight" style="font-family: 'Noto Sans SC', sans-serif;">
+                    {{ __('language.join_us') }}
                 </h2>
-                <p class="text-yellow-100 text-sm">
-                    Daftar & Nikmati Makanan China Terlezat!
+                <p class="text-yellow-100/80 text-[10px] uppercase tracking-widest font-medium">
+                    {{ __('language.register_title') }}
                 </p>
             </div>
         </div>
 
-        <!-- Form Content -->
-        <div class="p-8 max-h-[70vh] overflow-y-auto">
-            <!-- Validation Errors -->
+        <div class="p-6 max-h-[60vh] overflow-y-auto custom-scrollbar">
             @if ($errors->any())
-                <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
-                    <div class="flex">
-                        <div class="flex-shrink-0">
-                            <i class="fas fa-exclamation-triangle text-red-500"></i>
-                        </div>
-                        <div class="ml-3">
-                            <ul class="text-sm text-red-700 space-y-1">
-                                @foreach ($errors->all() as $error)
-                                    <li>• {{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
+                <div class="mb-4 bg-red-50 border border-red-100 p-3 rounded-xl">
+                    <ul class="text-[11px] text-red-700 space-y-0.5 font-medium italic">
+                        @foreach ($errors->all() as $error)
+                            <li>• {{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
             @endif
 
-            <!-- Register Form -->
-            <form wire:submit.prevent="register" class="space-y-6">
-                <!-- Name Field -->
-                <div class="relative">
-                    <label for="register-name" class="block text-sm font-semibold text-gray-700 mb-2">
-                        <i class="fas fa-user mr-2 text-red-500"></i>Nama Lengkap
-                    </label>
-                    <div class="relative">
-                        <input wire:model="name" type="text" id="register-name"
-                            class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-gray-50 focus:bg-white text-gray-900 placeholder-gray-500"
-                            placeholder="Masukkan nama lengkap Anda" required>
-                        <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                            <i class="fas fa-user"></i>
+            @if ($step === 1)
+                <form wire:submit.prevent="sendVerificationCode" class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">
+                            {{ __('language.email_address') }}
+                        </label>
+                        <div class="relative">
+                            <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-red-500 text-sm"></i>
+                            <input wire:model="email" type="email"
+                                class="w-full pl-11 py-3 bg-stone-50 border-stone-100 focus:border-red-500 focus:bg-white border-2 rounded-xl transition-all text-sm font-bold shadow-inner" 
+                                placeholder="your@email.com">
                         </div>
+                        <button type="submit"
+                            class="mt-4 w-full bg-red-700 hover:bg-stone-900 text-white font-black py-3.5 rounded-xl transition-all shadow-lg shadow-red-700/20 uppercase text-xs tracking-widest active:scale-95">
+                             {{ __('language.send_verification_code') }}
+                        </button>
                     </div>
-                    @error('name')
-                        <p class="mt-1 text-sm text-red-600 flex items-center">
-                            <i class="fas fa-exclamation-circle mr-1"></i>{{ $message }}
-                        </p>
-                    @enderror
-                </div>
+                </form>
+            @endif
 
-                <!-- Email Field -->
-                <div class="relative">
-                    <label for="register-email" class="block text-sm font-semibold text-gray-700 mb-2">
-                        <i class="fas fa-envelope mr-2 text-red-500"></i>Email Address
-                    </label>
-                    <div class="relative">
-                        <input wire:model="email" type="email" id="register-email"
-                            class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-gray-50 focus:bg-white text-gray-900 placeholder-gray-500"
-                            placeholder="your@email.com" required>
-                        <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                            <i class="fas fa-envelope"></i>
-                        </div>
+            {{-- Step 2 & 3: Berlakukan style input yang sama (py-3, rounded-xl, text-sm) --}}
+            @if ($step === 2)
+                <form wire:submit.prevent="verifyCode" class="space-y-4 text-center">
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{{ __('language.verification_code') }}</label>
+                    <input wire:model="verification_code" type="text"
+                        class="w-full text-center tracking-[0.5em] text-xl py-3 bg-stone-50 border-2 border-stone-100 rounded-xl focus:border-red-500 focus:bg-white font-black">
+                    <button type="submit" class="w-full bg-red-700 text-white font-black py-3.5 rounded-xl uppercase text-xs tracking-widest shadow-lg shadow-red-700/20 mt-2">
+                        {{ __('language.verify_code') }}
+                    </button>
+                </form>
+            @endif
+
+            @if ($step === 3)
+                <form wire:submit.prevent="register" class="space-y-4">
+                    <div class="grid gap-4">
+                        <input wire:model="name" type="text" placeholder="Full Name" class="w-full py-3 px-4 bg-stone-50 border-2 border-stone-100 rounded-xl focus:border-red-500 text-sm font-bold">
+                        <input wire:model="password" type="password" placeholder="Password" class="w-full py-3 px-4 bg-stone-50 border-2 border-stone-100 rounded-xl focus:border-red-500 text-sm font-bold">
+                        <input wire:model="password_confirmation" type="password" placeholder="Confirm" class="w-full py-3 px-4 bg-stone-50 border-2 border-stone-100 rounded-xl focus:border-red-500 text-sm font-bold">
                     </div>
-                    @error('email')
-                        <p class="mt-1 text-sm text-red-600 flex items-center">
-                            <i class="fas fa-exclamation-circle mr-1"></i>{{ $message }}
-                        </p>
-                    @enderror
-                </div>
+                    <button type="submit" class="w-full bg-gradient-to-r from-red-700 to-red-800 text-white font-black py-4 rounded-xl uppercase text-xs tracking-[0.2em] shadow-lg shadow-red-700/20 mt-2">
+                       {{ __('language.create_account') }}
+                    </button>
+                </form>
+            @endif
 
-                <!-- Password Field -->
-                <div class="relative">
-                    <label for="register-password" class="block text-sm font-semibold text-gray-700 mb-2">
-                        <i class="fas fa-lock mr-2 text-red-500"></i>Password
-                    </label>
-                    <div class="relative">
-                        <input wire:model="password" type="password" id="register-password"
-                            class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-gray-50 focus:bg-white text-gray-900 placeholder-gray-500"
-                            placeholder="Minimal 8 karakter" required>
-                        <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                    </div>
-                    @error('password')
-                        <p class="mt-1 text-sm text-red-600 flex items-center">
-                            <i class="fas fa-exclamation-circle mr-1"></i>{{ $message }}
-                        </p>
-                    @enderror
-                </div>
-
-                <!-- Confirm Password Field -->
-                <div class="relative">
-                    <label for="register-password_confirmation" class="block text-sm font-semibold text-gray-700 mb-2">
-                        <i class="fas fa-lock mr-2 text-red-500"></i>Konfirmasi Password
-                    </label>
-                    <div class="relative">
-                        <input wire:model="password_confirmation" type="password" id="register-password_confirmation"
-                            class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-gray-50 focus:bg-white text-gray-900 placeholder-gray-500"
-                            placeholder="Ulangi password Anda" required>
-                        <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                    </div>
-                    @error('password_confirmation')
-                        <p class="mt-1 text-sm text-red-600 flex items-center">
-                            <i class="fas fa-exclamation-circle mr-1"></i>{{ $message }}
-                        </p>
-                    @enderror
-                </div>
-
-                <!-- Submit Button -->
-                <button type="submit" wire:loading.attr="disabled"
-                    class="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed">
-                    <span wire:loading.remove>
-                        <i class="fas fa-user-plus mr-2"></i>Buat Akun Sekarang
-                    </span>
-                    <span wire:loading>
-                        <i class="fas fa-spinner fa-spin mr-2"></i>Mendaftarkan...
-                    </span>
-                </button>
-            </form>
-
-            <!-- Login Link -->
-            <div class="mt-6 text-center">
-                <p class="text-sm text-gray-600">
-                    Sudah punya akun?
-                    <button type="button"
-                        wire:click=" 
-                        $dispatch('close-register-modal');
-                        $dispatch('open-login-modal');"
-                        class="font-semibold text-red-600 hover:text-red-700 transition-colors underline">
-                        Masuk di sini
+            <div class="mt-6 text-center border-t border-stone-100 pt-4">
+                <p class="text-[11px] text-gray-500 font-medium">
+                    {{ __('language.already_have_account') }}
+                    <button type="button" wire:click="$dispatch('close-register-modal'); $dispatch('open-login-modal');"
+                        class="font-black text-red-700 hover:text-stone-900 transition-colors underline ml-1 uppercase">
+                       {{ __('language.login_here') }}
                     </button>
                 </p>
             </div>
 
-            <!-- Chinese Food Benefits -->
-            <div class="mt-6 bg-gradient-to-r from-yellow-50 to-red-50 p-4 rounded-xl border border-yellow-200">
+            <div class="mt-5 bg-stone-50 p-3 rounded-2xl border border-stone-100">
                 <div class="text-center">
-                    <h4 class="text-sm font-semibold text-gray-800 mb-2"
-                        style="font-family: 'Noto Sans SC', sans-serif;">
-                        🎉 Bergabunglah & Dapatkan:
+                    <h4 class="text-[10px] font-black text-stone-800 mb-2 uppercase tracking-tighter italic">
+                        ✨ {{ __('language.join_benefits_title') }}
                     </h4>
-                    <div class="flex justify-center space-x-4 text-xs text-gray-600">
-                        <span class="flex items-center">
-                            <i class="fas fa-utensils text-red-500 mr-1"></i>Menu Spesial
-                        </span>
-                        <span class="flex items-center">
-                            <i class="fas fa-star text-yellow-500 mr-1"></i>Diskon Member
-                        </span>
-                        <span class="flex items-center">
-                            <i class="fas fa-truck text-green-500 mr-1"></i>Gratis Ongkir
-                        </span>
+                    <div class="flex justify-around text-[9px] text-stone-500 font-bold uppercase tracking-tighter">
+                        <span class="flex flex-col items-center gap-1"><i class="fas fa-utensils text-red-600"></i>Menu</span>
+                        <span class="flex flex-col items-center gap-1"><i class="fas fa-star text-yellow-500"></i>Diskon</span>
+                        <span class="flex flex-col items-center gap-1"><i class="fas fa-truck text-green-600"></i>Gratis</span>
                     </div>
                 </div>
             </div>

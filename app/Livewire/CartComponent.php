@@ -2,26 +2,42 @@
 
 namespace App\Livewire;
 
+use App\Models\SystemConfig;
 use Livewire\Component;
 
-// Komponen Livewire untuk mengelola keranjang belanja
 class CartComponent extends Component
 {
-    // Array untuk menyimpan item di keranjang
     public $cart = [];
-
     protected $listeners = [
         'add-to-cart' => 'addToCart',
     ];
 
-    // Method yang dipanggil saat komponen pertama kali dimuat
-    public function mount()
+    private function buildImageUrl($image)
     {
-        // Ambil data keranjang dari session
-        $this->cart = session()->get('cart', []);
+        return $image ? rtrim(config('services.supabase.url'), '/') . '/storage/v1/object/public/' . config('services.supabase.bucket') . '/' . $image : null;
     }
 
-    // Method untuk menambah item ke keranjang
+    private function normalizeCart()
+    {
+        foreach ($this->cart as $id => $item) {
+            if (!isset($item['imageUrl'])) {
+                $this->cart[$id]['imageUrl'] = $this->buildImageUrl($item['image'] ?? null);
+            }
+        }
+        session()->put('cart', $this->cart);
+    }
+
+    public function mount()
+    {
+        $this->cart = session()->get('cart', []);
+        $this->normalizeCart();
+    }
+
+    public function closeCart()
+    {
+        $this->dispatch('close-cart');
+    }
+
     public function addToCart($id, $name, $price, $image = null)
     {
         static $processing = false;
@@ -33,7 +49,6 @@ class CartComponent extends Component
         $processing = true;
 
         $cart = session()->get('cart', []);
-
         if (isset($cart[$id])) {
             $cart[$id]['quantity']++;
         } else {
@@ -42,6 +57,7 @@ class CartComponent extends Component
                 'name' => $name,
                 'price' => $price,
                 'image' => $image,
+                'imageUrl' => $this->buildImageUrl($image),
                 'quantity' => 1,
             ];
         }
@@ -49,23 +65,26 @@ class CartComponent extends Component
         session()->put('cart', $cart);
         $this->cart = $cart;
 
+        $this->dispatch(
+            'notify-success',
+            message: __('language.added_to_cart', ['name' => $name])
+        );
+
         $processing = false;
     }
 
-    // Method untuk menghapus item dari keranjang
     public function removeItem($id)
     {
         $cart = session()->get('cart', []);
         unset($cart[$id]);
         session()->put('cart', $cart);
         $this->cart = $cart;
+        $this->normalizeCart();
         $this->dispatch('cart-updated');
     }
 
-    // Method untuk mengupdate quantity item
     public function updateQuantity($id, $qty)
     {
-        // Jika quantity kurang dari 1, hapus item
         if ($qty < 1) {
             $this->removeItem($id);
             return;
@@ -75,23 +94,29 @@ class CartComponent extends Component
         $cart[$id]['quantity'] = $qty;
         session()->put('cart', $cart);
         $this->cart = $cart;
+        $this->normalizeCart();
         $this->dispatch('cart-updated');
     }
 
-    // Computed property untuk menghitung subtotal
     public function getSubtotalProperty()
     {
         return collect($this->cart)->sum(fn($item) => $item['price'] * $item['quantity']);
     }
+       public function openLoginModal()
+    {
+        $this->dispatch('open-login-modal');
+    }
 
-    // Method render untuk menampilkan view
     public function render()
     {
+        $config = SystemConfig::firstOrCreate([]);
+        $taxPercent = $config->tax_percent / 100; // Konversi persen ke desimal
+
         return view('livewire.cart-component', [
             'subtotal' => $this->subtotal,
-            'tax' => $this->subtotal * 0.1, // Pajak 10%
-            'total' => $this->subtotal * 1.1, // Total dengan pajak
-            'count' => collect($this->cart)->sum('quantity'), // Total jumlah item
+            'tax' => $this->subtotal * $taxPercent,
+            'total' => $this->subtotal + ($this->subtotal * $taxPercent),
+            'count' => collect($this->cart)->sum('quantity'),
         ]);
     }
 }

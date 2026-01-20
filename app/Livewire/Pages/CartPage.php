@@ -15,6 +15,6 @@ class CartPage extends Component
         $tax = $subtotal * 0.1;
         $total = $subtotal * 1.1;
 
-        return view('livewire.pages.cart-page', compact('cart', 'subtotal', 'tax', 'total'));
+        return view('livewire.Pages.cart-page', compact('cart', 'subtotal', 'tax', 'total'));
     }
 }
