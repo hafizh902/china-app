@@ -1,6 +1,6 @@
 <div id="login-modal" class="fixed inset-0 z-[9999] overflow-y-auto flex items-center justify-center p-4"
     style="display: {{ $showModal ? 'flex' : 'none' }}; background-color: rgba(0, 0, 0, 0.6); backdrop-blur: 4px;"
-    @click.self="$wire.closeModal()" @keydown.escape="$wire.closeModal()">
+    >
 
     <div class="relative w-full max-w-4xl bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row animate-zoom-in">
         
@@ -46,7 +46,6 @@
             @endif
 
             <form wire:submit.prevent="login" novalidate class="space-y-4">
-                @csrf
                 <div class="grid grid-cols-1 gap-1">
                     <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">{{ __('language.email_label') }}</label>
                     <div class="relative">
@@ -92,11 +91,20 @@
                 </div>
 
                 {{-- TOMBOL DAFTAR --}}
-                <button type="button" 
-                    wire:click="$dispatch('close-login-modal'); $dispatch('open-register-modal');"
-                    class="w-full bg-white border-2 border-stone-100 hover:border-red-700 text-stone-600 hover:text-red-700 font-black py-4 rounded-2xl transition-all active:scale-95 flex items-center justify-center gap-3">
-                    <span class="uppercase tracking-widest text-[11px]">{{ __('language.register_prompt') }}</span>
-                </button>
+                <button
+                type="button"
+                x-data
+                @click="
+                    $dispatch('close-login-modal');
+                    $dispatch('open-register-modal');
+                "
+                class="w-full bg-white border-2 border-stone-100 hover:border-red-700
+                       text-stone-600 hover:text-red-700 font-black py-4 rounded-2xl">
+                <span class="uppercase tracking-widest text-[11px]">
+                    {{ __('language.register_prompt') }}
+                </span>
+            </button>
+            
             </form>
         </div>
     </div>
