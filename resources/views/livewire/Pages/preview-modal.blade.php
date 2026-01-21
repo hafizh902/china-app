@@ -3,6 +3,15 @@
     style="display: {{ $showModal ? 'flex' : 'none' }}; background-color: rgba(28, 25, 23, 0.85);"
     wire:keydown.escape="closeModal" wire:click.self="closeModal">
 
+    @php
+    $categoryMap = [
+    'main_course' => 'Main Course',
+    'snacks' => 'Side Dish',
+    'drinks' => 'Drink',
+    'desserts' => 'Dessert',
+    ];
+    @endphp
+
     <div class="relative w-full max-w-4xl">
         @if ($selectedItem)
         <div
@@ -29,7 +38,7 @@
                     <div class="flex items-center gap-2 mb-1">
                         <span class="w-8 h-[1px] bg-amber-500"></span>
                         <p class="text-[10px] text-amber-600 font-bold uppercase tracking-[0.3em]">
-                            {{ $selectedItem['category'] }}
+                            {{ $categoryMap[$selectedItem['category']] ?? ucfirst(str_replace('_', ' ', $selectedItem['category'])) }}
                         </p>
                     </div>
                     <h2 class="text-2xl md:text-4xl font-serif font-bold text-slate-900 leading-tight">
@@ -77,7 +86,7 @@
                         <div class="flex items-center gap-2">
                             <span
                                 class="bg-amber-50 text-amber-700 text-[10px] font-bold px-3 py-1 rounded-md border border-amber-200">
-                                <i class="fas fa-tag mr-1 opacity-70"></i> {{ $selectedItem['category'] }}
+                                <i class="fas fa-tag mr-1 opacity-70"></i> {{ $categoryMap[$selectedItem['category']] ?? ucfirst(str_replace('_', ' ', $selectedItem['category'])) }}
                             </span>
                             @if ($selectedItem['is_available'])
                             <span
