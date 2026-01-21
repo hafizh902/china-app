@@ -88,6 +88,7 @@
                 </div>
                 <div class="space-y-3">
                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $orders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $order): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                    <a href="<?php echo e(route('admin.orders')); ?>">
                         <div class="bg-white border border-stone-200 p-4 hover:border-chinese-red transition-all">
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center gap-4">
@@ -103,6 +104,7 @@
                                 <span class="text-[8px] font-black px-2 py-1 bg-stone-100 uppercase italic"><?php echo e($order->status); ?></span>
                             </div>
                         </div>
+                        </a>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                         <div class="border-2 border-dashed border-stone-200 p-10 text-center text-[10px] font-bold text-stone-300 uppercase italic">Tidak ada order pada tanggal ini</div>
                     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
@@ -117,6 +119,7 @@
                 </div>
                 <div class="space-y-3">
                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $reservations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $res): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                    <a href="<?php echo e(route('admin.reservations')); ?>">
                         <div class="bg-white border border-stone-200 p-4 hover:border-chinese-gold transition-all">
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center gap-4">
@@ -132,6 +135,7 @@
                                 <span class="text-[8px] font-black px-2 py-1 bg-stone-100 uppercase italic"><?php echo e($res->status); ?></span>
                             </div>
                         </div>
+                        </a>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                         <div class="border-2 border-dashed border-stone-200 p-10 text-center text-[10px] font-bold text-stone-300 uppercase italic">Tidak ada reservasi pada tanggal ini</div>
                     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>

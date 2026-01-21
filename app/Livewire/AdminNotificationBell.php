@@ -8,7 +8,38 @@ use App\Models\Reservation;
 
 class AdminNotificationBell extends Component
 {
-  public function render()
+    public $refreshKey = 0;
+    public $deletedNotifications = [];
+
+    public function deleteNotification($type, $id)
+    {
+        try {
+            if ($type === 'order') {
+                $order = Order::find($id);
+                if ($order) {
+                    $order->update(['status' => 'completed']);
+                }
+            } elseif ($type === 'reservation') {
+                $reservation = Reservation::find($id);
+                if ($reservation) {
+                    $reservation->update(['status' => 'confirmed']);
+                }
+            }
+
+            // Add to deleted notifications array for client-side filtering
+            $this->deletedNotifications[] = $type . '-' . $id;
+
+            // Force re-render by changing refresh key
+            $this->refreshKey++;
+
+            // Dispatch success message
+            $this->dispatch('notify', ['type' => 'success', 'message' => 'Notifikasi berhasil dihapus']);
+        } catch (\Exception $e) {
+            $this->dispatch('notify', ['type' => 'error', 'message' => 'Gagal menghapus notifikasi: ' . $e->getMessage()]);
+        }
+    }
+
+    public function render()
 {
     // Ambil Order (preparing = dianggap baru/aktif)
     $orders = Order::latest()->take(15)->get()->map(function($item) {
@@ -26,7 +57,13 @@ class AdminNotificationBell extends Component
 
     // Gabung dan Urutkan
     $allNotifications = $orders->concat($reservations)->sortByDesc('created_at')->take(15);
-    
+
+    // Filter out deleted notifications
+    $allNotifications = $allNotifications->filter(function($item) {
+        $key = $item->notif_type . '-' . $item->id;
+        return !in_array($key, $this->deletedNotifications);
+    });
+
     // Hitung hanya yang aktif untuk angka di Bel
     $notifCount = $allNotifications->where('is_active', true)->count();
 

@@ -87,6 +87,7 @@
                 </div>
                 <div class="space-y-3">
                     @forelse($orders as $order)
+                    <a href="{{ route('admin.orders') }}">
                         <div class="bg-white border border-stone-200 p-4 hover:border-chinese-red transition-all">
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center gap-4">
@@ -102,6 +103,7 @@
                                 <span class="text-[8px] font-black px-2 py-1 bg-stone-100 uppercase italic">{{ $order->status }}</span>
                             </div>
                         </div>
+                        </a>
                     @empty
                         <div class="border-2 border-dashed border-stone-200 p-10 text-center text-[10px] font-bold text-stone-300 uppercase italic">Tidak ada order pada tanggal ini</div>
                     @endforelse
@@ -116,6 +118,7 @@
                 </div>
                 <div class="space-y-3">
                     @forelse($reservations as $res)
+                    <a href="{{ route('admin.reservations') }}">
                         <div class="bg-white border border-stone-200 p-4 hover:border-chinese-gold transition-all">
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center gap-4">
@@ -130,6 +133,7 @@
                                 <span class="text-[8px] font-black px-2 py-1 bg-stone-100 uppercase italic">{{ $res->status }}</span>
                             </div>
                         </div>
+                        </a>
                     @empty
                         <div class="border-2 border-dashed border-stone-200 p-10 text-center text-[10px] font-bold text-stone-300 uppercase italic">Tidak ada reservasi pada tanggal ini</div>
                     @endforelse
