@@ -14,7 +14,7 @@ Route::get('/livewire/update', function () {
 Route::get('/', Pages\HomePage::class)->name('home');
 Route::get('/menu', Pages\MenuPage::class)->name('menu');
 Route::get('/cart', Pages\CartPage::class)->name('cart');
-Route::get('/checkout', Pages\CheckoutPage::class)->name('checkout');   
+Route::get('/checkout', Pages\CheckoutPage::class)->name('checkout');
 Route::get('/orders', Pages\OrderHistoryPage::class)
     ->middleware('auth')
     ->name('orders');
@@ -42,4 +42,8 @@ Route::middleware(['auth', 'admin'])
         Route::get('/configurations', Admin\ConfigPage::class)->name('configurations');
     });
 
-require __DIR__.'/settings.php';
+require __DIR__ . '/settings.php';
+
+Route::get('/login', function () {
+    return redirect()->route('home');
+})->middleware('guest')->name('login');
