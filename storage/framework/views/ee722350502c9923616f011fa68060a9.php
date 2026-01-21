@@ -15,25 +15,180 @@
 
     <div class="max-w-5xl mx-auto px-4 space-y-10 pb-20">
         
-        <div class="flex justify-center mb-8">
-            <div class="flex items-center gap-4">
-                <form action="" method="GET" class="flex items-center bg-white border border-stone-200 px-3 py-1 shadow-sm">
-                    <label for="date" class="text-[9px] font-black uppercase text-stone-400 mr-3">Cari Riwayat:</label>
-                    <input type="date" name="date" id="date"
-                        value="<?php echo e(request('date', date('Y-m-d'))); ?>"
-                        onchange="this.form.submit()"
-                        class="text-[11px] font-bold text-chinese-black outline-none border-none bg-transparent cursor-pointer">
-                    <button type="submit" class="ml-2 text-chinese-red hover:scale-110 transition-transform">
-                        <i class="fas fa-search-calendar text-xs"></i>
-                    </button>
-                </form>
+        <div class="flex flex-col md:flex-row items-center justify-center gap-6 mb-12">
 
-                <a href="<?php echo e(route('orders')); ?>"
-                    class="flex items-center gap-2 px-4 py-2 bg-stone-900 hover:bg-red-700 text-white rounded-lg transition-all duration-300 shadow-lg shadow-stone-900/10 text-[10px] font-black uppercase tracking-widest">
-                    <i class="fas fa-list text-amber-400"></i>
-                    Lihat Semua
-                </a>
+            
+            <div class="flex justify-center mb-10" x-data="{
+                open: false,
+                selectedDate: '<?php echo e(request('date', date('Y-m-d'))); ?>',
+                // Fungsi untuk memformat tampilan tanggal di tombol trigger
+                formatDate(dateString) {
+                    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                    return new Date(dateString).toLocaleDateString('en-US', options);
+                }
+            }">
+                <div class="relative">
+
+                    
+                    <div @click="open = !open"
+                        class="flex items-center gap-3 bg-white border border-stone-200 p-2 rounded-xl shadow-sm cursor-pointer hover:border-red-700 transition-all">
+                        <div class="bg-stone-900 text-white p-2 rounded-lg">
+                            <i class="fas fa-calendar-alt text-[10px]"></i>
+                        </div>
+                        <div class="pr-6">
+                            <p class="text-[8px] font-black uppercase text-stone-400 leading-none mb-1">Selected Date
+                            </p>
+                            <p class="text-[11px] font-bold text-stone-800" x-text="formatDate(selectedDate)"></p>
+                        </div>
+                        <i class="fas fa-chevron-down text-[9px] text-stone-300 ml-auto transition-transform"
+                            :class="open ? 'rotate-180' : ''"></i>
+                    </div>
+
+                    
+                    <div x-show="open" @click.away="open = false" x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+                        class="absolute top-14 left-1/2 -translate-x-1/2 z-[100] bg-white shadow-2xl rounded-2xl border border-stone-100 flex overflow-hidden min-w-[550px]"
+                        style="display: none;">
+
+                        
+                        <div class="w-44 border-r border-stone-100 bg-[#fdfcfb] p-2 space-y-1">
+                            <div class="px-4 py-2 text-[9px] font-black uppercase text-stone-300 tracking-widest mb-1">
+                                Preset</div>
+
+                            <button type="button"
+                                @click="selectedDate = '<?php echo e(date('Y-m-d')); ?>'; $nextTick(() => $el.closest('div').nextElementSibling.submit())"
+                                class="w-full text-left px-4 py-2.5 rounded-xl text-[11px] font-bold text-stone-500 hover:bg-stone-100 transition-all flex items-center justify-between">
+                                Today
+                                <span class="text-[9px] opacity-40">今天</span>
+                            </button>
+
+                            <button type="button"
+                                @click="selectedDate = '<?php echo e(date('Y-m-d', strtotime('-1 day'))); ?>'; $nextTick(() => $el.closest('div').nextElementSibling.submit())"
+                                class="w-full text-left px-4 py-2.5 rounded-xl text-[11px] font-bold text-stone-500 hover:bg-stone-100 transition-all">
+                                Yesterday
+                            </button>
+
+                            <button type="button"
+                                class="w-full text-left px-4 py-2.5 rounded-xl text-[11px] font-bold bg-stone-900 text-white shadow-lg flex justify-between items-center">
+                                Custom Date
+                                <i class="fas fa-check text-[9px]"></i>
+                            </button>
+                        </div>
+
+                        
+                        <form action="" method="GET" class="flex-grow p-6">
+                            <div class="mb-6">
+                                <p class="text-[9px] font-black text-stone-400 uppercase mb-3 tracking-widest">Time
+                                    Frame</p>
+
+                                
+                                <div class="relative group/input">
+                                    <div class="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                                        <i
+                                            class="far fa-calendar-alt text-red-700 text-xs transition-transform group-hover/input:scale-110"></i>
+                                    </div>
+                                    <input type="date" name="date" x-model="selectedDate"
+                                        class="w-full pl-11 pr-4 py-3 bg-stone-50 border-2 border-stone-100 rounded-xl text-xs font-bold text-stone-800 focus:bg-white focus:border-red-700 focus:ring-0 outline-none cursor-pointer transition-all">
+                                </div>
+                                <p class="mt-2 text-[9px] text-stone-400 italic font-medium">*Silakan klik area di atas
+                                    untuk memilih tanggal dari kalender browser</p>
+                            </div>
+                            
+                            <div class="pt-4 border-t border-stone-100 select-none">
+                                <div class="flex justify-between items-center mb-4 px-1">
+                                    <span class="text-[10px] font-black uppercase tracking-widest text-stone-800">
+                                        <?php echo e(date('F Y')); ?>
+
+                                    </span>
+                                    <div class="flex gap-3 text-stone-300">
+                                        <button type="button" class="hover:text-red-700 transition-colors"><i
+                                                class="fas fa-chevron-left text-[8px]"></i></button>
+                                        <button type="button" class="hover:text-red-700 transition-colors"><i
+                                                class="fas fa-chevron-right text-[8px]"></i></button>
+                                    </div>
+                                </div>
+
+                                
+                                <div class="grid grid-cols-7 text-center mb-2">
+                                    <template x-for="day in ['M','T','W','T','F','S','S']">
+                                        <span class="text-[8px] font-bold text-stone-300" x-text="day"></span>
+                                    </template>
+                                </div>
+
+                                
+                                <div class="grid grid-cols-7 gap-1">
+                                    <?php
+                                        $currentMonth = date('Y-m');
+                                        $today = date('d');
+                                    ?>
+
+                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php for($i = 1; $i <= 31; $i++): ?>
+                                        <?php
+                                            // Format tanggal untuk dikirim ke x-model (YYYY-MM-DD)
+                                            $dateValue = $currentMonth . '-' . str_pad($i, 2, '0', STR_PAD_LEFT);
+                                        ?>
+
+                                        <button type="button" @click="selectedDate = '<?php echo e($dateValue); ?>'"
+                                            class="text-[9px] font-bold w-7 h-7 flex items-center justify-center rounded-lg transition-all duration-200"
+                                            :class="selectedDate === '<?php echo e($dateValue); ?>'
+                                                ?
+                                                'bg-stone-900 text-white shadow-md scale-110' :
+                                                'text-stone-500 hover:bg-red-50 hover:text-red-700'">
+                                            <?php echo e($i); ?>
+
+                                        </button>
+                                    <?php endfor; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                                </div>
+                            </div>
+
+                            
+                            <p class="mt-4 text-[8px] text-stone-400 text-center italic tracking-wide">
+                                *Klik pada angka untuk memilih tanggal cepat
+                            </p>
+
+                            
+                            <div class="mt-8 pt-4 border-t border-stone-100 flex justify-end items-center gap-4">
+                                <button type="button" @click="open = false"
+                                    class="text-[10px] font-bold text-stone-400 hover:text-stone-600 transition-colors uppercase tracking-widest">
+                                    Cancel
+                                </button>
+                                <button type="submit"
+                                    class="px-10 py-3 bg-stone-900 text-white rounded-xl text-[10px] font-black uppercase tracking-[0.1em] hover:bg-red-800 hover:shadow-xl hover:shadow-red-900/20 active:scale-95 transition-all">
+                                    Apply <i class="fas fa-check ml-2 text-amber-400"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
+            
+            <div class="hidden md:flex items-center gap-2">
+                <span class="h-[1px] w-8 bg-stone-200"></span>
+                <span class="text-stone-300 font-chinese text-[10px]">或</span>
+                <span class="h-[1px] w-8 bg-stone-200"></span>
+            </div>
+
+            
+            <a href="<?php echo e(route('orders')); ?>"
+                class="group relative flex items-center gap-3 px-6 py-3 bg-chinese-black hover:bg-chinese-red text-white rounded-lg transition-all duration-500 shadow-xl shadow-stone-900/20 overflow-hidden">
+
+                
+                <div
+                    class="absolute inset-0 w-1/2 h-full bg-white/5 skew-x-[-25deg] -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]">
+                </div>
+
+                <div class="flex flex-col items-start leading-none">
+                    <span
+                        class="text-[8px] font-bold text-chinese-gold opacity-80 uppercase tracking-[0.2em] mb-1">Database</span>
+                    <span class="text-[11px] font-black uppercase tracking-widest flex items-center gap-2">
+                        <i class="fas fa-layer-group text-chinese-gold group-hover:rotate-12 transition-transform"></i>
+                        Lihat Semua
+                    </span>
+                </div>
+
+                <i
+                    class="fas fa-chevron-right text-[10px] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all"></i>
+            </a>
         </div>
 
         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $orders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $order): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
@@ -137,7 +292,8 @@
 
                         <button wire:click="viewInvoice(<?php echo e($order->id); ?>)"
                             class="flex items-center gap-3 px-6 py-3 bg-stone-900 hover:bg-red-700 text-white rounded-xl transition-all duration-300 shadow-lg shadow-stone-900/10 active:scale-95 group/btn">
-                            <i class="fas fa-receipt text-amber-400 group-hover/btn:rotate-12 transition-transform"></i>
+                            <i
+                                class="fas fa-receipt text-amber-400 group-hover/btn:rotate-12 transition-transform"></i>
                             <span
                                 class="text-[10px] font-black uppercase tracking-[0.2em]"><?php echo e(__('language.digital_receipt')); ?></span>
                         </button>
@@ -206,7 +362,8 @@
                                 <div class="w-8 h-8 bg-red-800 rounded flex items-center justify-center">
                                     <span class="text-amber-400 font-serif font-bold text-xl">龍</span>
                                 </div>
-                                <h1 class="text-2xl font-serif font-black tracking-tighter text-stone-800 uppercase">金龍閣
+                                <h1 class="text-2xl font-serif font-black tracking-tighter text-stone-800 uppercase">
+                                    金龍閣
                                 </h1>
                             </div>
                             <p class="text-xs text-stone-500 italic">Golden Dragon Pavilion</p>
@@ -351,6 +508,12 @@
             to {
                 opacity: 1;
                 transform: scale(1);
+            }
+        }
+
+        @keyframes shimmer {
+            100% {
+                transform: translateX(300%);
             }
         }
     </style>
