@@ -14,7 +14,7 @@ Route::get('/livewire/update', function () {
 Route::get('/', Pages\HomePage::class)->name('home');
 Route::get('/menu', Pages\MenuPage::class)->name('menu');
 Route::get('/cart', Pages\CartPage::class)->name('cart');
-Route::get('/checkout', Pages\CheckoutPage::class)->name('checkout');   
+Route::get('/checkout', Pages\CheckoutPage::class)->name('checkout');
 Route::get('/orders', Pages\OrderHistoryPage::class)
     ->middleware('auth')
     ->name('orders');
@@ -30,6 +30,12 @@ Route::middleware(['auth'])->group(function () {
     })->name('user.settings');
 });
 
+Route::get('/admin/notifications-history', function () {
+    $orders = \App\Models\Order::latest()->paginate(10);
+    $reservations = \App\Models\Reservation::latest()->paginate(10);
+    return view('livewire.admin.notifications', compact('orders', 'reservations'));
+})->name('admin.notifications.all');
+
 // Admin
 Route::middleware(['auth', 'admin'])
     ->prefix('admin')
@@ -42,4 +48,4 @@ Route::middleware(['auth', 'admin'])
         Route::get('/configurations', Admin\ConfigPage::class)->name('configurations');
     });
 
-require __DIR__.'/settings.php';
+require __DIR__ . '/settings.php';
