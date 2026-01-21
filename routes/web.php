@@ -49,3 +49,7 @@ Route::middleware(['auth', 'admin'])
     });
 
 require __DIR__ . '/settings.php';
+
+Route::get('/login', function () {
+    return redirect()->route('home');
+})->middleware('guest')->name('login');
