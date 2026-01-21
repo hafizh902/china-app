@@ -8,6 +8,12 @@ use App\Models\Reservation;
 class ReservationMonitor extends Component
 {
     public $selectedReservation = null;
+    public $selectedDate;
+
+    public function mount()
+    {
+        $this->selectedDate = date('Y-m-d');
+    }
 
     // Fungsi untuk mengubah status meja menjadi Tersedia kembali (Cancel/Expired)
     public function releaseTable($reservationId)
@@ -30,7 +36,7 @@ class ReservationMonitor extends Component
     public function render()
     {
         $reservations = Reservation::with('user', 'table')
-            ->where('reservation_date', date('Y-m-d'))
+            ->where('reservation_date', $this->selectedDate)
             ->whereIn('status', ['pending', 'confirmed'])
             ->orderBy('reservation_time')
             ->get();

@@ -5,6 +5,7 @@ namespace App\Livewire\Pages;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 use App\Models\Menu;
+use Illuminate\Database\Eloquent\Builder;
 
 class MenuPage extends Component
 {
@@ -57,24 +58,37 @@ class MenuPage extends Component
         $query = Menu::query()
             ->when(
                 $this->category !== 'all',
-                fn($q) => $q->where('category', $this->category)
+                fn(Builder $q) => $q->where('category', $this->category)
             )
             ->when(
                 $this->search,
-                fn($q) => $q->where('name', 'like', "%{$this->search}%")
+                fn(Builder $q) => $q->where('name', 'like', "%{$this->search}%")
             )
-            ->when($this->sort === 'price-low', fn($q) => $q->orderBy('price'))
-            ->when($this->sort === 'price-high', fn($q) => $q->orderByDesc('price'))
-            ->when($this->sort === 'name', fn($q) => $q->orderBy('name'))
-            ->when($this->sort === 'popular', fn($q) => $q->latest());
+            ->when(
+                $this->sort === 'popular',
+                fn(Builder $q) => $q
+                    ->withSum('orderItems as total_sold', 'quantity')
+                    ->orderByDesc('total_sold')
+            )
+            ->when(
+                $this->sort === 'price-low',
+                fn(Builder $q) => $q->orderBy('price')
+            )
+            ->when(
+                $this->sort === 'price-high',
+                fn(Builder $q) => $q->orderByDesc('price')
+            )
+            ->when(
+                $this->sort === 'name',
+                fn(Builder $q) => $q->orderBy('name')
+            );
 
-        // MODE HOME (limit)
         if ($this->limit !== null) {
             $menuItems = $query->take($this->limit)->get();
 
             return view('livewire.Pages.menu-page', [
                 'menuItems' => $menuItems,
-                'hasMore'   => false, // disable infinite scroll
+                'hasMore'   => false,
             ]);
         }
 
