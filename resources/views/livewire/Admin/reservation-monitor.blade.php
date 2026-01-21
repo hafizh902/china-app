@@ -3,9 +3,16 @@
         <header class="mb-10 flex justify-between items-end">
             <div>
                 <h1 class="text-3xl font-serif font-bold text-stone-800 uppercase tracking-tighter">Table monitoring</h1>
-                <p class="text-stone-500 text-sm italic">Restaurant Status Today: {{ date('d M Y') }}</p>
+                <p class="text-stone-500 text-sm italic">Restaurant Status: {{ \Carbon\Carbon::parse($selectedDate)->format('d M Y') }}</p>
             </div>
-            <div class="flex gap-4">
+            <div class="flex gap-4 items-end">
+                {{-- Date Picker --}}
+                <form wire:submit.prevent="updateDate" class="flex items-center bg-white border border-stone-200 px-3 py-2 shadow-sm rounded-lg">
+                    <label for="selectedDate" class="text-[9px] font-black uppercase text-stone-400 mr-3">Filter Date:</label>
+                    <input type="date" wire:model.live="selectedDate" id="selectedDate"
+                        class="text-[11px] font-bold text-stone-800 outline-none border-none bg-transparent cursor-pointer">
+                </form>
+
                 <div class="bg-white px-4 py-2 rounded-lg shadow-sm border border-stone-200">
                     <span class="text-[10px] block uppercase font-bold text-stone-400">Total Reservations</span>
                     <span class="text-xl font-bold text-red-700">{{ $totalReservations }}</span>

@@ -95,6 +95,13 @@
                 <livewire:cart-component />
 
                 @auth
+                    @if (auth()->user()->role === 'admin')
+                        @livewire('admin-notification-bell')
+                    @endif
+                @endauth
+
+
+                @auth
                     <div class="relative" x-data="{ open: false }">
                         <button @click="open = !open"
                             class="flex items-center space-x-3 px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-xl transition-all duration-200 border border-gray-200">
