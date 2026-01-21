@@ -123,132 +123,28 @@ if (isset($__slots)) unset($__slots);
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->check()): ?>
                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->user()->role === 'admin'): ?>
                         <?php
-                            // Hanya ambil pesanan yang benar-benar baru (status pending)
-                            $newOrders = \App\Models\Order::where('status', 'preparing')->latest()->take(8)->get();
-                            $notifCount = $newOrders->count();
-                        ?>
+$__split = function ($name, $params = []) {
+    return [$name, $params];
+};
+[$__name, $__params] = $__split('admin-notification-bell');
 
-                        <div class="relative" x-data="{ openNotifications: false }">
-                            
-                            <button @click="openNotifications = !openNotifications"
-                                class="relative w-11 h-11 flex items-center justify-center text-stone-400 hover:text-red-700 transition-all bg-stone-50 rounded-2xl border border-stone-100 hover:shadow-sm active:scale-95">
-                                <i class="fas fa-bell text-xl <?php echo e($notifCount > 0 ? 'animate-swing' : ''); ?>"></i>
+$key = null;
 
-                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($notifCount > 0): ?>
-                                    
-                                    <span class="absolute top-2 right-2 flex h-3 w-3">
-                                        <span
-                                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                                        <span
-                                            class="relative inline-flex rounded-full h-3 w-3 bg-red-600 border border-white"></span>
-                                    </span>
-                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                            </button>
+$key ??= \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::generateKey('lw-1005744803-1', null);
 
-                            
-                            <div x-show="openNotifications" @click.away="openNotifications = false" x-cloak
-                                x-transition:enter="transition ease-out duration-200"
-                                x-transition:enter-start="opacity-0 translate-y-4 scale-95"
-                                x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-                                class="absolute right-0 mt-3 w-80 bg-white rounded-[2rem] shadow-2xl border border-stone-100 overflow-hidden z-[9999]">
+$__html = app('livewire')->mount($__name, $__params, $key);
 
-                                <div
-                                    class="px-6 py-4 bg-gradient-to-r from-red-700 to-red-800 flex justify-between items-center border-b">
-                                    <h3 class="text-xs font-black text-white uppercase tracking-widest">Orderan Masuk</h3>
-                                    <span class="bg-white/20 text-white text-[10px] font-black px-2 py-0.5 rounded-full">
-                                        <?php echo e($notifCount); ?> BARU
-                                    </span>
-                                </div>
+echo $__html;
 
-                                <div class="max-h-[400px] overflow-y-auto">
-                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $newOrders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $order): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                        <a href="<?php echo e(route('admin.orders')); ?>"
-                                            class="flex items-start p-4 hover:bg-red-50/30 transition-colors border-b border-stone-50 group">
-                                            
-                                            <div
-                                                class="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center mr-3 bg-red-50 text-red-600">
-                                                <i class="fas fa-shopping-cart text-sm animate-pulse"></i>
-                                            </div>
-
-                                            <div class="flex-1">
-                                                <div class="flex justify-between items-start">
-                                                    <p class="text-[10px] font-black text-red-600 uppercase tracking-tight">
-                                                        Order <?php echo e($order->order_number); ?></p>
-                                                    <span class="text-[9px] font-bold text-stone-400">
-                                                        <?php echo e($order->created_at->diffForHumans()); ?>
-
-                                                    </span>
-                                                </div>
-
-                                                <div class="mt-1">
-                                                    <p class="text-xs font-black text-stone-800">Ada orderan baru nih!</p>
-                                                    <p class="text-[11px] text-stone-500 leading-tight">
-                                                        Pelanggan <strong><?php echo e($order->customer_name); ?></strong> memesan
-                                                        senilai <strong>Rp
-                                                            <?php echo e(number_format($order->total, 0, ',', '.')); ?></strong>.
-                                                    </p>
-                                                </div>
-
-                                                <div class="mt-2 text-right">
-                                                    <span
-                                                        class="text-[9px] font-black text-red-700 uppercase tracking-widest group-hover:underline">Proses
-                                                        Sekarang →</span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                                        <div class="p-12 text-center">
-                                            <div
-                                                class="w-16 h-16 bg-stone-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                                                <i class="fas fa-mug-hot text-stone-200 text-2xl"></i>
-                                            </div>
-                                            <p
-                                                class="text-[11px] font-black text-stone-400 uppercase tracking-widest leading-relaxed">
-                                                Belum ada orderan baru<br>yang masuk</p>
-                                        </div>
-                                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                                </div>
-
-                                <a href="<?php echo e(route('admin.orders')); ?>"
-                                    class="block py-4 text-center bg-stone-50 hover:bg-stone-100 text-[10px] font-black text-stone-600 uppercase tracking-[0.2em] transition-all border-t border-stone-100">
-                                    Buka Semua Orderan
-                                </a>
-                            </div>
-                        </div>
+unset($__html);
+unset($__name);
+unset($__params);
+unset($__split);
+if (isset($__slots)) unset($__slots);
+?>
                     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-                <style>
-                    @keyframes swing {
-                        0% {
-                            transform: rotate(0deg);
-                        }
-
-                        20% {
-                            transform: rotate(15deg);
-                        }
-
-                        40% {
-                            transform: rotate(-10deg);
-                        }
-
-                        60% {
-                            transform: rotate(5deg);
-                        }
-
-                        80% {
-                            transform: rotate(-5deg);
-                        }
-
-                        100% {
-                            transform: rotate(0deg);
-                        }
-                    }
-
-                    .animate-swing {
-                        animation: swing 1s ease-in-out infinite;
-                    }
-                </style>
 
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->check()): ?>
                     <div class="relative" x-data="{ open: false }">
