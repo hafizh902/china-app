@@ -15,13 +15,15 @@ class PreviewModal extends Component
         'close-preview-modal' => 'closeModal', // Mendengarkan event untuk menutup modal
     ];
 
-    public function openModal($itemId = null)
+    public function openModal(int $id): void
     {
-        if ($itemId) {
-            $this->selectedItem = Menu::find($itemId);
-            $this->showModal = true;
-        }
+        $menu = Menu::withSum('orderItems as total_sold', 'quantity')
+            ->findOrFail($id);
+
+        $this->selectedItem = $menu->toArray();
+        $this->showModal = true;
     }
+
 
     public function closeModal()
     {
