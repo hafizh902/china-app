@@ -33,7 +33,7 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/admin/notifications-history', function () {
     $orders = \App\Models\Order::latest()->paginate(10);
     $reservations = \App\Models\Reservation::latest()->paginate(10);
-    return view('livewire.admin.notifications', compact('orders', 'reservations'));
+    return view('livewire.Admin.notifications', compact('orders', 'reservations'));
 })->name('admin.notifications.all');
 
 // Admin
