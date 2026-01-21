@@ -31,8 +31,24 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/admin/notifications-history', function () {
-    $orders = \App\Models\Order::latest()->paginate(10);
-    $reservations = \App\Models\Reservation::latest()->paginate(10);
+    $query = \App\Models\Order::query();
+    $reservationsQuery = \App\Models\Reservation::query();
+
+    // Filter by date if provided
+    if (request('date')) {
+        $query->whereDate('created_at', request('date'));
+        $reservationsQuery->whereDate('reservation_date', request('date'));
+    }
+
+    // Show all records if 'all' parameter is set, otherwise paginate
+    if (request('all')) {
+        $orders = $query->latest()->get();
+        $reservations = $reservationsQuery->latest()->get();
+    } else {
+        $orders = $query->latest()->paginate(10);
+        $reservations = $reservationsQuery->latest()->paginate(10);
+    }
+
     return view('livewire.Admin.notifications', compact('orders', 'reservations'));
 })->name('admin.notifications.all');
 
