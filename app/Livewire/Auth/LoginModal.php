@@ -40,31 +40,24 @@ class LoginModal extends Component
 
     public function login()
     {
-        $this->isSubmitting = true;
-
         $this->validate([
             'email' => 'required|email',
             'password' => 'required|min:6',
         ]);
-
-        if (Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
-            session()->regenerate();
-            $this->closeModal();
-
-            // Dispatch success alert
-            $this->dispatch('alert', [
-                'type' => 'success',
-                'message' => 'Selamat datang kembali, ' . Auth::user()->name . '! Semoga hari Anda menyenangkan.',
-                'title' => 'Login Berhasil'
-            ]);
-
+    
+        if (Auth::attempt([
+            'email' => $this->email,
+            'password' => $this->password,
+        ], $this->remember)) {
+    
+            request()->session()->regenerate();
+    
             return $this->redirect('/', navigate: true);
         }
-
-        $this->isSubmitting = false;
+    
         $this->addError('email', 'Email atau password salah.');
     }
-
+    
     public function render()
     {
         return view('livewire.auth.login-modal');
