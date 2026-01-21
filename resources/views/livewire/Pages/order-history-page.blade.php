@@ -13,6 +13,28 @@
     </div>
 
     <div class="max-w-5xl mx-auto px-4 space-y-10 pb-20">
+        {{-- FITUR PILIH TANGGAL (Date Picker) --}}
+        <div class="flex justify-center mb-8">
+            <div class="flex items-center gap-4">
+                <form action="" method="GET" class="flex items-center bg-white border border-stone-200 px-3 py-1 shadow-sm">
+                    <label for="date" class="text-[9px] font-black uppercase text-stone-400 mr-3">Cari Riwayat:</label>
+                    <input type="date" name="date" id="date"
+                        value="{{ request('date', date('Y-m-d')) }}"
+                        onchange="this.form.submit()"
+                        class="text-[11px] font-bold text-chinese-black outline-none border-none bg-transparent cursor-pointer">
+                    <button type="submit" class="ml-2 text-chinese-red hover:scale-110 transition-transform">
+                        <i class="fas fa-search-calendar text-xs"></i>
+                    </button>
+                </form>
+
+                <a href="{{ route('orders') }}"
+                    class="flex items-center gap-2 px-4 py-2 bg-stone-900 hover:bg-red-700 text-white rounded-lg transition-all duration-300 shadow-lg shadow-stone-900/10 text-[10px] font-black uppercase tracking-widest">
+                    <i class="fas fa-list text-amber-400"></i>
+                    Lihat Semua
+                </a>
+            </div>
+        </div>
+
         @forelse ($orders as $order)
             <div
                 class="group bg-white rounded-[2.5rem] border border-stone-100 shadow-sm hover:shadow-2xl hover:shadow-red-900/5 transition-all duration-500 overflow-hidden">
@@ -128,9 +150,19 @@
                         <i class="fas fa-scroll text-4xl text-stone-200"></i>
                     </div>
                 </div>
-                <h3 class="font-serif text-2xl text-stone-800 font-bold mb-2 italic"></h3>
-                {{ __('language.no_order_history') }}</h3>
-                <p class="text-stone-400 text-sm max-w-xs mx-auto mb-8 font-medium">{{ __('language.no_order_desc') }}
+                <h3 class="font-serif text-2xl text-stone-800 font-bold mb-2 italic">
+                    @if(request('date'))
+                        {{ __('language.no_orders_on_date', ['date' => \Carbon\Carbon::parse(request('date'))->format('d M Y')]) }}
+                    @else
+                        {{ __('language.no_order_history') }}
+                    @endif
+                </h3>
+                <p class="text-stone-400 text-sm max-w-xs mx-auto mb-8 font-medium">
+                    @if(request('date'))
+                        {{ __('language.no_orders_on_date_desc') }}
+                    @else
+                        {{ __('language.no_order_desc') }}
+                    @endif
                 </p>
                 <a wire:navigate href="/menu"
                     class="inline-flex items-center gap-3 bg-red-700 hover:bg-red-800 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-xl shadow-red-900/20 transition-all active:scale-95">

@@ -27,12 +27,24 @@ class OrderHistoryPage extends Component
 
     public function render()
     {
-        $orders = Auth::check()
-            ? Order::with('items.menu')
-            ->where('user_id', Auth::id())
-            ->latest()
-            ->get()
-            : collect();
+        $query = Order::with('items.menu')
+            ->where('user_id', Auth::id());
+
+        // Filter by date if provided
+        if (request('date')) {
+            $query->whereDate('created_at', request('date'));
+        }
+
+        // Show all records if 'all' parameter is set, otherwise paginate
+        if (request('all')) {
+            $orders = Auth::check()
+                ? $query->latest()->get()
+                : collect();
+        } else {
+            $orders = Auth::check()
+                ? $query->latest()->paginate(10)
+                : collect();
+        }
 
         return view('livewire.Pages.order-history-page', compact('orders'));
     }
