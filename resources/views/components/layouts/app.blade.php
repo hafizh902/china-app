@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ optional(\App\Models\SystemConfig::first())->brand_name ?? config('app.name') }}</title>
     {{-- favicon dinamis --}}
-@php
+    @php
     $brandLogo = \App\Models\SystemConfig::value('brand_logo'); // simpan nama file di DB
-@endphp
+    @endphp
 
-@if ($brandLogo)
+    @if ($brandLogo)
     <link rel="icon" href="https://bbbvjqzpktarmsblmblv.supabase.co/storage/v1/object/public/chinaon/{{ $brandLogo }}?v={{ time() }}">
-@endif
+    @endif
 
 
     <!-- Tailwind CSS dari CDN -->
@@ -23,7 +23,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         // Konfigurasi Tailwind CSS custom
         tailwind.config = {
@@ -54,8 +55,8 @@
 <body class="bg-gray-50 font-sans">
     {{-- Navbar --}}
     <livewire:navbar />
-    
-    
+
+
 
     <main class="relative overflow-visible">
         {{ $slot }}

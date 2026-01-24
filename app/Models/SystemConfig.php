@@ -16,6 +16,9 @@ class SystemConfig extends Model
         'site_closed',
         'tax_percent',
         'delivery_fee',
+        'restaurant_lat',
+        'restaurant_lng',
+        'price_per_km',
     ];
 
     public function getBrandLogoUrlAttribute(): ?string
