@@ -434,7 +434,7 @@
                                 <span>Rp<?php echo e(number_format($selectedOrder->subtotal, 0, ',', '.')); ?></span>
                             </div>
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($selectedOrder->delivery_fee > 0): ?>
-                            <div class="flex justify-between text-xs text-amber-500 font-medium tracking-wide">
+                            <div class="flex justify-between text-xs text-stone-500 font-medium tracking-wide">
                                 <span><?php echo e(__('language.delivery_fee')); ?></span>
                                 <span>Rp<?php echo e(number_format($selectedOrder->delivery_fee, 0, ',', '.')); ?></span>
                             </div>

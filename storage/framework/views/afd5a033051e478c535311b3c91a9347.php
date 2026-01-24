@@ -88,7 +88,6 @@
     </div>
 
 
-
 <div class="px-6 py-12 bg-gradient-to-b from-gray-50 to-amber-50/40">
     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($menuItems->count() > 0): ?>
         
@@ -96,25 +95,23 @@
             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $menuItems; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 
                 <div
-                    class="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-amber-100 flex flex-col h-full w-full sm:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)] xl:w-[calc(25%-2rem)] max-w-[350px] <?php echo e(!$item->is_available ? 'grayscale' : ''); ?>">
+                    class="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-amber-100 flex flex-col h-full w-full sm:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)] xl:w-[calc(25%-2rem)] max-w-[400px] <?php echo e(!$item->is_available ? 'grayscale' : ''); ?>">
 
                     
-                    <div class="relative h-64 overflow-hidden flex-shrink-0"
+                    <div class="relative h-72 md:h-64 overflow-hidden flex-shrink-0"
                         <?php if($item->is_available): ?> wire:click="$dispatch('open-preview-modal', [<?php echo e($item->id); ?>])" <?php endif; ?>>
 
                         <img src="<?php echo e($item->image_url); ?>" alt="<?php echo e($item->name); ?>"
                             class="w-full h-full object-cover transition-transform duration-700
-                           group-hover:scale-110 <?php echo e($item->is_available ? 'cursor-pointer' : 'cursor-not-allowed'); ?>">
+                            group-hover:scale-110 <?php echo e($item->is_available ? 'cursor-pointer' : 'cursor-not-allowed'); ?>">
 
-                        <div
-                            class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-60">
-                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-60"></div>
 
                         
                         <div class="absolute top-4 left-4 z-20">
                             <span
                                 class="px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold text-white shadow-lg
-                        <?php echo e($item->is_available ? 'bg-red-600 border border-amber-400' : 'bg-gray-500'); ?>">
+                                <?php echo e($item->is_available ? 'bg-red-600 border border-amber-400' : 'bg-gray-500'); ?>">
                                 <?php echo e($item->is_available ? __('language.available') : __('language.sold_out')); ?>
 
                             </span>
@@ -128,19 +125,18 @@
 
                         
                         <div class="absolute bottom-4 left-4 z-20">
-                            <p class="text-white font-bold text-xl drop-shadow-md">
-                                <span
-                                    class="text-amber-400 text-sm mr-1">Rp</span><?php echo e(number_format($item->price, 0, ',', '.')); ?>
+                            <p class="text-white font-bold text-2xl drop-shadow-md">
+                                <span class="text-amber-400 text-sm mr-1">Rp</span><?php echo e(number_format($item->price, 0, ',', '.')); ?>
 
                             </p>
                         </div>
                     </div>
 
                     
-                    <div class="p-5 relative flex flex-col flex-grow">
+                    <div class="p-6 relative flex flex-col flex-grow">
                         
                         <div
-                            class="absolute top-0 right-0 w-16 h-16 opacity-[0.05] pointer-events-none group-hover:opacity-[0.10] transition-opacity">
+                            class="absolute top-0 right-0 w-20 h-20 opacity-[0.05] pointer-events-none group-hover:opacity-[0.10] transition-opacity">
                             <svg viewBox="0 0 100 100" class="fill-red-800">
                                 <path d="M10,40 C30,20 70,20 90,40 L90,60 C70,80 30,80 10,60 Z" />
                             </svg>
@@ -149,55 +145,50 @@
                         
                         <div class="min-h-[3.5rem] flex items-start">
                             <h3
-                                class="font-serif text-lg font-bold text-slate-800 group-hover:text-red-700 transition-colors uppercase tracking-tight leading-tight line-clamp-2">
+                                class="font-serif text-xl font-bold text-slate-800 group-hover:text-red-700 transition-colors uppercase tracking-tight leading-tight line-clamp-2">
                                 <?php echo e($item->name); ?>
 
                             </h3>
                         </div>
 
                         
-                        <div class="mt-2 flex items-center gap-2">
-                            <div class="h-[2px] w-10 bg-red-600 group-hover:w-16 transition-all"></div>
-                            <div class="h-[2px] w-3 bg-amber-400"></div>
+                        <div class="mt-3 flex items-center gap-2">
+                            <div class="h-[2px] w-12 bg-red-600 group-hover:w-20 transition-all"></div>
+                            <div class="h-[2px] w-4 bg-amber-400"></div>
                         </div>
 
                         
-                        <div class="mt-3 flex-grow">
-                            <p class="text-gray-500 text-sm italic line-clamp-2">
+                        <div class="mt-4 flex-grow">
+                            <p class="text-gray-500 text-sm italic leading-relaxed line-clamp-2">
                                 <?php echo e($item->description ?? __('language.no_description')); ?>
-
 
                             </p>
                         </div>
 
                         
-                        <div class="mt-6 flex items-center justify-between border-t border-gray-50 pt-4">
-                            <div class="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">
-                                <i class="fas fa-utensils mr-1 text-amber-500"></i> <?php echo e(__('language.fresh')); ?>
+                        <div class="mt-6 flex items-center justify-between border-t border-gray-100 pt-5">
+                            <div class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+                                <i class="fas fa-utensils mr-2 text-amber-500"></i> <?php echo e(__('language.fresh')); ?>
 
                             </div>
 
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($item->is_available): ?>
                                 <button
                                     wire:click="$dispatch('add-to-cart', [<?php echo e($item->id); ?>, '<?php echo e($item->name); ?>', <?php echo e($item->price); ?>, '<?php echo e($item->image); ?>']).to('cart-component')"
-                                    class="relative overflow-hidden group/btn bg-red-700 hover:bg-red-800 text-white flex items-center gap-2 px-4 py-2 rounded-xl transition-all shadow-md active:scale-95">
-                                    <span
-                                        class="text-[11px] font-bold uppercase tracking-widest"><?php echo e(__('language.add')); ?></span>
-                                    <i class="fas fa-plus text-[9px] bg-amber-400 text-red-900 p-1 rounded-full"></i>
+                                    class="relative overflow-hidden group/btn bg-red-700 hover:bg-red-800 text-white flex items-center gap-3 px-6 py-2.5 rounded-xl transition-all shadow-md active:scale-95">
+                                    <span class="text-xs font-bold uppercase tracking-widest"><?php echo e(__('language.add')); ?></span>
+                                    <i class="fas fa-plus text-[10px] bg-amber-400 text-red-900 p-1 rounded-full"></i>
                                 </button>
                             <?php else: ?>
-                                <span
-                                    class="text-gray-400 text-[10px] font-bold uppercase italic"><?php echo e(__('language.sold_out')); ?></span>
+                                <span class="text-gray-400 text-xs font-bold uppercase italic"><?php echo e(__('language.sold_out')); ?></span>
                             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                         </div>
                     </div>
 
                     
                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!$item->is_available): ?>
-                        <div
-                            class="absolute inset-0 bg-white/40 backdrop-blur-[1px] flex items-center justify-center z-10 pointer-events-none">
-                            <div
-                                class="bg-black/80 text-white px-4 py-2 rotate-12 border-2 border-amber-500 font-bold uppercase text-xs tracking-widest shadow-2xl">
+                        <div class="absolute inset-0 bg-white/40 backdrop-blur-[1px] flex items-center justify-center z-10 pointer-events-none">
+                            <div class="bg-black/80 text-white px-6 py-3 rotate-12 border-2 border-amber-500 font-bold uppercase text-sm tracking-widest shadow-2xl">
                                 <?php echo e(__('language.sold_out')); ?>
 
                             </div>
