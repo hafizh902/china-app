@@ -420,6 +420,12 @@
                                 <span>{{ __('language.subtotal') }}</span>
                                 <span>Rp{{ number_format($selectedOrder->subtotal, 0, ',', '.') }}</span>
                             </div>
+                            @if($selectedOrder->delivery_fee > 0)
+                            <div class="flex justify-between text-xs text-stone-500 font-medium tracking-wide">
+                                <span>{{ __('language.delivery_fee') }}</span>
+                                <span>Rp{{ number_format($selectedOrder->delivery_fee, 0, ',', '.') }}</span>
+                            </div>
+                            @endif
                             <div class="flex justify-between text-xs text-stone-500">
                                 <span>{{ __('language.restaurant_tax') }}({{ \App\Models\SystemConfig::value('tax_percent') ?? '-' }}%)</span>
                                 <span>Rp{{ number_format($selectedOrder->tax, 0, ',', '.') }}</span>

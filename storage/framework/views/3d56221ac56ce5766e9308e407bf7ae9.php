@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo e(optional(\App\Models\SystemConfig::first())->brand_name ?? config('app.name')); ?></title>
     
-<?php
+    <?php
     $brandLogo = \App\Models\SystemConfig::value('brand_logo'); // simpan nama file di DB
-?>
+    ?>
 
-<?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($brandLogo): ?>
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($brandLogo): ?>
     <link rel="icon" href="https://bbbvjqzpktarmsblmblv.supabase.co/storage/v1/object/public/chinaon/<?php echo e($brandLogo); ?>?v=<?php echo e(time()); ?>">
-<?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
 
     <!-- Tailwind CSS dari CDN -->
@@ -23,7 +23,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         // Konfigurasi Tailwind CSS custom
         tailwind.config = {
@@ -74,8 +75,8 @@ unset($__params);
 unset($__split);
 if (isset($__slots)) unset($__slots);
 ?>
-    
-    
+
+
 
     <main class="relative overflow-visible">
         <?php echo e($slot); ?>
