@@ -52,14 +52,14 @@
                     </label>
 
                     {{-- PREVIEW AREA --}}
-                    <div 
+                    <div
                         x-data="{ isDragging: false }"
                         @dragover.prevent="isDragging = true"
                         @dragleave.prevent="isDragging = false"
                         @drop.prevent="isDragging = false; $refs.fileInput.files = $event.dataTransfer.files; $refs.fileInput.dispatchEvent(new Event('change'))"
                         :class="isDragging ? 'border-chinese-red bg-chinese-red/5' : 'border-chinese-gold/30'"
                         class="border-2 border-dashed rounded-lg p-4 transition-all duration-200 flex flex-col items-center justify-center min-h-[200px]">
-                        
+
                         @if ($brand_logo)
                         <img src="{{ $brand_logo->temporaryUrl() }}"
                             class="max-h-32 w-auto object-contain rounded-lg mb-2">
@@ -68,7 +68,7 @@
                             class="max-h-32 w-auto object-contain rounded-lg mb-2">
                         @else
                         <svg class="w-12 h-12 text-gray-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
                         @endif
@@ -93,7 +93,7 @@
                                      bg-chinese-red text-white text-xs font-semibold rounded-lg 
                                      hover:bg-red-700 transition-all duration-200 border-2 border-chinese-gold">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                             </svg>
                             Choose Image
@@ -103,7 +103,7 @@
 
                 {{-- KOLOM KANAN: FORM INPUTS --}}
                 <div class="space-y-3">
-                    
+
                     <div class="space-y-1">
                         <label class="text-xs font-bold text-chinese-black flex items-center gap-1.5">
                             <span class="w-0.5 h-3 bg-chinese-red"></span>
@@ -161,69 +161,259 @@
 
             {{-- OPERATIONAL SETTINGS --}}
             @if ($activeTab === 'operational')
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-8">
 
-                <div class="space-y-1">
-                    <label class="text-xs font-bold text-chinese-black flex items-center gap-1.5">
-                        <span class="w-0.5 h-3 bg-chinese-red"></span>
-                        Active From
-                    </label>
-                    <input
-                        type="time"
-                        wire:model.defer="form.active_from"
-                        class="w-full border-2 border-chinese-gold/30 rounded-lg px-3 py-1.5 text-sm
-                               focus:border-chinese-red focus:ring-2 focus:ring-chinese-gold/20 
-                               transition-all duration-200">
+                {{-- Pastikan Library Leaflet dimuat (Sebaiknya di layout utama, tapi disini untuk memastikan) --}}
+                <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+                <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+                {{-- 1. General Operational --}}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {{-- ... Input jam operasional (sama seperti sebelumnya) ... --}}
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-chinese-black flex items-center gap-1.5">
+                            <span class="w-0.5 h-3 bg-chinese-red"></span>
+                            Active From
+                        </label>
+                        <input type="time" wire:model.defer="form.active_from"
+                            class="w-full border-2 border-chinese-gold/30 rounded-lg px-3 py-1.5 text-sm focus:border-chinese-red focus:ring-2 focus:ring-chinese-gold/20 transition-all duration-200">
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-chinese-black flex items-center gap-1.5">
+                            <span class="w-0.5 h-3 bg-chinese-red"></span>
+                            Active Until
+                        </label>
+                        <input type="time" wire:model.defer="form.active_until"
+                            class="w-full border-2 border-chinese-gold/30 rounded-lg px-3 py-1.5 text-sm focus:border-chinese-red focus:ring-2 focus:ring-chinese-gold/20 transition-all duration-200">
+                    </div>
+
+                    <div class="flex items-center gap-2 p-3 bg-white border-2 border-chinese-gold/30 rounded-lg">
+                        <input type="checkbox" wire:model.defer="form.site_closed"
+                            class="w-4 h-4 text-chinese-red border-chinese-gold/50 rounded focus:ring-2 focus:ring-chinese-gold/20">
+                        <span class="text-xs font-bold text-chinese-black">Close Site</span>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-chinese-black flex items-center gap-1.5">
+                            <span class="w-0.5 h-3 bg-chinese-red"></span>
+                            Tax (%)
+                        </label>
+                        <input type="number" wire:model.defer="form.tax_percent"
+                            class="w-full border-2 border-chinese-gold/30 rounded-lg px-3 py-1.5 text-sm focus:border-chinese-red focus:ring-2 focus:ring-chinese-gold/20 transition-all duration-200">
+                    </div>
                 </div>
 
-                <div class="space-y-1">
-                    <label class="text-xs font-bold text-chinese-black flex items-center gap-1.5">
-                        <span class="w-0.5 h-3 bg-chinese-red"></span>
-                        Active Until
-                    </label>
-                    <input
-                        type="time"
-                        wire:model.defer="form.active_until"
-                        class="w-full border-2 border-chinese-gold/30 rounded-lg px-3 py-1.5 text-sm
-                               focus:border-chinese-red focus:ring-2 focus:ring-chinese-gold/20 
-                               transition-all duration-200">
-                </div>
+                <hr class="border-chinese-gold/30 border-dashed">
 
-                <div class="flex items-center gap-2 p-3 bg-white border-2 border-chinese-gold/30 rounded-lg">
-                    <input
-                        type="checkbox"
-                        wire:model.defer="form.site_closed"
-                        class="w-4 h-4 text-chinese-red border-chinese-gold/50 rounded 
-                               focus:ring-2 focus:ring-chinese-gold/20">
-                    <span class="text-xs font-bold text-chinese-black">Close Site</span>
-                </div>
+                {{-- 2. Location & Delivery System --}}
+                {{-- FIX: Menggunakan Inline Object Alpine untuk menghindari Reference Error --}}
+                <div x-data="{
+        map: null,
+        marker: null,
+        search: '',
+        suggestions: [],
+        lat: @entangle('form.restaurant_lat'),
+        lng: @entangle('form.restaurant_lng'),
 
-                <div class="space-y-1">
-                    <label class="text-xs font-bold text-chinese-black flex items-center gap-1.5">
-                        <span class="w-0.5 h-3 bg-chinese-red"></span>
-                        Tax (%)
-                    </label>
-                    <input
-                        type="number"
-                        wire:model.defer="form.tax_percent"
-                        class="w-full border-2 border-chinese-gold/30 rounded-lg px-3 py-1.5 text-sm
-                               focus:border-chinese-red focus:ring-2 focus:ring-chinese-gold/20 
-                               transition-all duration-200">
-                </div>
+        init() {
+            // Tunggu sebentar agar elemen DOM map tersedia
+            this.$nextTick(() => {
+                this.initMap();
+            });
 
-                <div class="space-y-1">
-                    <label class="text-xs font-bold text-chinese-black flex items-center gap-1.5">
-                        <span class="w-0.5 h-3 bg-chinese-red"></span>
-                        Delivery Fee
-                    </label>
-                    <input
-                        type="number"
-                        wire:model.defer="form.delivery_fee"
-                        class="w-full border-2 border-chinese-gold/30 rounded-lg px-3 py-1.5 text-sm
-                               focus:border-chinese-red focus:ring-2 focus:ring-chinese-gold/20 
-                               transition-all duration-200">
-                </div>
+            // Listener untuk update dari Backend (Link Paste)
+            Livewire.on('update-map-view', (data) => {
+                // data mungkin dibungkus array tergantung versi Livewire
+                const coords = Array.isArray(data) ? data[0] : data; 
+                this.updateMapPosition(coords.lat, coords.lng);
+            });
+        },
 
+        initMap() {
+            if (this.map) return; // Mencegah double init
+            
+            // Cek apakah element ada
+            const mapEl = document.getElementById('admin-map');
+            if(!mapEl) return;
+
+            // Default fallback jika lat/lng null/0
+            if(!this.lat) this.lat = -6.200000;
+            if(!this.lng) this.lng = 106.816666;
+
+            this.map = L.map('admin-map').setView([this.lat, this.lng], 15);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OSM'
+            }).addTo(this.map);
+
+            const redIcon = new L.Icon({
+                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41]
+            });
+
+            this.marker = L.marker([this.lat, this.lng], {
+                icon: redIcon,
+                draggable: true
+            }).addTo(this.map);
+
+            this.marker.on('dragend', (e) => {
+                const pos = e.target.getLatLng();
+                this.lat = pos.lat;
+                this.lng = pos.lng;
+                
+                // Update ke Livewire Controller
+                @this.updateCoordinates(pos.lat, pos.lng);
+            });
+        },
+
+        updateMapPosition(lat, lng) {
+            if(!this.map) return;
+            const newLatLng = new L.LatLng(lat, lng);
+            this.marker.setLatLng(newLatLng);
+            this.map.setView(newLatLng, 16);
+            this.lat = lat;
+            this.lng = lng;
+        },
+
+        async getSuggestions() {
+            if (this.search.length < 3) {
+                this.suggestions = []; return;
+            }
+            try {
+                const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(this.search)}&countrycodes=id&limit=5`);
+                this.suggestions = await res.json();
+            } catch (e) { console.error(e); }
+        },
+
+        selectSuggestion(item) {
+            const lat = parseFloat(item.lat);
+            const lng = parseFloat(item.lon);
+            
+            this.search = '';
+            this.suggestions = [];
+            
+            this.updateMapPosition(lat, lng);
+            @this.updateCoordinates(lat, lng);
+        }
+    }">
+                    <h3 class="text-sm font-bold text-chinese-red mb-4 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fas fa-map-marked-alt"></i> Location & Delivery
+                    </h3>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                        {{-- KOLOM KIRI: Map & Visual Picker --}}
+                        <div class="lg:col-span-2 space-y-4">
+
+                            {{-- Map Container --}}
+                            <div class="relative group">
+                                {{-- FIX: wire:ignore sangat PENTING agar Livewire tidak mereset Map saat input lain diketik --}}
+                                <div wire:ignore>
+                                    <div id="admin-map" class="h-80 w-full rounded-xl border-4 border-chinese-gold/20 shadow-inner z-0"></div>
+                                </div>
+
+                                <div class="absolute top-2 right-2 bg-white/90 backdrop-blur px-3 py-1.5 rounded-lg border border-chinese-gold/30 text-[10px] text-chinese-black shadow-sm z-[400]">
+                                    <i class="fas fa-arrows-alt text-chinese-red mr-1"></i> Drag marker to adjust
+                                </div>
+                            </div>
+
+                            {{-- Autocomplete Search --}}
+                            <div class="relative" @click.away="suggestions = []">
+                                <div class="flex gap-2">
+                                    <div class="relative flex-1">
+                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-chinese-red">
+                                            <i class="fas fa-search"></i>
+                                        </span>
+                                        <input type="text"
+                                            x-model="search"
+                                            @input.debounce.500ms="getSuggestions()"
+                                            placeholder="Search location (e.g. Monas, Jakarta)..."
+                                            class="w-full pl-9 border-2 border-chinese-gold/30 rounded-lg px-3 py-2 text-sm focus:border-chinese-red focus:ring-2 focus:ring-chinese-gold/20 transition-all duration-200">
+                                    </div>
+                                </div>
+
+                                {{-- Dropdown Suggestions --}}
+                                <div x-show="suggestions.length > 0"
+                                    class="absolute z-[1000] left-0 right-0 bg-white mt-1 rounded-lg shadow-xl border border-chinese-gold/20 max-h-60 overflow-y-auto"
+                                    style="display: none;"
+                                    x-transition>
+                                    <template x-for="item in suggestions" :key="item.place_id">
+                                        <div @click="selectSuggestion(item)"
+                                            class="px-4 py-2 hover:bg-chinese-red/5 cursor-pointer border-b border-gray-100 last:border-0 text-xs text-gray-700">
+                                            <span class="font-bold block" x-text="item.display_name.split(',')[0]"></span>
+                                            <span class="text-[10px] text-gray-500 truncate block" x-text="item.display_name"></span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- KOLOM KANAN: Settings & Google Link --}}
+                        <div class="space-y-4">
+
+                            {{-- Option A: Google Maps Link --}}
+                            <div class="bg-chinese-red/5 p-4 rounded-xl border border-chinese-red/10 space-y-2">
+                                <label class="text-[10px] font-black text-chinese-red uppercase tracking-widest">
+                                    Option A: Paste Link
+                                </label>
+                                <input type="text"
+                                    wire:model.live.debounce.1000ms="googleMapsLink"
+                                    placeholder="Paste Google Maps URL..."
+                                    class="w-full bg-white border-2 border-chinese-gold/30 rounded-lg px-3 py-2 text-xs focus:border-chinese-red focus:ring-2 focus:ring-chinese-gold/20">
+                                <p class="text-[9px] text-gray-500 leading-tight">
+                                    Copy the full URL from browser address bar. The map will update automatically.
+                                </p>
+                            </div>
+
+                            {{-- Coordinats Readonly --}}
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="text-[10px] font-bold text-gray-500 uppercase">Lat</label>
+                                    <input type="text" wire:model="form.restaurant_lat" readonly
+                                        class="w-full bg-gray-100 border border-gray-200 rounded px-2 py-1 text-xs text-gray-600">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-bold text-gray-500 uppercase">Lng</label>
+                                    <input type="text" wire:model="form.restaurant_lng" readonly
+                                        class="w-full bg-gray-100 border border-gray-200 rounded px-2 py-1 text-xs text-gray-600">
+                                </div>
+                            </div>
+
+                            <hr class="border-chinese-gold/30 border-dashed">
+
+                            {{-- Delivery Fees --}}
+                            <div class="space-y-3">
+                                <div class="space-y-1">
+                                    <label class="text-xs font-bold text-chinese-black flex items-center gap-1.5">
+                                        <span class="w-0.5 h-3 bg-chinese-red"></span>
+                                        Fee per KM
+                                    </label>
+                                    <div class="relative">
+                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs font-bold">Rp</span>
+                                        <input type="number" wire:model.defer="form.price_per_km"
+                                            class="w-full pl-8 border-2 border-chinese-gold/30 rounded-lg px-3 py-1.5 text-sm focus:border-chinese-red focus:ring-2 focus:ring-chinese-gold/20">
+                                    </div>
+                                </div>
+
+                                <div class="space-y-1">
+                                    <label class="text-xs font-bold text-chinese-black flex items-center gap-1.5">
+                                        <span class="w-0.5 h-3 bg-chinese-red"></span>
+                                        Flat Fee
+                                    </label>
+                                    <div class="relative">
+                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs font-bold">Rp</span>
+                                        <input type="number" wire:model.defer="form.delivery_fee"
+                                            class="w-full pl-8 border-2 border-chinese-gold/30 rounded-lg px-3 py-1.5 text-sm focus:border-chinese-red focus:ring-2 focus:ring-chinese-gold/20">
+                                    </div>
+                                    <p class="text-[9px] text-gray-400 italic">Used if coordinates fail or pickup.</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
             @endif
 
@@ -279,7 +469,7 @@
         x-transition:leave="transition ease-in duration-200"
         x-transition:leave-start="opacity-100 translate-x-0"
         x-transition:leave-end="opacity-0 translate-x-10">
-        
+
         <div class="bg-white/90 backdrop-blur-lg border-l-4 border-green-500 shadow-2xl rounded-2xl p-4 flex items-center gap-4 border border-stone-200">
             <div class="flex-shrink-0 w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
                 <i class="fas fa-check-circle text-green-600 text-lg"></i>
