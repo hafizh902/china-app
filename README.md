@@ -1,107 +1,101 @@
-# China App
+# 🇨🇳 China App
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-**China App** adalah sebuah proyek aplikasi yang [Tulis deskripsi singkat tentang apa yang dilakukan aplikasi ini, misalnya: "dirancang untuk mendeteksi, mendaftar, atau mengelola informasi terkait aplikasi yang berasal dari China" atau tujuan spesifik lainnya].
+## 📖 Introduction
 
-## 📋 Daftar Isi
+**China App** is a Laravel-based application designed as a starter kit for building web applications with powerful features such as Livewire integration, authentication, and modular configuration. The project structure is suited for scalable web solutions and rapid prototyping. This repository provides a solid foundation for your next web application project.
 
-- [Tentang Proyek](#-tentang-proyek)
-- [Fitur Utama](#-fitur-utama)
-- [Teknologi yang Digunakan](#-teknologi-yang-digunakan)
-- [Prasyarat](#-prasyarat)
-- [Instalasi](#-instalasi)
-- [Penggunaan](#-penggunaan)
-- [Kontribusi](#-kontribusi)
-- [Lisensi](#-lisensi)
-- [Kontak](#-kontak)
+---
 
-## 📖 Tentang Proyek
+## ✨ Features
 
-[Jelaskan secara lebih mendalam tentang latar belakang dan tujuan proyek ini. Masalah apa yang diselesaikan? Siapa target penggunanya?]
+- **Laravel Framework**: Robust and modern PHP framework.
+- **Livewire Integration**: Build dynamic interfaces with ease.
+- **Authentication Ready**: Includes starter authentication setup.
+- **Environment Configuration**: Simple `.env` example included.
+- **Modular Configuration**: Organized config files for easy customization.
+- **Detailed Documentation**: Bahasa Indonesia documentation in `DOKUMENTASI_KODE.md`.
+- **MIT Licensed**: Open for personal and commercial projects.
 
-Contoh:
-> Proyek ini bertujuan untuk memberikan informasi transparan mengenai pengembang aplikasi yang terinstall di perangkat pengguna.
+---
 
-## ✨ Fitur Utama
+## 🚀 Installation
 
-Berikut adalah beberapa fitur unggulan dari aplikasi ini:
-
-- ✅ [Fitur 1: Misal, Pemindaian Cepat]
-- ✅ [Fitur 2: Misal, Database Terupdate]
-- ✅ [Fitur 3: Misal, Antarmuka yang Ramah Pengguna]
-- ✅ [Fitur 4: ...]
-
-## 🛠 Teknologi yang Digunakan
-
-Proyek ini dibangun menggunakan teknologi berikut:
-
-- [Bahasa Pemrograman: Misal, JavaScript / Dart / Java]
-- [Framework: Misal, React Native / Flutter / Android SDK]
-- [Database: Misal, Firebase / SQLite]
-- [Lainnya: ...]
-
-## ⚙️ Prasyarat
-
-Sebelum memulai, pastikan Anda telah menginstal:
-
-* Git
-* [Runtime/Language SDK, misal: Node.js / JDK / Flutter SDK]
-* [Package Manager, misal: npm / yarn]
-
-## 🚀 Instalasi
-
-Ikuti langkah-langkah di bawah ini untuk menjalankan proyek di komputer lokal Anda:
-
-1.  **Clone repositori ini**
+1. **Clone the Repository**
     ```bash
-    git clone [https://github.com/hafizh902/china-app.git](https://github.com/hafizh902/china-app.git)
-    ```
-
-2.  **Masuk ke direktori proyek**
-    ```bash
+    git clone https://github.com/your-username/china-app.git
     cd china-app
     ```
 
-3.  **Install dependensi**
+2. **Install Dependencies**
     ```bash
-    # Contoh jika menggunakan npm
-    npm install
-
-    # Atau jika menggunakan Flutter
-    # flutter pub get
+    composer install
     ```
 
-4.  **Jalankan aplikasi**
+3. **Copy and Configure Environment File**
     ```bash
-    # Contoh jika menggunakan npm
-    npm start
-
-    # Atau jika menggunakan Flutter
-    # flutter run
+    cp .env.example .env
+    # Edit .env to suit your local environment
     ```
 
-## 🎮 Penggunaan
+4. **Generate Application Key**
+    ```bash
+    php artisan key:generate
+    ```
 
-[Berikan instruksi singkat atau contoh cara menggunakan aplikasi setelah dijalankan. Jika perlu, tambahkan screenshot.]
+5. **Run Migrations**
+    ```bash
+    php artisan migrate
+    ```
 
-## 🤝 Kontribusi
+6. **Serve the Application**
+    ```bash
+    php artisan serve
+    # Visit http://localhost:8000 in your browser
+    ```
 
-Kontribusi sangat kami hargai! Jika Anda ingin berkontribusi:
+---
 
-1.  Fork repositori ini.
-2.  Buat branch fitur baru (`git checkout -b fitur-keren`).
-3.  Commit perubahan Anda (`git commit -m 'Menambahkan fitur keren'`).
-4.  Push ke branch tersebut (`git push origin fitur-keren`).
-5.  Buat Pull Request.
+## 📝 Usage
 
-## 📄 Lisensi
+- **Start Development**: Use `php artisan serve` for local development.
+- **Explore Documentation**: Check `DOKUMENTASI_KODE.md` for code structure and guidance (in Bahasa Indonesia).
+- **Environment Variables**: Update `.env` for your environment (see `.env.example`).
+- **Customizing Configs**: Edit files in the `config/` directory as needed.
 
-Didistribusikan di bawah Lisensi MIT. Lihat file `LICENSE` untuk informasi lebih lanjut.
+---
 
-## 📫 Kontak
+## 🤝 Contributing
 
-Hafizh - [Tautan Profil GitHub Anda](https://github.com/hafizh902)
+Contributions, issues, and feature requests are welcome!  
+Feel free to check the [issues page](https://github.com/your-username/china-app/issues) or submit a [pull request](http://makeapullrequest.com).
 
-Link Proyek: [https://github.com/hafizh902/china-app](https://github.com/hafizh902/china-app)
+**How to contribute:**
+1. Fork the repository.
+2. Create your feature branch (`git checkout -b feature/YourFeature`).
+3. Commit your changes (`git commit -am 'Add some feature'`).
+4. Push to the branch (`git push origin feature/YourFeature`).
+5. Create a new Pull Request.
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+> **Note:**  
+> For a complete code structure overview, please refer to [`DOKUMENTASI_KODE.md`](./DOKUMENTASI_KODE.md).
+
+---
+
+**Happy Coding!** 🚀
+
+## License
+This project is licensed under the **MIT** License.
+
+---
+🔗 GitHub Repo: https://github.com/hafizh902/china-app
