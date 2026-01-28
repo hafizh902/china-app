@@ -1,117 +1,98 @@
-<div class="fixed bottom-6 right-6 z-[999]">
+<div class="fixed bottom-6 right-6 z-[9999]" 
+     x-data="{ isOpen: $wire.entangle('isOpen') }"
+     @click.away="isOpen = false"
+     @keydown.escape.window="isOpen = false">
     
-    <button wire:click="toggleChat" 
-        class="group relative flex items-center justify-center w-16 h-16 bg-chinese-red hover:bg-chinese-black text-white rounded-2xl shadow-[0_10px_30px_rgba(196,30,58,0.4)] transition-all duration-500 active:scale-95 border-b-4 border-chinese-gold">
+    
+    <button @click="isOpen = !isOpen" 
+        class="group relative flex items-center justify-center w-14 h-16 bg-chinese-red text-white rounded-t-2xl rounded-b-lg shadow-2xl transition-all duration-300 hover:-translate-y-1 border-b-4 border-chinese-gold">
         
-        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!$isOpen): ?>
-            
-            <div class="flex flex-col items-center gap-0.5">
-                <div class="w-1 h-2 bg-chinese-gold rounded-full"></div>
-                <i class="fas fa-lightbulb text-2xl text-chinese-gold shadow-sm"></i>
-                <div class="w-4 h-1 bg-chinese-gold/50 rounded-full"></div>
+        <template x-if="!isOpen">
+            <div class="flex flex-col items-center">
+                <i class="fas fa-comment-dots text-xl text-chinese-gold"></i>
+                <span class="text-[7px] font-black text-chinese-gold uppercase mt-1">Chat</span>
             </div>
-        <?php else: ?>
-            <i class="fas fa-times text-2xl text-white"></i>
-        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+        </template>
+        
+        <template x-if="isOpen">
+            <i class="fas fa-times text-xl"></i>
+        </template>
 
         
-        <span class="absolute -top-10 right-0 bg-chinese-black text-chinese-gold text-[9px] px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-widest border border-chinese-gold/30">
-            Ask Dragon
-        </span>
+        <div class="absolute -bottom-3 flex gap-0.5">
+            <div class="w-0.5 h-3 bg-chinese-gold opacity-50"></div>
+            <div class="w-0.5 h-4 bg-chinese-gold"></div>
+            <div class="w-0.5 h-3 bg-chinese-gold opacity-50"></div>
+        </div>
     </button>
 
     
-    <div x-show="$wire.isOpen" 
+    <div x-show="isOpen" 
         x-cloak
         x-transition:enter="transition ease-out duration-300"
         x-transition:enter-start="opacity-0 translate-y-10 scale-95"
         x-transition:enter-end="opacity-100 translate-y-0 scale-100"
         x-transition:leave="transition ease-in duration-200"
-        class="absolute bottom-20 right-0 w-[350px] md:w-[400px] h-[580px] bg-[#FCF9F2] rounded-t-[2.5rem] rounded-b-[1rem] shadow-[0_20px_60px_rgba(0,0,0,0.3)] border-t-4 border-chinese-red flex flex-col overflow-hidden">
+        class="absolute bottom-20 right-0 w-[320px] md:w-[380px] h-[500px] bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.2)] border border-stone-100 flex flex-col overflow-hidden">
         
         
-        <div class="bg-chinese-black p-6 flex items-center justify-between relative overflow-hidden">
-            
-            <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: url('https://www.transparenttextures.com/patterns/oriental-tiles.png');"></div>
-            
-            <div class="flex items-center gap-4 relative z-10">
-                <div class="w-12 h-12 bg-chinese-red border-2 border-chinese-gold rounded-full flex items-center justify-center shadow-lg">
-                    <i class="fas fa-dragon text-chinese-gold text-xl"></i>
+        <div class="bg-chinese-black p-4 flex items-center justify-between border-b border-chinese-gold/20">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-chinese-red rounded-xl rotate-45 flex items-center justify-center border border-chinese-gold shadow-lg">
+                    <i class="fas fa-dragon text-chinese-gold text-sm -rotate-45"></i>
                 </div>
-                <div>
-                    <h3 class="text-xs font-black text-chinese-gold uppercase tracking-[0.3em]">Dragon Pavilion</h3>
-                    <p class="text-[10px] text-white/60 font-chinese uppercase tracking-tighter">Customer Service AI</p>
+                <div class="ml-1">
+                    <h3 class="text-[10px] font-black text-chinese-gold uppercase tracking-widest leading-none">Golden Dragon</h3>
+                    <p class="text-[14px] text-white/90 font-chinese mt-1">御用助手 <span class="text-[8px] italic text-white/40 uppercase ml-1">Imperial Concierge</span></p>
                 </div>
             </div>
-            
-            <button wire:click="toggleChat" class="text-chinese-gold/50 hover:text-chinese-gold transition-colors relative z-10">
+            <button @click="isOpen = false" class="text-white/30 hover:text-white">
                 <i class="fas fa-circle-xmark text-xl"></i>
             </button>
         </div>
 
         
-        <div id="chat-container" class="flex-grow p-6 overflow-y-auto space-y-6 scroll-smooth bg-transparent">
+        <div id="chat-container" class="flex-grow p-5 overflow-y-auto bg-[#faf9f6] space-y-4 custom-scrollbar">
             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $messages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $msg): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <div class="<?php echo e($msg['role'] === 'ai' ? 'flex gap-3 max-w-[90%]' : 'flex flex-row-reverse gap-3 max-w-[90%] ml-auto'); ?>">
-                    
                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($msg['role'] === 'ai'): ?>
-                        <div class="w-8 h-8 bg-chinese-black border border-chinese-gold rounded-lg flex-shrink-0 flex items-center justify-center shadow-sm">
-                            <i class="fas fa-fan text-[10px] text-chinese-gold animate-spin-slow"></i>
+                        <div class="w-7 h-7 bg-white border border-stone-200 rounded-full flex-shrink-0 flex items-center justify-center text-[10px] text-chinese-red font-chinese font-bold shadow-sm">
+                            龙
                         </div>
                     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-
                     <div class="<?php echo e($msg['role'] === 'ai' 
-                        ? 'bg-white border-l-4 border-chinese-red p-4 rounded-r-xl rounded-bl-xl shadow-sm' 
-                        : 'bg-chinese-red p-4 rounded-l-xl rounded-br-xl shadow-md shadow-chinese-red/10'); ?>">
-                        <p class="<?php echo e($msg['role'] === 'ai' ? 'text-[12px] text-stone-800' : 'text-[12px] text-white'); ?> leading-relaxed font-medium">
-                            <?php echo e($msg['text']); ?>
+                        ? 'bg-white border-l-4 border-chinese-red p-3 rounded-r-xl rounded-bl-xl shadow-sm text-stone-700' 
+                        : 'bg-chinese-red text-white p-3 rounded-l-xl rounded-br-xl shadow-md'); ?> text-[11px] leading-relaxed font-medium">
+                        <?php echo e($msg['text']); ?>
 
-                        </p>
                     </div>
                 </div>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
         </div>
 
         
-        <div class="p-5 bg-white border-t border-stone-200/50">
-            <form wire:submit.prevent="sendMessage" class="flex items-center gap-3">
-                <div class="relative flex-grow">
-                    <input type="text" 
-                        wire:model="newMessage"
-                        placeholder="Type your message..." 
-                        class="w-full bg-stone-100 border-none rounded-xl px-4 py-3 text-[12px] focus:ring-2 focus:ring-chinese-red/20 outline-none text-chinese-black font-medium">
-                </div>
+        <div class="p-4 bg-white border-t border-stone-50">
+            <form wire:submit.prevent="sendMessage" class="relative flex items-center gap-2">
+                <input type="text" wire:model="newMessage"
+                    placeholder="Tulis pesan Anda..." 
+                    class="w-full bg-stone-50 border border-stone-100 rounded-full px-4 py-2.5 text-[11px] focus:ring-1 focus:ring-chinese-red/20 outline-none">
                 
-                <button type="submit" 
-                    class="w-12 h-12 bg-chinese-black text-chinese-gold rounded-xl flex items-center justify-center hover:bg-chinese-red hover:text-white transition-all shadow-md active:scale-90 border border-chinese-gold/20">
-                    <i class="fas fa-paper-plane text-sm"></i>
+                <button type="submit" class="w-9 h-9 bg-chinese-black text-chinese-gold rounded-xl flex items-center justify-center hover:bg-chinese-red transition-all shadow-lg active:scale-90">
+                    <i class="fas fa-paper-plane text-[10px]"></i>
                 </button>
             </form>
             
-            <div class="mt-4 flex items-center justify-center gap-3 opacity-20">
-                <span class="text-[14px] font-chinese text-chinese-black">福</span>
-                <p class="text-[8px] text-chinese-black font-black uppercase tracking-[0.3em]">Dragon Pavilion Assistant</p>
-                <span class="text-[14px] font-chinese text-chinese-black">禄</span>
+            
+            <div class="flex justify-center mt-3 opacity-20">
+                <i class="fas fa-yin-yang text-[10px] animate-spin-slow"></i>
             </div>
         </div>
     </div>
 
     <style>
-        .animate-spin-slow {
-            animation: spin 6s linear infinite;
-        }
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+        .animate-spin-slow { animation: spin 8s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .custom-scrollbar::-webkit-scrollbar { width: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #d4af3733; border-radius: 10px; }
     </style>
-
-    <script>
-        window.addEventListener('scroll-bottom', event => {
-            setTimeout(() => {
-                const container = document.getElementById('chat-container');
-                if(container) container.scrollTop = container.scrollHeight;
-            }, 100);
-        });
-    </script>
 </div><?php /**PATH D:\laragon\www\china-app\resources\views/livewire/chat-assistant.blade.php ENDPATH**/ ?>
