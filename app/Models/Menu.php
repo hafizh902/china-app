@@ -14,6 +14,7 @@ class Menu extends Model
 
     protected $fillable = [
         'name',
+        'description_ai',
         'description',
         'category',
         'price',
