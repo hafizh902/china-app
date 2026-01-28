@@ -36,7 +36,7 @@ class ChatRouterService
 
         /**
          * =========================
-         * 3️⃣ INTENT OVERRIDE
+         * 3️⃣ INTENT OVERRIDE (ANTI SALAH AI)
          * =========================
          */
         if (
@@ -157,26 +157,31 @@ class ChatRouterService
 
         /**
          * =========================
-         * 🔒 8️⃣ GUARDRAIL ANTI-HALU
+         * 🔓 8️⃣ SOFT GUARDRAIL
          * =========================
          */
-        $allowedKeywords = [
-            'menu', 'makanan', 'minuman', 'harga', 'berapa',
-            'pesan', 'rekomendasi', 'populer', 'popular', 'terlaris',
-            'best seller', 'tersedia', 'habis', 'stok',
-            'reservasi', 'booking'
+        $hardAllowed = [
+            'menu','makanan','minuman','harga','berapa','pesan',
+            'rekomendasi','populer','terlaris','best seller',
+            'tersedia','habis','stok','reservasi','booking'
         ];
 
-        $allowed = collect($allowedKeywords)
-            ->some(fn ($k) => str_contains($lower, $k));
+        $softAllowed = [
+            'halo','hai','hi','selamat','terima kasih',
+            'buka','jam','alamat','lokasi','dimana',
+            'enak','favorit','sarankan'
+        ];
 
-        if (! $allowed) {
-            return "Saya hanya dapat membantu seputar menu dan layanan restoran kami 🍽️";
+        $inHard = collect($hardAllowed)->some(fn ($k) => str_contains($lower, $k));
+        $inSoft = collect($softAllowed)->some(fn ($k) => str_contains($lower, $k));
+
+        if (! $inHard && ! $inSoft) {
+            return "Saya fokus membantu seputar menu dan layanan restoran kami 🍽️";
         }
 
         /**
          * =========================
-         * 9️⃣ FALLBACK AI (RESTO ONLY)
+         * 9️⃣ FALLBACK AI (RESTO-ONLY)
          * =========================
          */
         $restaurantAi = app(RestaurantAiService::class);
@@ -184,7 +189,10 @@ class ChatRouterService
 
         return $aiService->chat(
             $restaurantAi->buildMessages([
-                ['role' => 'user', 'text' => $message]
+                [
+                    'role' => 'user',
+                    'text' => $message
+                ]
             ])
         );
     }
