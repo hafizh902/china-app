@@ -54,31 +54,21 @@ class ChatAssistant extends Component
 
     protected function askAi()
     {
-        try {
-            $restaurantAi = app(RestaurantAiService::class);
-            $aiService = app(AiService::class);
-
-            $messages = $restaurantAi->buildMessages($this->messages);
-
-            $reply = $aiService->chat($messages);
-
-            $this->messages[] = [
-                'role' => 'ai',
-                'text' => $reply
-            ];
-        } catch (\Throwable $e) {
-            logger()->error('Chat AI Error', [
-                'error' => $e->getMessage()
-            ]);
-
-            $this->messages[] = [
-                'role' => 'ai',
-                'text' => 'Mohon maaf, sistem kami sedang mengalami gangguan.'
-            ];
-        }
-
+        $lastUserMessage = collect($this->messages)
+            ->last(fn ($m) => $m['role'] === 'user')['text'];
+    
+        $reply = app(\App\Services\ChatRouterService::class)
+            ->handle($lastUserMessage);
+    
+        $this->messages[] = [
+            'role' => 'ai',
+            'text' => $reply
+        ];
+    
         $this->dispatch('scroll-bottom');
     }
+    
+    
 
 
     protected function autoReply($query)

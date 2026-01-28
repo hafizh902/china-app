@@ -3,7 +3,7 @@
      @click.away="isOpen = false"
      @keydown.escape.window="isOpen = false">
 
-    {{-- TOMBOL LENTERA --}}
+    
     <button @click="isOpen = !isOpen"
         class="group relative flex items-center justify-center w-14 h-16 bg-chinese-red text-white rounded-t-2xl rounded-b-lg shadow-2xl transition-all duration-300 hover:-translate-y-1 border-b-4 border-chinese-gold">
 
@@ -25,7 +25,7 @@
         </div>
     </button>
 
-    {{-- JENDELA CHAT --}}
+    
     <div x-show="isOpen"
         x-cloak
         x-transition:enter="transition ease-out duration-300"
@@ -34,7 +34,7 @@
         x-transition:leave="transition ease-in duration-200"
         class="absolute bottom-20 right-0 w-[320px] md:w-[380px] h-[500px] bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.2)] border border-stone-100 flex flex-col overflow-hidden">
 
-        {{-- HEADER --}}
+        
         <div class="bg-chinese-black p-4 flex items-center justify-between border-b border-chinese-gold/20">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 bg-chinese-red rounded-xl rotate-45 flex items-center justify-center border border-chinese-gold shadow-lg">
@@ -58,32 +58,34 @@
             </button>
         </div>
 
-        {{-- AREA CHAT --}}
+        
         <div id="chat-container"
              class="flex-grow p-5 overflow-y-auto bg-[#faf9f6] space-y-4 custom-scrollbar">
 
-            @foreach($messages as $msg)
-                <div class="{{ $msg['role'] === 'ai'
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $messages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $msg): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <div class="<?php echo e($msg['role'] === 'ai'
                     ? 'flex gap-3 max-w-[90%]'
-                    : 'flex flex-row-reverse gap-3 max-w-[90%] ml-auto' }}">
+                    : 'flex flex-row-reverse gap-3 max-w-[90%] ml-auto'); ?>">
 
-                    @if($msg['role'] === 'ai')
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($msg['role'] === 'ai'): ?>
                         <div class="w-7 h-7 bg-white border border-stone-200 rounded-full flex-shrink-0 flex items-center justify-center text-[10px] text-chinese-red font-chinese font-bold shadow-sm">
                             龙
                         </div>
-                    @endif
+                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-                    <div class="{{ $msg['role'] === 'ai'
+                    <div class="<?php echo e($msg['role'] === 'ai'
                         ? 'bg-white border-l-4 border-chinese-red p-3 rounded-r-xl rounded-bl-xl shadow-sm text-stone-700'
-                        : 'bg-chinese-red text-white p-3 rounded-l-xl rounded-br-xl shadow-md' }}
+                        : 'bg-chinese-red text-white p-3 rounded-l-xl rounded-br-xl shadow-md'); ?>
+
                         text-[11px] leading-relaxed font-medium">
 
-                        {{ $msg['text'] }}
+                        <?php echo e($msg['text']); ?>
+
                     </div>
                 </div>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-            {{-- LOADING AI --}}
+            
             <div wire:loading wire:target="sendMessage"
                  class="flex gap-3 max-w-[90%] animate-pulse">
 
@@ -100,7 +102,7 @@
             </div>
         </div>
 
-        {{-- INPUT --}}
+        
         <div class="p-4 bg-white border-t border-stone-50">
             <form wire:submit.prevent="sendMessage" class="relative flex items-center gap-2">
 
@@ -132,7 +134,7 @@
         </div>
     </div>
 
-    {{-- STYLE --}}
+    
     <style>
         .animate-spin-slow { animation: spin 8s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -151,7 +153,7 @@
         }
     </style>
 
-    {{-- AUTO SCROLL --}}
+    
     <script>
         document.addEventListener('livewire:loading', () => {
             let chat = document.getElementById('chat-container');
@@ -164,3 +166,4 @@
         });
     </script>
 </div>
+<?php /**PATH D:\projek 12\china-app\resources\views/livewire/chat-assistant.blade.php ENDPATH**/ ?>
