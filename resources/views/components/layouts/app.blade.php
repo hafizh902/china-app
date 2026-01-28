@@ -73,6 +73,9 @@
     {{-- Alert --}}
     <livewire:alert-manager />
 
+    <!-- Ai Chat Assistant -->
+    <livewire:chat-assistant />
+
     {{-- LIVEWIRE SCRIPTS WAJIB --}}
     @fluxScripts
     @livewireScripts
