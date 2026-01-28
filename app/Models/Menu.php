@@ -23,6 +23,10 @@ class Menu extends Model
         'is_available'
     ];
 
+    protected $casts = [
+        'description_ai' => 'string',
+    ];
+
     protected $appends = ['image_url'];
 
     public function getImageUrlAttribute(): ?string
