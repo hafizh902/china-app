@@ -4,6 +4,9 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\On;
+use App\Services\AiService;
+use App\Services\RestaurantAiService;
+
 
 class ChatAssistant extends Component
 {
@@ -33,29 +36,40 @@ class ChatAssistant extends Component
 
     public function sendMessage()
     {
-        // Validasi input
         $validated = trim($this->newMessage);
         if (empty($validated)) return;
 
-        // 1. Simpan pesan User
+        // 1. Simpan pesan user
         $this->messages[] = [
             'role' => 'user',
             'text' => $validated
         ];
 
-        // Backup pesan untuk diproses ke AI nantinya
-        $userQuery = $this->newMessage;
-        
-        // 2. Reset input field
         $this->newMessage = '';
-
-        // 3. Simulasi Respon AI (Nanti ganti dengan API Call)
-        // Kita beri delay sedikit agar terasa 'berpikir'
         $this->dispatch('scroll-bottom');
-        
-        // Contoh respon otomatis sederhana untuk testing
-        $this->autoReply($userQuery);
+
+        // 2. Panggil AI
+        $this->askAi();
     }
+
+    protected function askAi()
+    {
+        $lastUserMessage = collect($this->messages)
+            ->last(fn ($m) => $m['role'] === 'user')['text'];
+    
+        $reply = app(\App\Services\ChatRouterService::class)
+            ->handle($lastUserMessage);
+    
+        $this->messages[] = [
+            'role' => 'ai',
+            'text' => $reply
+        ];
+    
+        $this->dispatch('scroll-bottom');
+    }
+    
+    
+
 
     protected function autoReply($query)
     {

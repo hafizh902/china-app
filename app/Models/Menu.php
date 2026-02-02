@@ -14,12 +14,17 @@ class Menu extends Model
 
     protected $fillable = [
         'name',
+        'description_ai',
         'description',
         'category',
         'price',
         'image',
         'prep_time_minutes',
         'is_available'
+    ];
+
+    protected $casts = [
+        'description_ai' => 'string',
     ];
 
     protected $appends = ['image_url'];
