@@ -52,7 +52,7 @@ class LoginModal extends Component
     
             request()->session()->regenerate();
     
-            return $this->redirect('/', navigate: true);
+            return $this->redirect('/home', navigate: true);
         }
     
         $this->addError('email', 'Email atau password salah.');
