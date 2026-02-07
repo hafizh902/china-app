@@ -15,7 +15,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             AdminUserSeeder::class,
+            SellerSeeder::class, // WAJIB ADA
             TableSeeder::class,
+            MenuSeeder::class,
         ]);
     }
 }
