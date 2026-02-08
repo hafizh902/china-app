@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Pages;
 use App\Livewire\Admin;
 use App\Http\Controllers\XenditWebhookController;
+use App\Livewire\Pages\SumerizePage;
 
 // Handle GET requests to livewire/update route (should redirect or show error)
 Route::get('/livewire/update', function () {
@@ -25,6 +26,8 @@ Route::get('/reservation', Pages\ReservationSystem::class)
 
 // Route settings user
 Route::middleware(['auth'])->group(function () {
+    Route::get('/sumerize', SumerizePage::class)->name('sumerize');
+
     Route::get('/settings', function () {
         return view('settings');
     })->name('user.settings');
