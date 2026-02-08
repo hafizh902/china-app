@@ -1,9 +1,16 @@
-<div id="login-modal" class="fixed inset-0 z-[9999] overflow-y-auto flex items-center justify-center p-4"
-    style="display: {{ $showModal ? 'flex' : 'none' }}; background-color: rgba(0, 0, 0, 0.6); backdrop-blur: 4px;"
-    >
+<div id="login-modal" 
+    x-data="{ open: @entangle('showModal') }"
+    x-show="open"
+    x-cloak
+    @close-login-modal.window="open = false"
+    @open-login-modal.window="open = true"
+    @refresh-csrf.window="refreshCsrfToken()"
+    class="fixed inset-0 z-[9999] overflow-y-auto flex items-center justify-center p-4"
+    style="display: none;">
 
     <div class="relative w-full max-w-4xl bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row animate-zoom-in">
         
+        <!-- Left Side (unchanged) -->
         <div class="relative w-full md:w-5/12 bg-gradient-to-br from-red-600 via-red-700 to-red-800 p-10 flex flex-col items-center justify-center text-center">
             <div class="absolute inset-0 opacity-10 pointer-events-none">
                 <div class="absolute top-10 left-10 text-yellow-400 text-4xl">🍜</div>
@@ -23,6 +30,7 @@
             </div>
         </div>
 
+        <!-- Right Side (Form) -->
         <div class="w-full md:w-7/12 p-8 md:p-12 bg-white relative">
             <button wire:click="closeModal"
                 class="absolute top-6 right-6 text-gray-400 hover:text-red-600 transition-colors z-20">
@@ -46,6 +54,7 @@
             @endif
 
             <form wire:submit.prevent="login" novalidate class="space-y-4">
+                @csrf
                 <div class="grid grid-cols-1 gap-1">
                     <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">{{ __('language.email_label') }}</label>
                     <div class="relative">
@@ -81,35 +90,49 @@
                     <span wire:loading.remove wire:target="login" class="uppercase tracking-widest text-sm">{{ __('language.login_button') }}</span>
                     <span wire:loading wire:target="login" class="flex items-center gap-2">
                         <i class="fas fa-circle-notch fa-spin"></i> {{ __('language.loading') }}
+                    </span>
                 </button>
 
-                {{-- SEPARATOR --}}
                 <div class="relative flex py-3 items-center">
                     <div class="flex-grow border-t border-gray-100"></div>
                     <span class="flex-shrink mx-4 text-[10px] font-bold text-gray-300 uppercase tracking-[0.2em]">{{ __('language.or') }}</span>
                     <div class="flex-grow border-t border-gray-100"></div>
                 </div>
 
-                {{-- TOMBOL DAFTAR --}}
                 <button
-                type="button"
-                x-data
-                @click="
-                    $dispatch('close-login-modal');
-                    $dispatch('open-register-modal');
-                "
-                class="w-full bg-white border-2 border-stone-100 hover:border-red-700
-                       text-stone-600 hover:text-red-700 font-black py-4 rounded-2xl">
-                <span class="uppercase tracking-widest text-[11px]">
-                    {{ __('language.register_prompt') }}
-                </span>
-            </button>
-            
+                    type="button"
+                    x-data
+                    @click="
+                        $dispatch('close-login-modal');
+                        $dispatch('open-register-modal');
+                    "
+                    class="w-full bg-white border-2 border-stone-100 hover:border-red-700 text-stone-600 hover:text-red-700 font-black py-4 rounded-2xl">
+                    <span class="uppercase tracking-widest text-[11px]">
+                        {{ __('language.register_prompt') }}
+                    </span>
+                </button>
             </form>
         </div>
     </div>
+    
     <style>
         .animate-zoom-in { animation: zoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
         @keyframes zoom { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
     </style>
+
+    <script>
+        function refreshCsrfToken() {
+            fetch('/refresh-csrf', {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.querySelector('meta[name="csrf-token"]').content = data.token;
+                window.Livewire.find('{{ $this->getId() }}').call('$refresh');
+            });
+        }
+    </script>
 </div>

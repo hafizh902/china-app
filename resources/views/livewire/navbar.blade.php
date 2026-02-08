@@ -34,9 +34,9 @@
                        class="px-4 py-2 rounded-full text-sm font-bold transition-all {{ request()->routeIs('home') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-600 hover:text-indigo-600 hover:bg-slate-50' }}">
                         {{ __('language.home') }}
                     </a>
-                    <a href="{{ route('menu') }}" 
-                       class="px-4 py-2 rounded-full text-sm font-bold transition-all {{ request()->routeIs('menu') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-600 hover:text-indigo-600 hover:bg-slate-50' }}">
-                        {{ __('language.menu') }}
+                    <a href="{{ route('catalogue') }}" 
+                       class="px-4 py-2 rounded-full text-sm font-bold transition-all {{ request()->routeIs('catalogue') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-600 hover:text-indigo-600 hover:bg-slate-50' }}">
+                        {{ __('language.catalogue') }}
                     </a>
                     <a href="{{ route('orders') }}" 
                        class="px-4 py-2 rounded-full text-sm font-bold transition-all {{ request()->routeIs('orders') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-600 hover:text-indigo-600 hover:bg-slate-50' }}">
@@ -139,8 +139,8 @@
                 <a href="{{ route('home') }}" class="block px-4 py-3 rounded-xl font-bold {{ request()->routeIs('home') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-600 hover:bg-slate-50' }}">
                     {{ __('language.home') }}
                 </a>
-                <a href="{{ route('menu') }}" class="block px-4 py-3 rounded-xl font-bold {{ request()->routeIs('menu') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-600 hover:bg-slate-50' }}">
-                    {{ __('language.menu') }}
+                <a href="{{ route('catalogue') }}" class="block px-4 py-3 rounded-xl font-bold {{ request()->routeIs('catalogue') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-600 hover:bg-slate-50' }}">
+                    {{ __('language.catalogue') }}
                 </a>
                 <a href="{{ route('orders') }}" class="block px-4 py-3 rounded-xl font-bold {{ request()->routeIs('orders') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-600 hover:bg-slate-50' }}">
                     {{ __('language.orders') }}
