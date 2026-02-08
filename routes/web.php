@@ -34,7 +34,7 @@ Route::middleware('guest')->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::get('/home', Pages\HomePage::class)->name('home');
-Route::get('/menu', Pages\MenuPage::class)->name('menu');
+Route::get('/catalogue', Pages\MenuPage::class)->name('catalogue');
 Route::get('/cart', Pages\CartPage::class)->name('cart');
 Route::get('/checkout', Pages\CheckoutPage::class)->name('checkout');
 
@@ -99,3 +99,9 @@ Route::middleware(['auth', 'admin'])
 |--------------------------------------------------------------------------
 */
 require __DIR__ . '/settings.php';
+
+Route::get('/check-auth', function () {
+    return response()->json([
+        'authenticated' => auth()->check()
+    ]);
+});

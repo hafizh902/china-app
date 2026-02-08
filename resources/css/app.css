@@ -8,6 +8,68 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ================================================ */
+/* === ULTIMATE SCROLLBAR HIDE - TARUH DI ATAS === */
+/* ================================================ */
+/* CRITICAL: Harus SEBELUM @theme dan @layer! */
+
+html {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    overflow: auto !important; /* Bukan hidden, tapi auto */
+    overflow-x: hidden !important;
+}
+
+html::-webkit-scrollbar {
+    width: 0px !important;
+    height: 0px !important;
+    display: none !important;
+}
+
+html::-webkit-scrollbar-track {
+    background: transparent !important;
+    display: none !important;
+}
+
+html::-webkit-scrollbar-thumb {
+    background: transparent !important;
+    display: none !important;
+}
+
+body {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    overflow-x: hidden !important;
+}
+
+body::-webkit-scrollbar {
+    width: 0px !important;
+    height: 0px !important;
+    display: none !important;
+}
+
+/* Untuk semua elemen lainnya juga */
+* {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+*::-webkit-scrollbar {
+    width: 0px !important;
+    height: 0px !important;
+    display: none !important;
+}
+
+*::-webkit-scrollbar-track {
+    display: none !important;
+}
+
+*::-webkit-scrollbar-thumb {
+    display: none !important;
+}
+
+/* ================================================ */
+
 @theme {
     /* --- UKITA BRAND COLORS --- */
     --color-ukita-primary: #4F7942;   /* Hijau Daun */
@@ -57,6 +119,16 @@
     ::file-selector-button {
         border-color: var(--color-gray-200, currentColor);
     }
+
+    /* Smooth scroll & Overflow control */
+    html {
+        scroll-behavior: smooth !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+
+    body {
+        overflow-x: hidden !important;
+    }
 }
 
 @layer components {
@@ -77,7 +149,7 @@
     /* Override focus agar mengikuti tema merah Anda, atau ganti ke ukita-primary */
     [data-flux-control]:focus {
         background-color: white !important;
-        border-color: var(--color-ukita-secondary) !important; /* Saya sesuaikan ke warna brand */
+        border-color: var(--color-ukita-secondary) !important;
         box-shadow: 0 0 0 1px var(--color-ukita-secondary) !important;
     }
 }
