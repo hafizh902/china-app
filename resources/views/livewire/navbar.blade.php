@@ -129,6 +129,12 @@
                             </div>
 
                             <div class="py-2">
+                                <a href="{{ route('sumerize') }}"
+                                    class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
+                                    <i class="fas fa-chart-line mr-3 text-gray-400"></i>
+                                    <span>Summarize</span>
+                                </a>
+
                                 <a href="{{ route('user.settings') }}"
                                     class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
                                     <i class="fas fa-user-cog mr-3 text-gray-400"></i>
