@@ -234,6 +234,17 @@
                                     <i class="fas fa-chevron-down text-xs"></i>
                                 </div>
                             </div>
+
+                            @if ($item->is_available)
+                                <button
+                                    wire:click="$dispatch('add-to-cart', [{{ $item->id }}, '{{ $item->name }}', {{ $item->price }}, '{{ $item->image }}']).to('cart-component')"
+                                    class="relative overflow-hidden group/btn bg-red-700 hover:bg-red-800 text-white flex items-center gap-3 px-6 py-2.5 rounded-xl transition-all shadow-md active:scale-95">
+                                    <span class="text-xs font-bold uppercase tracking-widest">{{ __('language.add') }}</span>
+                                    <i class="fas fa-plus text-[10px] bg-amber-400 text-red-900 p-1 rounded-full"></i>
+                                </button>
+                            @else
+                                <span class="text-gray-400 text-xs font-bold uppercase italic">{{ __('language.sold_out') }}</span>
+                            @endif
                         </div>
 
                     </div>

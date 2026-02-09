@@ -104,15 +104,35 @@
                                 <p class="text-xs text-slate-500 truncate">{{ auth()->user()->email }}</p>
                             </div>
 
-                            <a href="{{ route('user.settings') }}" class="flex items-center gap-3 px-4 py-2 text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 transition-colors">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                {{ __('language.settings') }}
-                            </a>
-                            
-                            <button wire:click="openLogoutModal" class="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-500 hover:bg-red-50 hover:text-red-600 transition-colors text-left">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
-                                {{ __('language.logout') }}
-                            </button>
+                            <div class="py-2">
+                                <a href="{{ route('sumerize') }}"
+                                    class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
+                                    <i class="fas fa-chart-line mr-3 text-gray-400"></i>
+                                    <span>Summarize</span>
+                                </a>
+
+                                <a href="{{ route('user.settings') }}"
+                                    class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
+                                    <i class="fas fa-user-cog mr-3 text-gray-400"></i>
+                                    <span>{{ __('language.settings') }}</span>
+                                </a>
+
+                                @if (auth()->user()->role === 'admin')
+                                    <a href="{{ route('admin.dashboard') }}"
+                                        class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
+                                        <i class="fas fa-cog mr-3 text-gray-400"></i>
+                                        <span>{{ __('language.admin_panel') }}</span>
+                                    </a>
+                                @endif
+
+                                <hr class="my-2 border-gray-100">
+
+                                <button type="button" wire:click="openLogoutModal"
+                                    class="flex items-center w-full px-4 py-3 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors">
+                                    <i class="fas fa-sign-out-alt mr-3"></i>
+                                    <span>{{ __('language.logout') }}</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 @endguest

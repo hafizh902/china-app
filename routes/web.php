@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Pages;
 use App\Livewire\Admin;
 use App\Http\Controllers\XenditWebhookController;
+use App\Livewire\Pages\SumerizePage;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,10 @@ Route::get('/checkout', Pages\CheckoutPage::class)->name('checkout');
 Route::middleware('auth')->group(function () {
     Route::get('/orders', Pages\OrderHistoryPage::class)->name('orders');
     Route::get('/reservation', Pages\ReservationSystem::class)->name('reservation');
+
+// Route settings user
+Route::middleware(['auth'])->group(function () {
+    Route::get('/sumerize', SumerizePage::class)->name('sumerize');
 
     Route::get('/settings', function () {
         return view('settings');
