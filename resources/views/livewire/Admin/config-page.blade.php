@@ -1,485 +1,412 @@
-<div class="p-4 grid grid-cols-1 lg:grid-cols-10 gap-4">
+<div class="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-indigo-500 selection:text-white pb-20">
 
-    {{-- LEFT MENU --}}
-    <div class="lg:col-span-2 bg-gradient-to-b from-chinese-red to-red-800 rounded-lg shadow-xl p-1">
-        <div class="bg-chinese-black rounded-lg p-3 space-y-1.5">
-            @foreach([
-            'page' => 'Page Settings',
-            'operational' => 'Operations',
-            'reservation' => 'Reservations',
-            'payment' => 'Payment'
-            ] as $key => $label)
-            <button
-                wire:click="$set('activeTab', '{{ $key }}')"
-                class="w-full text-left px-3 py-2 rounded-lg transition-all duration-300 text-sm
-                        {{ $activeTab === $key 
-                            ? 'bg-gradient-to-r from-chinese-gold to-chinese-gold-light text-chinese-black font-bold shadow-lg border-2 border-chinese-gold' 
-                            : 'text-chinese-gold-light hover:bg-chinese-red/30 hover:text-white border-2 border-transparent' }}">
-                {{ $label }}
-            </button>
-            @endforeach
+    {{-- Inline CSS untuk Font (Sama dengan Home Page) --}}
+    <style>
+        @font-face {
+            font-family: 'Coolvetica';
+            src: url('/fonts/coolvetica.otf') format('opentype');
+            font-weight: normal;
+        }
+
+        @font-face {
+            font-family: 'CreatoDisplay';
+            src: url('/fonts/CreatoDisplay-Regular.otf') format('opentype');
+            font-weight: normal;
+        }
+
+        @font-face {
+            font-family: 'CreatoDisplay';
+            src: url('/fonts/CreatoDisplay-Bold.otf') format('opentype');
+            font-weight: bold;
+        }
+
+        .font-brand {
+            font-family: 'Coolvetica', sans-serif;
+        }
+
+        .font-body {
+            font-family: 'CreatoDisplay', sans-serif;
+        }
+
+        /* Custom Scrollbar untuk sidebar */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+
+    {{-- Container Utama --}}
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+        {{-- Header Page --}}
+        <div class="mb-8">
+            <h1 class="text-3xl font-brand text-slate-900">Store Configuration</h1>
+            <p class="text-slate-500 font-body">Manage your store settings, appearance, and operational details.</p>
         </div>
-    </div>
 
-    {{-- CONTENT --}}
-    <div class="lg:col-span-8 bg-white rounded-lg shadow-xl border-2 border-chinese-gold overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
-        {{-- Header --}}
-        <div class="bg-gradient-to-r from-chinese-red via-red-700 to-chinese-red p-4 border-b-2 border-chinese-gold">
-            <h2 class="text-lg font-bold text-chinese-gold-light flex items-center gap-2">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-                </svg>
-                @if ($activeTab === 'page') Page Settings
-                @elseif ($activeTab === 'operational') Operational Config
-                @elseif ($activeTab === 'reservation') Reservation Management
-                @else Payment Settings
-                @endif
-            </h2>
-        </div>
+            {{-- SIDEBAR NAVIGATION (Discord Style with Dropdown) --}}
+            <div class="lg:col-span-3 lg:sticky lg:top-10">
+                <nav class="space-y-1" x-data="{ 
+        openDropdown: null,
+        activeTab: @entangle('activeTab')
+    }">
+                    {{-- Appearance Dropdown --}}
+                    <div class="space-y-1">
+                        <button
+                            @click="openDropdown = openDropdown === 'appearance' ? null : 'appearance'"
+                            class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 font-body font-bold text-sm group"
+                            :class="['page', 'website'].includes(activeTab) 
+                    ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/30 ring-1 ring-indigo-500' 
+                    : 'text-slate-500 hover:bg-slate-200/50 hover:text-slate-900'">
 
-        <div class="p-4 bg-gradient-to-br from-gray-50 to-gray-100">
+                            <i class="fas fa-palette w-5 text-center"
+                                :class="['page', 'website'].includes(activeTab) ? 'text-indigo-100' : 'text-slate-400 group-hover:text-slate-600'"></i>
+                            <span class="flex-1 text-left">Appearance</span>
 
-            {{-- PAGE SETTINGS --}}
-            @if ($activeTab === 'page')
-            <div class="grid grid-cols-2 gap-4">
+                            <i class="fas fa-chevron-down text-xs transition-transform duration-200"
+                                :class="openDropdown === 'appearance' ? 'rotate-180' : ''"></i>
+                        </button>
 
-                {{-- KOLOM KIRI: LOGO UPLOAD --}}
-                <div class="space-y-2">
-                    <label class="text-xs font-bold text-chinese-black flex items-center gap-1.5">
-                        <span class="w-0.5 h-3 bg-chinese-red"></span>
-                        Brand Logo
-                    </label>
+                        {{-- Submenu Appearance --}}
+                        <div x-show="openDropdown === 'appearance'"
+                            x-collapse
+                            class="ml-4 space-y-1 border-l-2 border-slate-200 pl-2">
 
-                    {{-- PREVIEW AREA --}}
-                    <div
-                        x-data="{ isDragging: false }"
-                        @dragover.prevent="isDragging = true"
-                        @dragleave.prevent="isDragging = false"
-                        @drop.prevent="isDragging = false; $refs.fileInput.files = $event.dataTransfer.files; $refs.fileInput.dispatchEvent(new Event('change'))"
-                        :class="isDragging ? 'border-chinese-red bg-chinese-red/5' : 'border-chinese-gold/30'"
-                        class="border-2 border-dashed rounded-lg p-4 transition-all duration-200 flex flex-col items-center justify-center min-h-[200px]">
+                            <button
+                                wire:click="$set('activeTab', 'page')"
+                                class="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 font-body text-sm"
+                                :class="activeTab === 'page' 
+                        ? 'bg-indigo-50 text-indigo-700 font-bold' 
+                        : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'">
+                                <i class="fas fa-info-circle w-4 text-center text-xs"></i>
+                                Site Information
+                            </button>
 
-                        @if ($brand_logo)
-                        <img src="{{ $brand_logo->temporaryUrl() }}"
-                            class="max-h-32 w-auto object-contain rounded-lg mb-2">
-                        @elseif ($config->brand_logo_url)
-                        <img src="{{ $config->brand_logo_url }}"
-                            class="max-h-32 w-auto object-contain rounded-lg mb-2">
-                        @else
-                        <svg class="w-12 h-12 text-gray-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
+                            <button
+                                wire:click="$set('activeTab', 'website')"
+                                class="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 font-body text-sm"
+                                :class="activeTab === 'website' 
+                        ? 'bg-indigo-50 text-indigo-700 font-bold' 
+                        : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'">
+                                <i class="fas fa-paint-brush w-4 text-center text-xs"></i>
+                                Website Customization
+                            </button>
+                        </div>
+                    </div>
+
+                    {{-- Other Menu Items --}}
+                    @foreach([
+                    'operational' => ['icon' => 'store', 'label' => 'Operational & Map'],
+                    'reservation' => ['icon' => 'calendar-check', 'label' => 'Reservations'],
+                    'payment' => ['icon' => 'credit-card', 'label' => 'Payment Methods']
+                    ] as $key => $menu)
+                    <button
+                        wire:click="$set('activeTab', '{{ $key }}')"
+                        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 font-body font-bold text-sm group"
+                        :class="activeTab === '{{ $key }}' 
+                    ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/30 ring-1 ring-indigo-500' 
+                    : 'text-slate-500 hover:bg-slate-200/50 hover:text-slate-900'">
+
+                        <i class="fas fa-{{ $menu['icon'] }} w-5 text-center"
+                            :class="activeTab === '{{ $key }}' ? 'text-indigo-100' : 'text-slate-400 group-hover:text-slate-600'"></i>
+                        {{ $menu['label'] }}
+
+                        <i class="fas fa-chevron-right ml-auto text-xs opacity-50"
+                            x-show="activeTab === '{{ $key }}'"></i>
+                    </button>
+                    @endforeach
+                </nav>
+
+                {{-- Quick Status Widget --}}
+                <div class="mt-8 p-5 bg-white rounded-2xl border border-slate-200 shadow-sm">
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Store Status</h4>
+                    <div class="flex items-center gap-3">
+                        <span class="relative flex h-3 w-3">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full {{ $form['site_closed'] ? 'bg-red-400' : 'bg-emerald-400' }} opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 {{ $form['site_closed'] ? 'bg-red-500' : 'bg-emerald-500' }}"></span>
+                        </span>
+                        <span class="text-sm font-bold text-slate-700 font-body">
+                            {{ $form['site_closed'] ? 'Currently Closed' : 'Open for Business' }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            {{-- CONTENT AREA --}}
+            <div class="lg:col-span-9">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden relative min-h-[500px]">
+
+                    {{-- Section Title --}}
+                    <div class="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 backdrop-blur-sm">
+                        <h2 class="text-xl font-brand text-slate-800">
+                            @if ($activeTab === 'page') Appearance Settings
+                            @elseif ($activeTab === 'operational') Operational & Delivery
+                            @elseif ($activeTab === 'reservation') Reservation Rules
+                            @else Payment Configuration
+                            @endif
+                        </h2>
+
+                        {{-- Save Button (Top Right Header) --}}
+                        <button wire:click="save" wire:loading.attr="disabled"
+                            class="hidden md:inline-flex items-center gap-2 px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-lg shadow-md shadow-indigo-500/20 transition-all transform active:scale-95">
+                            <i class="fas fa-save" wire:loading.remove></i>
+                            <i class="fas fa-spinner fa-spin" wire:loading></i>
+                            <span>Save Changes</span>
+                        </button>
+                    </div>
+
+                    <div class="p-8">
+                        {{-- 1. PAGE SETTINGS --}}
+                        @if ($activeTab === 'page')
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                            {{-- Brand Logo Upload --}}
+                            <div class="space-y-4">
+                                <label class="block text-sm font-bold text-slate-700 font-body">Brand Logo</label>
+
+                                <div x-data="{ isDragging: false }"
+                                    @dragover.prevent="isDragging = true"
+                                    @dragleave.prevent="isDragging = false"
+                                    @drop.prevent="isDragging = false; $refs.fileInput.files = $event.dataTransfer.files; $refs.fileInput.dispatchEvent(new Event('change'))"
+                                    :class="isDragging ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200 hover:border-indigo-300 hover:bg-slate-50'"
+                                    class="relative border-2 border-dashed rounded-2xl p-6 transition-all duration-200 flex flex-col items-center justify-center min-h-[240px] group cursor-pointer"
+                                    @click="$refs.fileInput.click()">
+
+                                    <input x-ref="fileInput" type="file" wire:model="brand_logo" accept="image/*" class="hidden">
+
+                                    @if ($brand_logo)
+                                    <img src="{{ $brand_logo->temporaryUrl() }}" class="h-32 object-contain mb-3 drop-shadow-md">
+                                    @elseif ($config->brand_logo_url)
+                                    <img src="{{ $config->brand_logo_url }}" class="h-32 object-contain mb-3 drop-shadow-md">
+                                    @else
+                                    <div class="w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                                        <i class="fas fa-image text-indigo-400 text-2xl"></i>
+                                    </div>
+                                    @endif
+
+                                    <p class="text-sm font-bold text-slate-600">Click to upload or drag image</p>
+                                    <p class="text-xs text-slate-400 mt-1">PNG, JPG up to 2MB</p>
+                                </div>
+                            </div>
+
+                            {{-- Form Inputs --}}
+                            <div class="space-y-6">
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-bold text-slate-700 font-body">Store Name</label>
+                                    <input type="text" wire:model.defer="form.brand_name"
+                                        class="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-xl focus:ring-indigo-500 focus:border-indigo-500 block p-3 font-body placeholder-slate-400 transition-colors"
+                                        placeholder="e.g. Ukita Store">
+                                </div>
+
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-bold text-slate-700 font-body">Footer Address</label>
+                                    <textarea wire:model.defer="form.footer_address" rows="4"
+                                        class="w-full bg-slate-50 border border-slate-200 text-slate-900 text-sm rounded-xl focus:ring-indigo-500 focus:border-indigo-500 block p-3 font-body placeholder-slate-400 transition-colors"
+                                        placeholder="Complete address..."></textarea>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-bold text-slate-700 font-body">Contact Number</label>
+                                    <div class="flex">
+                                        <span class="inline-flex items-center px-4 text-sm text-slate-500 bg-slate-100 border border-r-0 border-slate-200 rounded-l-xl font-bold">
+                                            <select wire:model="phoneCode" class="bg-transparent border-none text-slate-700 focus:ring-0 text-sm p-0 font-bold pr-1 cursor-pointer">
+                                                <option value="+62">+62</option>
+                                                <option value="+1">+1</option>
+                                            </select>
+                                        </span>
+                                        <input type="text" wire:model="phoneNumber"
+                                            class="rounded-none rounded-r-xl bg-slate-50 border border-slate-200 text-slate-900 focus:ring-indigo-500 focus:border-indigo-500 block flex-1 min-w-0 w-full text-sm p-3 font-body"
+                                            placeholder="8123456789">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         @endif
 
-                        <p class="text-xs text-gray-500 text-center mb-1">
-                            Drag & drop image here
-                        </p>
-                        <p class="text-xs text-gray-400 text-center">
-                            or click button below
-                        </p>
-                    </div>
+                        {{-- 2. OPERATIONAL SETTINGS --}}
+                        @if ($activeTab === 'operational')
+                        <div class="space-y-8">
+                            {{-- Leaflet Dependencies --}}
+                            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+                            <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-                    {{-- FILE INPUT BUTTON --}}
-                    <label class="block">
-                        <input
-                            x-ref="fileInput"
-                            type="file"
-                            wire:model="brand_logo"
-                            accept="image/*"
-                            class="hidden">
-                        <span class="w-full cursor-pointer inline-flex items-center justify-center gap-2 px-4 py-2 
-                                     bg-chinese-red text-white text-xs font-semibold rounded-lg 
-                                     hover:bg-red-700 transition-all duration-200 border-2 border-chinese-gold">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                            </svg>
-                            Choose Image
-                        </span>
-                    </label>
-                </div>
-
-                {{-- KOLOM KANAN: FORM INPUTS --}}
-                <div class="space-y-3">
-
-                    <div class="space-y-1">
-                        <label class="text-xs font-bold text-chinese-black flex items-center gap-1.5">
-                            <span class="w-0.5 h-3 bg-chinese-red"></span>
-                            Brand Name
-                        </label>
-                        <input
-                            type="text"
-                            wire:model.defer="form.brand_name"
-                            class="w-full border-2 border-chinese-gold/30 rounded-lg px-3 py-1.5 text-sm
-                                   focus:border-chinese-red focus:ring-2 focus:ring-chinese-gold/20 
-                                   transition-all duration-200">
-                    </div>
-
-                    <div class="space-y-1">
-                        <label class="text-xs font-bold text-chinese-black flex items-center gap-1.5">
-                            <span class="w-0.5 h-3 bg-chinese-red"></span>
-                            Footer Address
-                        </label>
-                        <textarea
-                            wire:model.defer="form.footer_address"
-                            rows="3"
-                            class="w-full border-2 border-chinese-gold/30 rounded-lg px-3 py-1.5 text-sm
-                                   focus:border-chinese-red focus:ring-2 focus:ring-chinese-gold/20 
-                                   transition-all duration-200"></textarea>
-                    </div>
-
-                    <div class="space-y-1">
-                        <label class="text-xs font-bold text-chinese-black flex items-center gap-1.5">
-                            <span class="w-0.5 h-3 bg-chinese-red"></span>
-                            Footer Phone
-                        </label>
-                        <div class="flex gap-2">
-                            <select
-                                wire:model="phoneCode"
-                                class="border-2 border-chinese-gold/30 rounded-lg px-2 py-1.5 text-sm
-                                       focus:border-chinese-red focus:ring-2 focus:ring-chinese-gold/20 transition-all duration-200">
-                                <option value="+62">+62</option>
-                                <option value="+1">+1</option>
-                                <option value="+44">+44</option>
-                            </select>
-
-                            <input
-                                type="text"
-                                wire:model="phoneNumber"
-                                class="flex-1 border-2 border-chinese-gold/30 rounded-lg px-3 py-1.5 text-sm
-                                       focus:border-chinese-red focus:ring-2 focus:ring-chinese-gold/20 transition-all duration-200"
-                                placeholder="81234567890">
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-            @endif
-
-            {{-- OPERATIONAL SETTINGS --}}
-            @if ($activeTab === 'operational')
-            <div class="space-y-8">
-
-                {{-- Pastikan Library Leaflet dimuat (Sebaiknya di layout utama, tapi disini untuk memastikan) --}}
-                <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-                <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-                {{-- 1. General Operational --}}
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {{-- ... Input jam operasional (sama seperti sebelumnya) ... --}}
-                    <div class="space-y-1">
-                        <label class="text-xs font-bold text-chinese-black flex items-center gap-1.5">
-                            <span class="w-0.5 h-3 bg-chinese-red"></span>
-                            Active From
-                        </label>
-                        <input type="time" wire:model.defer="form.active_from"
-                            class="w-full border-2 border-chinese-gold/30 rounded-lg px-3 py-1.5 text-sm focus:border-chinese-red focus:ring-2 focus:ring-chinese-gold/20 transition-all duration-200">
-                    </div>
-
-                    <div class="space-y-1">
-                        <label class="text-xs font-bold text-chinese-black flex items-center gap-1.5">
-                            <span class="w-0.5 h-3 bg-chinese-red"></span>
-                            Active Until
-                        </label>
-                        <input type="time" wire:model.defer="form.active_until"
-                            class="w-full border-2 border-chinese-gold/30 rounded-lg px-3 py-1.5 text-sm focus:border-chinese-red focus:ring-2 focus:ring-chinese-gold/20 transition-all duration-200">
-                    </div>
-
-                    <div class="flex items-center gap-2 p-3 bg-white border-2 border-chinese-gold/30 rounded-lg">
-                        <input type="checkbox" wire:model.defer="form.site_closed"
-                            class="w-4 h-4 text-chinese-red border-chinese-gold/50 rounded focus:ring-2 focus:ring-chinese-gold/20">
-                        <span class="text-xs font-bold text-chinese-black">Close Site</span>
-                    </div>
-
-                    <div class="space-y-1">
-                        <label class="text-xs font-bold text-chinese-black flex items-center gap-1.5">
-                            <span class="w-0.5 h-3 bg-chinese-red"></span>
-                            Tax (%)
-                        </label>
-                        <input type="number" wire:model.defer="form.tax_percent"
-                            class="w-full border-2 border-chinese-gold/30 rounded-lg px-3 py-1.5 text-sm focus:border-chinese-red focus:ring-2 focus:ring-chinese-gold/20 transition-all duration-200">
-                    </div>
-                </div>
-
-                <hr class="border-chinese-gold/30 border-dashed">
-
-                {{-- 2. Location & Delivery System --}}
-                {{-- FIX: Menggunakan Inline Object Alpine untuk menghindari Reference Error --}}
-                <div x-data="{
-        map: null,
-        marker: null,
-        search: '',
-        suggestions: [],
-        lat: @entangle('form.restaurant_lat'),
-        lng: @entangle('form.restaurant_lng'),
-
-        init() {
-            // Tunggu sebentar agar elemen DOM map tersedia
-            this.$nextTick(() => {
-                this.initMap();
-            });
-
-            // Listener untuk update dari Backend (Link Paste)
-            Livewire.on('update-map-view', (data) => {
-                // data mungkin dibungkus array tergantung versi Livewire
-                const coords = Array.isArray(data) ? data[0] : data; 
-                this.updateMapPosition(coords.lat, coords.lng);
-            });
-        },
-
-        initMap() {
-            if (this.map) return; // Mencegah double init
-            
-            // Cek apakah element ada
-            const mapEl = document.getElementById('admin-map');
-            if(!mapEl) return;
-
-            // Default fallback jika lat/lng null/0
-            if(!this.lat) this.lat = -6.200000;
-            if(!this.lng) this.lng = 106.816666;
-
-            this.map = L.map('admin-map').setView([this.lat, this.lng], 15);
-            
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; OSM'
-            }).addTo(this.map);
-
-            const redIcon = new L.Icon({
-                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-                iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41]
-            });
-
-            this.marker = L.marker([this.lat, this.lng], {
-                icon: redIcon,
-                draggable: true
-            }).addTo(this.map);
-
-            this.marker.on('dragend', (e) => {
-                const pos = e.target.getLatLng();
-                this.lat = pos.lat;
-                this.lng = pos.lng;
-                
-                // Update ke Livewire Controller
-                @this.updateCoordinates(pos.lat, pos.lng);
-            });
-        },
-
-        updateMapPosition(lat, lng) {
-            if(!this.map) return;
-            const newLatLng = new L.LatLng(lat, lng);
-            this.marker.setLatLng(newLatLng);
-            this.map.setView(newLatLng, 16);
-            this.lat = lat;
-            this.lng = lng;
-        },
-
-        async getSuggestions() {
-            if (this.search.length < 3) {
-                this.suggestions = []; return;
-            }
-            try {
-                const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(this.search)}&countrycodes=id&limit=5`);
-                this.suggestions = await res.json();
-            } catch (e) { console.error(e); }
-        },
-
-        selectSuggestion(item) {
-            const lat = parseFloat(item.lat);
-            const lng = parseFloat(item.lon);
-            
-            this.search = '';
-            this.suggestions = [];
-            
-            this.updateMapPosition(lat, lng);
-            @this.updateCoordinates(lat, lng);
-        }
-    }">
-                    <h3 class="text-sm font-bold text-chinese-red mb-4 uppercase tracking-wider flex items-center gap-2">
-                        <i class="fas fa-map-marked-alt"></i> Location & Delivery
-                    </h3>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-                        {{-- KOLOM KIRI: Map & Visual Picker --}}
-                        <div class="lg:col-span-2 space-y-4">
-
-                            {{-- Map Container --}}
-                            <div class="relative group">
-                                {{-- FIX: wire:ignore sangat PENTING agar Livewire tidak mereset Map saat input lain diketik --}}
-                                <div wire:ignore>
-                                    <div id="admin-map" class="h-80 w-full rounded-xl border-4 border-chinese-gold/20 shadow-inner z-0"></div>
+                            {{-- Time & Tax Grid --}}
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                                <div class="space-y-2">
+                                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500">Opening Time</label>
+                                    <input type="time" wire:model.defer="form.active_from"
+                                        class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-sm focus:ring-indigo-500 focus:border-indigo-500">
                                 </div>
-
-                                <div class="absolute top-2 right-2 bg-white/90 backdrop-blur px-3 py-1.5 rounded-lg border border-chinese-gold/30 text-[10px] text-chinese-black shadow-sm z-[400]">
-                                    <i class="fas fa-arrows-alt text-chinese-red mr-1"></i> Drag marker to adjust
+                                <div class="space-y-2">
+                                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500">Closing Time</label>
+                                    <input type="time" wire:model.defer="form.active_until"
+                                        class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-sm focus:ring-indigo-500 focus:border-indigo-500">
                                 </div>
-                            </div>
-
-                            {{-- Autocomplete Search --}}
-                            <div class="relative" @click.away="suggestions = []">
-                                <div class="flex gap-2">
-                                    <div class="relative flex-1">
-                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-chinese-red">
-                                            <i class="fas fa-search"></i>
-                                        </span>
-                                        <input type="text"
-                                            x-model="search"
-                                            @input.debounce.500ms="getSuggestions()"
-                                            placeholder="Search location (e.g. Monas, Jakarta)..."
-                                            class="w-full pl-9 border-2 border-chinese-gold/30 rounded-lg px-3 py-2 text-sm focus:border-chinese-red focus:ring-2 focus:ring-chinese-gold/20 transition-all duration-200">
+                                <div class="space-y-2">
+                                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500">Tax / PPN (%)</label>
+                                    <div class="relative">
+                                        <input type="number" wire:model.defer="form.tax_percent"
+                                            class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-sm focus:ring-indigo-500 focus:border-indigo-500 pr-8">
+                                        <span class="absolute right-3 top-2.5 text-slate-400 font-bold text-sm">%</span>
                                     </div>
                                 </div>
-
-                                {{-- Dropdown Suggestions --}}
-                                <div x-show="suggestions.length > 0"
-                                    class="absolute z-[1000] left-0 right-0 bg-white mt-1 rounded-lg shadow-xl border border-chinese-gold/20 max-h-60 overflow-y-auto"
-                                    style="display: none;"
-                                    x-transition>
-                                    <template x-for="item in suggestions" :key="item.place_id">
-                                        <div @click="selectSuggestion(item)"
-                                            class="px-4 py-2 hover:bg-chinese-red/5 cursor-pointer border-b border-gray-100 last:border-0 text-xs text-gray-700">
-                                            <span class="font-bold block" x-text="item.display_name.split(',')[0]"></span>
-                                            <span class="text-[10px] text-gray-500 truncate block" x-text="item.display_name"></span>
-                                        </div>
-                                    </template>
-                                </div>
                             </div>
-                        </div>
 
-                        {{-- KOLOM KANAN: Settings & Google Link --}}
-                        <div class="space-y-4">
-
-                            {{-- Option A: Google Maps Link --}}
-                            <div class="bg-chinese-red/5 p-4 rounded-xl border border-chinese-red/10 space-y-2">
-                                <label class="text-[10px] font-black text-chinese-red uppercase tracking-widest">
-                                    Option A: Paste Link
+                            {{-- Store Status Toggle --}}
+                            <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-200">
+                                <div>
+                                    <h4 class="text-sm font-bold text-slate-800">Force Close Store</h4>
+                                    <p class="text-xs text-slate-500 mt-1">Prevent customers from creating new orders temporarily.</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" wire:model.defer="form.site_closed" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
                                 </label>
-                                <input type="text"
-                                    wire:model.live.debounce.1000ms="googleMapsLink"
-                                    placeholder="Paste Google Maps URL..."
-                                    class="w-full bg-white border-2 border-chinese-gold/30 rounded-lg px-3 py-2 text-xs focus:border-chinese-red focus:ring-2 focus:ring-chinese-gold/20">
-                                <p class="text-[9px] text-gray-500 leading-tight">
-                                    Copy the full URL from browser address bar. The map will update automatically.
-                                </p>
                             </div>
 
-                            {{-- Coordinats Readonly --}}
-                            <div class="grid grid-cols-2 gap-2">
-                                <div>
-                                    <label class="text-[10px] font-bold text-gray-500 uppercase">Lat</label>
-                                    <input type="text" wire:model="form.restaurant_lat" readonly
-                                        class="w-full bg-gray-100 border border-gray-200 rounded px-2 py-1 text-xs text-gray-600">
-                                </div>
-                                <div>
-                                    <label class="text-[10px] font-bold text-gray-500 uppercase">Lng</label>
-                                    <input type="text" wire:model="form.restaurant_lng" readonly
-                                        class="w-full bg-gray-100 border border-gray-200 rounded px-2 py-1 text-xs text-gray-600">
-                                </div>
-                            </div>
+                            <hr class="border-slate-100">
 
-                            <hr class="border-chinese-gold/30 border-dashed">
+                            {{-- Map Section (Re-styled) --}}
+                            <div x-data="{
+                                map: null, marker: null, search: '', suggestions: [], lat: @entangle('form.restaurant_lat'), lng: @entangle('form.restaurant_lng'),
+                                init() { this.$nextTick(() => { this.initMap(); }); Livewire.on('update-map-view', (data) => { const coords = Array.isArray(data) ? data[0] : data; this.updateMapPosition(coords.lat, coords.lng); }); },
+                                initMap() { if(this.map || !document.getElementById('admin-map')) return; if(!this.lat) this.lat = -6.200000; if(!this.lng) this.lng = 106.816666; this.map = L.map('admin-map').setView([this.lat, this.lng], 15); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OSM' }).addTo(this.map); const redIcon = new L.Icon({ iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png', shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] }); this.marker = L.marker([this.lat, this.lng], { icon: redIcon, draggable: true }).addTo(this.map); this.marker.on('dragend', (e) => { const pos = e.target.getLatLng(); this.lat = pos.lat; this.lng = pos.lng; @this.updateCoordinates(pos.lat, pos.lng); }); },
+                                updateMapPosition(lat, lng) { if(!this.map) return; const newLatLng = new L.LatLng(lat, lng); this.marker.setLatLng(newLatLng); this.map.setView(newLatLng, 16); this.lat = lat; this.lng = lng; },
+                                async getSuggestions() { if (this.search.length < 3) { this.suggestions = []; return; } try { const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(this.search)}&countrycodes=id&limit=5`); this.suggestions = await res.json(); } catch (e) { console.error(e); } },
+                                selectSuggestion(item) { const lat = parseFloat(item.lat); const lng = parseFloat(item.lon); this.search = ''; this.suggestions = []; this.updateMapPosition(lat, lng); @this.updateCoordinates(lat, lng); }
+                            }">
+                                <div class="flex items-center gap-2 mb-4">
+                                    <div class="p-2 bg-indigo-100 text-indigo-600 rounded-lg">
+                                        <i class="fas fa-map-marked-alt"></i>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-slate-800 font-brand">Location & Delivery</h3>
+                                </div>
 
-                            {{-- Delivery Fees --}}
-                            <div class="space-y-3">
-                                <div class="space-y-1">
-                                    <label class="text-xs font-bold text-chinese-black flex items-center gap-1.5">
-                                        <span class="w-0.5 h-3 bg-chinese-red"></span>
-                                        Fee per KM
-                                    </label>
-                                    <div class="relative">
-                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs font-bold">Rp</span>
-                                        <input type="number" wire:model.defer="form.price_per_km"
-                                            class="w-full pl-8 border-2 border-chinese-gold/30 rounded-lg px-3 py-1.5 text-sm focus:border-chinese-red focus:ring-2 focus:ring-chinese-gold/20">
+                                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                                    <div class="lg:col-span-2 space-y-4">
+                                        {{-- Map Container --}}
+                                        <div wire:ignore class="relative rounded-2xl overflow-hidden shadow-sm border border-slate-200">
+                                            <div id="admin-map" class="h-80 w-full z-0"></div>
+                                            <div class="absolute top-3 right-3 bg-white/90 backdrop-blur px-3 py-1.5 rounded-lg border border-slate-200 text-xs text-slate-600 shadow-sm z-[400] font-bold">
+                                                <i class="fas fa-arrows-alt text-indigo-500 mr-1"></i> Drag marker to adjust
+                                            </div>
+                                        </div>
+
+                                        {{-- Search --}}
+                                        <div class="relative" @click.away="suggestions = []">
+                                            <div class="relative">
+                                                <i class="fas fa-search absolute left-4 top-3.5 text-slate-400"></i>
+                                                <input type="text" x-model="search" @input.debounce.500ms="getSuggestions()"
+                                                    placeholder="Search location (e.g. Monas)..."
+                                                    class="w-full pl-10 bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                            </div>
+                                            {{-- Dropdown --}}
+                                            <div x-show="suggestions.length > 0" class="absolute z-[1000] left-0 right-0 bg-white mt-1 rounded-xl shadow-xl border border-slate-100 max-h-60 overflow-y-auto" style="display: none;" x-transition>
+                                                <template x-for="item in suggestions" :key="item.place_id">
+                                                    <div @click="selectSuggestion(item)" class="px-4 py-3 hover:bg-indigo-50 cursor-pointer border-b border-slate-50 last:border-0 transition-colors">
+                                                        <span class="font-bold block text-slate-800 text-sm" x-text="item.display_name.split(',')[0]"></span>
+                                                        <span class="text-xs text-slate-500 truncate block mt-0.5" x-text="item.display_name"></span>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-5">
+                                        <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100">
+                                            <label class="text-[10px] font-bold text-indigo-600 uppercase tracking-widest mb-1 block">Quick Link</label>
+                                            <input type="text" wire:model.live.debounce.1000ms="googleMapsLink"
+                                                placeholder="Paste Google Maps URL..."
+                                                class="w-full bg-white border border-indigo-200 rounded-lg px-3 py-2 text-xs focus:ring-indigo-500 focus:border-indigo-500 text-indigo-900 placeholder-indigo-300">
+                                        </div>
+
+                                        <div class="grid grid-cols-2 gap-3">
+                                            <div>
+                                                <label class="text-[10px] font-bold text-slate-400 uppercase">Latitude</label>
+                                                <input type="text" wire:model="form.restaurant_lat" readonly class="w-full bg-slate-100 border-none rounded-lg px-3 py-2 text-xs text-slate-600 font-mono">
+                                            </div>
+                                            <div>
+                                                <label class="text-[10px] font-bold text-slate-400 uppercase">Longitude</label>
+                                                <input type="text" wire:model="form.restaurant_lng" readonly class="w-full bg-slate-100 border-none rounded-lg px-3 py-2 text-xs text-slate-600 font-mono">
+                                            </div>
+                                        </div>
+
+                                        <div class="space-y-3 pt-2">
+                                            <div class="space-y-1">
+                                                <label class="text-xs font-bold text-slate-700">Fee per KM (Rp)</label>
+                                                <input type="number" wire:model.defer="form.price_per_km" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                            </div>
+                                            <div class="space-y-1">
+                                                <label class="text-xs font-bold text-slate-700">Flat Fee (Fallback)</label>
+                                                <input type="number" wire:model.defer="form.delivery_fee" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div class="space-y-1">
-                                    <label class="text-xs font-bold text-chinese-black flex items-center gap-1.5">
-                                        <span class="w-0.5 h-3 bg-chinese-red"></span>
-                                        Flat Fee
-                                    </label>
-                                    <div class="relative">
-                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs font-bold">Rp</span>
-                                        <input type="number" wire:model.defer="form.delivery_fee"
-                                            class="w-full pl-8 border-2 border-chinese-gold/30 rounded-lg px-3 py-1.5 text-sm focus:border-chinese-red focus:ring-2 focus:ring-chinese-gold/20">
-                                    </div>
-                                    <p class="text-[9px] text-gray-400 italic">Used if coordinates fail or pickup.</p>
-                                </div>
                             </div>
-
                         </div>
+                        @endif
+
+                        @if ($activeTab === 'website')
+                        <livewire:admin.website-customization />
+                        @endif
+
+                        {{-- 3. PLACEHOLDERS (Upcoming) --}}
+                        @if (in_array($activeTab, ['reservation','payment']))
+                        <div class="flex flex-col items-center justify-center py-16 text-center">
+                            <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-4 animate-pulse">
+                                <i class="fas fa-layer-group text-slate-300 text-3xl"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-slate-900 font-brand">Feature Coming Soon</h3>
+                            <p class="text-slate-500 max-w-sm mx-auto mt-2">
+                                We are currently working on advanced settings for {{ $activeTab }}. Stay tuned for updates!
+                            </p>
+                        </div>
+                        @endif
+                    </div>
+
+                    {{-- Floating Footer Mobile --}}
+                    <div class="md:hidden border-t border-slate-100 p-4 bg-white sticky bottom-0 z-10">
+                        <button wire:click="save" class="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/30 active:scale-95 transition-transform">
+                            Save Changes
+                        </button>
                     </div>
                 </div>
-            </div>
-            @endif
-
-            {{-- UPCOMING --}}
-            @if (in_array($activeTab, ['reservation','payment']))
-            <div class="text-center py-8">
-                <div class="inline-block p-6 bg-gradient-to-br from-chinese-gold/10 to-chinese-red/10 
-                            rounded-lg border-2 border-dashed border-chinese-gold">
-                    <svg class="w-12 h-12 mx-auto text-chinese-gold mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <p class="text-chinese-black font-bold text-base">Coming Soon</p>
-                    <p class="text-gray-600 text-xs mt-1 italic">Upcoming feature</p>
-                </div>
-            </div>
-            @endif
-
-        </div>
-
-        {{-- Footer Action --}}
-        <div class="px-4 py-3 bg-gradient-to-r from-gray-100 to-gray-200 border-t-2 border-chinese-gold/30">
-            <div class="flex justify-end">
-                <button
-                    wire:click="save"
-                    class="px-6 py-2 bg-gradient-to-r from-chinese-red to-red-700 
-                           text-white text-sm font-bold rounded-lg shadow-lg 
-                           hover:from-red-700 hover:to-chinese-red 
-                           transform hover:scale-105 transition-all duration-300
-                           border-2 border-chinese-gold
-                           flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M5 13l4 4L19 7" />
-                    </svg>
-                    Save Settings
-                </button>
             </div>
         </div>
     </div>
 
-    {{-- TOAST ALERT --}}
-    <div
-        x-data="{ show: false, message: '' }"
+    {{-- MODERN TOAST NOTIFICATION --}}
+    <div x-data="{ show: false, message: '' }"
         @notify-success.window="show = true; message = $event.detail.message; setTimeout(() => show = false, 3000)"
         @page-refresh.window="setTimeout(() => window.location.reload(), 1500)"
-        class="fixed top-6 right-6 z-50 w-full max-w-sm"
+        class="fixed bottom-6 right-6 z-50 flex flex-col gap-2"
         style="display: none;"
         x-show="show"
         x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0 translate-x-10"
-        x-transition:enter-end="opacity-100 translate-x-0"
+        x-transition:enter-start="opacity-0 translate-y-2"
+        x-transition:enter-end="opacity-100 translate-y-0"
         x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-start="opacity-100 translate-x-0"
-        x-transition:leave-end="opacity-0 translate-x-10">
+        x-transition:leave-start="opacity-100 translate-y-0"
+        x-transition:leave-end="opacity-0 translate-y-2">
 
-        <div class="bg-white/90 backdrop-blur-lg border-l-4 border-green-500 shadow-2xl rounded-2xl p-4 flex items-center gap-4 border border-stone-200">
-            <div class="flex-shrink-0 w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
-                <i class="fas fa-check-circle text-green-600 text-lg"></i>
+        <div class="bg-indigo-900 text-white shadow-2xl rounded-xl p-4 flex items-center gap-4 pr-10 relative overflow-hidden">
+            <div class="absolute inset-0 bg-indigo-600/20"></div>
+            <div class="relative z-10 flex-shrink-0 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center shadow-lg shadow-green-500/40">
+                <i class="fas fa-check text-xs"></i>
             </div>
-            <div class="flex-1">
-                <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-stone-400">Success</h4>
-                <p class="text-xs font-bold text-stone-800 leading-tight" x-text="message"></p>
+            <div class="relative z-10">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-indigo-200">System</h4>
+                <p class="text-sm font-semibold" x-text="message"></p>
             </div>
-            <button @click="show = false" class="text-stone-300 hover:text-stone-600 transition-colors px-2">
-                <i class="fas fa-times"></i>
+            <button @click="show = false" class="absolute top-2 right-2 text-indigo-400 hover:text-white transition-colors p-1">
+                <i class="fas fa-times text-xs"></i>
             </button>
         </div>
     </div>

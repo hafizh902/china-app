@@ -22,6 +22,8 @@ class MenuPage extends Component
     #[Url]
     public string $sort = 'popular';
 
+    public ?int $limit = null;
+
     public function loadMore(): void
     {
         $this->perPage += 8;
@@ -37,10 +39,12 @@ class MenuPage extends Component
     {
         $this->resetList();
     }
+
     public function updatedSearch()
     {
         $this->resetList();
     }
+
     public function updatedSort()
     {
         $this->resetList();
@@ -51,10 +55,17 @@ class MenuPage extends Component
         $this->perPage = 8;
     }
 
-    public ?int $limit = null;
-
     public function render()
     {
+        // Ambil daftar kategori unik dari database
+        $categories = Menu::select('category')
+            ->distinct()
+            ->whereNotNull('category')
+            ->where('category', '!=', '')
+            ->orderBy('category')
+            ->pluck('category');
+
+        // Query Utama
         $query = Menu::query()
             ->when(
                 $this->category !== 'all',
@@ -86,18 +97,22 @@ class MenuPage extends Component
         if ($this->limit !== null) {
             $menuItems = $query->take($this->limit)->get();
 
-            return view('livewire.Pages.menu-page', [
-                'menuItems' => $menuItems,
-                'hasMore'   => false,
+            return view('livewire.pages.menu-page', [
+                'menuItems'  => $menuItems,
+                'hasMore'    => false,
+                'categories' => $categories, // Pass categories to view
             ]);
         }
 
+        // Clone query untuk menghitung total sebelum limit diterapkan
+        $totalItems = $query->count();
         $menuItems = $query->take($this->perPage)->get();
-        $hasMore   = $query->count() > $menuItems->count();
+        $hasMore = $totalItems > $menuItems->count();
 
-        return view('livewire.Pages.menu-page', [
-            'menuItems' => $menuItems,
-            'hasMore'   => $hasMore,
+        return view('livewire.pages.menu-page', [
+            'menuItems'  => $menuItems,
+            'hasMore'    => $hasMore,
+            'categories' => $categories, // Pass categories to view
         ]);
     }
 }

@@ -8,7 +8,82 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ================================================ */
+/* === ULTIMATE SCROLLBAR HIDE - TARUH DI ATAS === */
+/* ================================================ */
+/* CRITICAL: Harus SEBELUM @theme dan @layer! */
+
+html {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    overflow: auto !important; /* Bukan hidden, tapi auto */
+    overflow-x: hidden !important;
+}
+
+html::-webkit-scrollbar {
+    width: 0px !important;
+    height: 0px !important;
+    display: none !important;
+}
+
+html::-webkit-scrollbar-track {
+    background: transparent !important;
+    display: none !important;
+}
+
+html::-webkit-scrollbar-thumb {
+    background: transparent !important;
+    display: none !important;
+}
+
+body {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    overflow-x: hidden !important;
+}
+
+body::-webkit-scrollbar {
+    width: 0px !important;
+    height: 0px !important;
+    display: none !important;
+}
+
+/* Untuk semua elemen lainnya juga */
+* {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+*::-webkit-scrollbar {
+    width: 0px !important;
+    height: 0px !important;
+    display: none !important;
+}
+
+*::-webkit-scrollbar-track {
+    display: none !important;
+}
+
+*::-webkit-scrollbar-thumb {
+    display: none !important;
+}
+
+/* ================================================ */
+
 @theme {
+    /* --- UKITA BRAND COLORS --- */
+    --color-ukita-primary: #4F7942;   /* Hijau Daun */
+    --color-ukita-secondary: #388E8E; /* Teal */
+    --color-ukita-accent: #E3A03B;    /* Kuning Mustard */
+    --color-ukita-light: #A7C497;     /* Hijau Muda */
+    --color-ukita-dark: #2C5E5E;      /* Dark Teal */
+
+    /* --- FONTS --- */
+    /* Pastikan font-family ini sesuai dengan nama font yang kamu load */
+    --font-display: 'Coolvetica', sans-serif;
+    --font-sans: 'Creato Display', sans-serif;
+
+    /* --- EXISTING FLUX THEME --- */
     --color-zinc-50: #fafafa;
     --color-zinc-100: #f5f5f5;
     --color-zinc-200: #e5e5e5;
@@ -34,8 +109,9 @@
     }
 }
 
-@layer base {
+/* ... Sisa CSS kamu tetap sama di bawah ini ... */
 
+@layer base {
     *,
     ::after,
     ::before,
@@ -43,28 +119,38 @@
     ::file-selector-button {
         border-color: var(--color-gray-200, currentColor);
     }
+
+    /* Smooth scroll & Overflow control */
+    html {
+        scroll-behavior: smooth !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+
+    body {
+        overflow-x: hidden !important;
+    }
 }
 
 @layer components {
     /* Memaksa placeholder agar tidak transparan/mati */
     [data-flux-control]::placeholder {
-        color: #78716c !important; /* Warna stone-500 */
+        color: #78716c !important; 
         opacity: 1 !important;
         -webkit-text-fill-color: #78716c !important;
     }
 
     /* Memastikan input yang tidak aktif tetap punya kontras tinggi */
     [data-flux-control] {
-        background-color: #f5f5f4 !important; /* stone-100 */
-        border-color: #e7e5e4 !important;     /* stone-200 */
-        color: #1c1917 !important;           /* stone-900 */
+        background-color: #f5f5f4 !important; 
+        border-color: #e7e5e4 !important;    
+        color: #1c1917 !important;           
     }
 
-    /* Override focus agar mengikuti tema merah Anda, bukan ring-accent di app.css */
+    /* Override focus agar mengikuti tema merah Anda, atau ganti ke ukita-primary */
     [data-flux-control]:focus {
         background-color: white !important;
-        border-color: #b91c1c !important;     /* red-700 */
-        box-shadow: 0 0 0 1px #b91c1c !important;
+        border-color: var(--color-ukita-secondary) !important;
+        box-shadow: 0 0 0 1px var(--color-ukita-secondary) !important;
     }
 }
 
@@ -79,13 +165,10 @@
 input:focus[data-flux-control],
 textarea:focus[data-flux-control],
 select:focus[data-flux-control] {
-    @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
+    @apply outline-hidden ring-2 ring-ukita-secondary ring-offset-2 ring-offset-white;
 }
 
 body {
-    padding-top: 64px;
+    /* Hati-hati dengan padding ini di landing page, mungkin perlu di-unset di layout khusus landing page */
+    padding-top: 64px; 
 }
-
-/* \[:where(&)\]:size-4 {
-    @apply size-4;
-} */

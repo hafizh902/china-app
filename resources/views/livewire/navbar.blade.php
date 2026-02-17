@@ -1,131 +1,107 @@
-<nav class="bg-white shadow-lg sticky top-0 z-50 border-b border-gray-100" x-data="{ mobileMenuOpen: false }">
-    <div class="w-full px-4 sm:px-6 lg:px-10">
-        <div class="flex justify-between items-center h-16">
-            <div class="flex items-center space-x-4 lg:space-x-8">
-                <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden p-2 rounded-lg text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors">
-                    <i class="fas" :class="mobileMenuOpen ? 'fa-times' : 'fa-bars'"></i>
-                </button>
-
-                <a href="/" class="flex items-center space-x-3 group transition-transform active:scale-95">
-                    {{-- BOX LOGO --}}
-                    <div class="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center overflow-hidden transition-all duration-300">
-                        {{-- 1. Cek apakah variabel $brand_logo ada (Sedang Upload) --}}
-                        @if (isset($brand_logo) && $brand_logo)
-                            <img src="{{ $brand_logo->temporaryUrl() }}" class="w-full h-full object-cover">
+<nav 
+    x-data="{ mobileMenuOpen: false }" 
+    class="sticky top-0 z-50 bg-white border-b border-indigo-50 shadow-sm font-body"
+>
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="flex justify-between items-center h-20">
+            
+            {{-- LEFT: Logo & Brand --}}
+            <div class="flex items-center gap-8">
+                <a href="/" class="flex items-center gap-3 group">
+                    {{-- Logo Container --}}
+                    <div class="w-10 h-10 rounded-xl overflow-hidden shadow-indigo-200 shadow-md bg-indigo-50 flex items-center justify-center transition-transform group-hover:scale-105">
+                        @php $dbLogo = \App\Models\SystemConfig::value('brand_logo'); @endphp
+                        @if($dbLogo)
+                            <img src="https://bbbvjqzpktarmsblmblv.supabase.co/storage/v1/object/public/chinaon/{{ $dbLogo }}" class="w-full h-full object-cover">
                         @else
-                            {{-- 2. Jika tidak ada variabel upload, ambil langsung dari DB --}}
-                            @php
-                                $dbLogo = \App\Models\SystemConfig::value('brand_logo');
-                            @endphp
-
-                            @if ($dbLogo)
-                                <img src="https://bbbvjqzpktarmsblmblv.supabase.co/storage/v1/object/public/chinaon/{{ $dbLogo }}?v={{ time() }}"
-                                    class="w-full h-full object-cover">
-                            @else
-                                <div class="w-8 h-8 md:w-10 md:h-10 bg-red-700 rounded-xl flex items-center justify-center shadow-md">
-                                    <i class="fas fa-bowl-food text-yellow-400 text-sm md:text-lg"></i>
-                                </div>
-                            @endif
+                            {{-- Default Icon --}}
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
                         @endif
                     </div>
 
-                    {{-- NAMA BRAND --}}
-                    <h1 class="text-lg md:text-2xl font-bold bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent group-hover:from-red-500 group-hover:to-red-600 transition-all duration-300"
-                        style="font-family: 'Noto Sans SC', sans-serif;">
-                        {{ \App\Models\SystemConfig::value('brand_name') ?? '金龍閣' }}
-                    </h1>
+                    {{-- Brand Name --}}
+                    <span class="text-2xl font-brand tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-cyan-500">
+                        {{ \App\Models\SystemConfig::value('brand_name') ?? 'UKITA' }}
+                    </span>
                 </a>
 
-                <div class="hidden lg:flex space-x-1">
-                    <a href="{{ route('home') }}"
-                        class="px-4 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 font-medium transition-all duration-200 rounded-lg {{ request()->routeIs('home') ? 'text-red-600 bg-red-50' : '' }}">
-                        <i class="fas fa-home mr-2"></i>{{ __('language.home') }}
+                {{-- DESKTOP MENU --}}
+                @auth
+                <div class="hidden lg:flex items-center gap-1">
+                    <a href="{{ route('home') }}" 
+                       class="px-4 py-2 rounded-full text-sm font-bold transition-all {{ request()->routeIs('home') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-600 hover:text-indigo-600 hover:bg-slate-50' }}">
+                        {{ __('language.home') }}
                     </a>
-                    <a href="{{ route('menu') }}"
-                        class="px-4 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 font-medium transition-all duration-200 rounded-lg {{ request()->routeIs('menu') ? 'text-red-600 bg-red-50' : '' }}">
-                        <i class="fas fa-utensils mr-2"></i>{{ __('language.menu') }}
+                    <a href="{{ route('catalogue') }}" 
+                       class="px-4 py-2 rounded-full text-sm font-bold transition-all {{ request()->routeIs('catalogue') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-600 hover:text-indigo-600 hover:bg-slate-50' }}">
+                        {{ __('language.catalogue') }}
                     </a>
-                    @auth
-                        <a href="{{ route('orders') }}"
-                            class="px-4 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 font-medium transition-all duration-200 rounded-lg {{ request()->routeIs('orders') ? 'text-red-600 bg-red-50' : '' }}">
-                            <i class="fas fa-shopping-bag mr-2"></i>{{ __('language.orders') }}
+                    <a href="{{ route('orders') }}" 
+                       class="px-4 py-2 rounded-full text-sm font-bold transition-all {{ request()->routeIs('orders') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-600 hover:text-indigo-600 hover:bg-slate-50' }}">
+                        {{ __('language.orders') }}
+                    </a>
+                    <a href="{{ route('reservation') }}" 
+                       class="px-4 py-2 rounded-full text-sm font-bold transition-all {{ request()->routeIs('reservation') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-600 hover:text-indigo-600 hover:bg-slate-50' }}">
+                        {{ __('language.reservations') }}
+                    </a>
+                    @if(auth()->user()->role === 'admin')
+                        <a href="{{ route('admin.dashboard') }}" 
+                           class="px-4 py-2 rounded-full text-sm font-bold text-slate-600 hover:text-indigo-600 hover:bg-slate-50 transition-all">
+                            Admin
                         </a>
-                        <a href="{{ route('reservation') }}"
-                            class="px-4 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 font-medium transition-all duration-200 rounded-lg {{ request()->routeIs('reservation') ? 'text-red-600 bg-red-50' : '' }}">
-                            <i class="fas fa-calendar-check mr-2"></i>{{ __('language.reservations') }}
-                        </a>
-                    @else
-                        <button wire:click="openLoginModal" type="button"
-                            class="px-4 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 font-medium transition-all duration-200 rounded-lg">
-                            <i class="fas fa-shopping-bag mr-2"></i>{{ __('language.orders') }}
-                        </button>
-                    @endauth
-
-                    @auth
-                        @if (auth()->user()->role === 'admin')
-                            <a href="{{ route('admin.dashboard') }}"
-                                class="px-4 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 font-medium transition-all duration-200 rounded-lg {{ request()->routeIs('admin.*') ? 'text-red-600 bg-red-50' : '' }}">
-                                <i class="fas fa-cog mr-2"></i>{{ __('language.admin') }}
-                            </a>
-                        @endif
-                    @endauth
+                    @endif
                 </div>
+                @endauth
             </div>
 
-            <div class="flex items-center space-x-2 md:space-x-4">
-
-                <div class="hidden md:flex items-center gap-1 font-medium">
-                    <button type="button" wire:click="setLanguage('en')" wire:loading.disable
-                        class="transition-colors {{ app()->getLocale() === 'en' ? 'text-red-600 font-semibold' : 'text-gray-700 hover:text-red-600' }}">
-                        EN
-                    </button>
-                    <span class="text-gray-400">|</span>
-                    <button type="button" wire:click="setLanguage('cn')" wire:loading.disable
-                        class="transition-colors {{ app()->getLocale() === 'cn' ? 'text-red-600 font-semibold' : 'text-gray-700 hover:text-red-600' }}">
-                        CN
-                    </button>
+            {{-- RIGHT: Actions --}}
+            <div class="flex items-center gap-4">
+                
+                {{-- Language Switcher --}}
+                <div class="hidden md:flex items-center bg-slate-100/50 border border-slate-200 rounded-full p-1">
+                    <button wire:click="setLanguage('en')" class="px-3 py-1 rounded-full text-xs font-bold transition-all {{ app()->getLocale() === 'en' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-indigo-600' }}">EN</button>
+                    <button wire:click="setLanguage('cn')" class="px-3 py-1 rounded-full text-xs font-bold transition-all {{ app()->getLocale() === 'cn' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-indigo-600' }}">CN</button>
                 </div>
 
-                <livewire:cart-component />
-
+                {{-- Cart --}}
                 @auth
-                    @if (auth()->user()->role === 'admin')
-                        @livewire('admin-notification-bell')
-                    @endif
+                    <livewire:cart-component />
                 @endauth
 
-
-                @auth
+                {{-- Auth Buttons --}}
+                @guest
+                    <div class="hidden md:flex items-center gap-3">
+                        <button wire:click="openLoginModal" class="px-5 py-2.5 text-slate-600 font-bold hover:text-indigo-600 transition-colors">
+                            {{ __('language.login') }}
+                        </button>
+                        <button wire:click="openRegisterModal" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-600/20 transition-all transform hover:scale-105">
+                            {{ __('language.register') }}
+                        </button>
+                    </div>
+                @else
+                    {{-- User Dropdown --}}
                     <div class="relative" x-data="{ open: false }">
-                        <button @click="open = !open"
-                            class="flex items-center space-x-1 md:space-x-3 p-1 md:px-4 md:py-2 bg-gray-50 hover:bg-gray-100 rounded-xl transition-all duration-200 border border-gray-200">
-                            <div
-                                class="w-8 h-8 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                        <button @click="open = !open" class="flex items-center gap-2 pl-2 pr-1 py-1 bg-white border border-slate-200 rounded-full hover:border-indigo-300 transition-all">
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center text-white text-xs font-bold shadow-md">
                                 {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                             </div>
-                            <i class="fas fa-chevron-down text-gray-400 text-xs md:text-sm transition-transform duration-200"
-                                :class="{ 'rotate-180': open }"></i>
+                            <svg class="w-4 h-4 text-slate-400 mr-2 transition-transform duration-200" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
 
-                        <div x-show="open" @click.away="open = false" 
-                            x-transition:enter="transition ease-out duration-100"
-                            x-transition:enter-start="transform opacity-0 scale-95"
-                            x-transition:enter-end="transform opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-75"
-                            x-transition:leave-start="transform opacity-100 scale-100"
-                            x-transition:leave-end="transform opacity-0 scale-95"
-                            class="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-2xl border border-gray-100 py-2 z-[9999]">
+                        <div x-show="open" @click.away="open = false"
+                             x-transition:enter="transition ease-out duration-100"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-75"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-xl border border-slate-100 py-2">
                             
-                            <div class="px-4 py-3 border-b border-gray-100">
-                                <div class="flex items-center space-x-3">
-                                    <div class="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center text-white font-semibold">
-                                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                                    </div>
-                                    <div class="overflow-hidden">
-                                        <div class="text-sm font-semibold text-gray-800 truncate">{{ auth()->user()->name }}</div>
-                                        <div class="text-xs text-gray-500 truncate">{{ auth()->user()->email }}</div>
-                                    </div>
-                                </div>
+                            <div class="px-4 py-3 border-b border-slate-50 mb-1">
+                                <p class="text-sm font-bold text-slate-800 truncate">{{ auth()->user()->name }}</p>
+                                <p class="text-xs text-slate-500 truncate">{{ auth()->user()->email }}</p>
                             </div>
 
                             <div class="py-2">
@@ -159,54 +135,61 @@
                             </div>
                         </div>
                     </div>
-                @else
-                    <div class="flex items-center space-x-2 md:space-x-3">
-                        <button wire:click="openLoginModal"
-                            class="px-2 md:px-4 py-2 text-gray-700 hover:text-red-600 font-medium transition-colors rounded-lg hover:bg-red-50 text-sm md:text-base">
-                            <i class="fas fa-sign-in-alt md:mr-2"></i><span class="hidden md:inline">{{ __('language.login') }}</span>
-                        </button>
-                        <button wire:click="openRegisterModal"
-                            class="px-3 md:px-6 py-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold rounded-lg md:rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg text-sm md:text-base">
-                            <i class="fas fa-user-plus md:mr-2"></i><span class="hidden md:inline">{{ __('language.register') }}</span>
-                        </button>
-                    </div>
-                @endauth
+                @endguest
+
+                {{-- Mobile Menu Toggle --}}
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-lg">
+                    <svg x-show="!mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    <svg x-show="mobileMenuOpen" x-cloak class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
             </div>
         </div>
     </div>
 
-    <div x-show="mobileMenuOpen" 
+    {{-- MOBILE MENU DROPDOWN --}}
+    <div x-show="mobileMenuOpen" x-cloak 
          x-transition:enter="transition ease-out duration-200"
          x-transition:enter-start="opacity-0 -translate-y-2"
          x-transition:enter-end="opacity-100 translate-y-0"
          @click.away="mobileMenuOpen = false"
-         class="lg:hidden bg-white border-t border-gray-100 shadow-xl">
-        <div class="px-4 py-3 space-y-1">
-            <a href="{{ route('home') }}" class="flex items-center px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors">
-                <i class="fas fa-home w-8"></i> {{ __('language.home') }}
-            </a>
-            <a href="{{ route('menu') }}" class="flex items-center px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors">
-                <i class="fas fa-utensils w-8"></i> {{ __('language.menu') }}
-            </a>
-            
+         class="lg:hidden bg-white border-t border-slate-100 shadow-xl absolute w-full top-20 left-0">
+        
+        <div class="px-6 py-6 space-y-2">
             @auth
-                <a href="{{ route('orders') }}" class="flex items-center px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors">
-                    <i class="fas fa-shopping-bag w-8"></i> {{ __('language.orders') }}
+                <a href="{{ route('home') }}" class="block px-4 py-3 rounded-xl font-bold {{ request()->routeIs('home') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-600 hover:bg-slate-50' }}">
+                    {{ __('language.home') }}
                 </a>
-                <a href="{{ route('reservation') }}" class="flex items-center px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors">
-                    <i class="fas fa-calendar-check w-8"></i> {{ __('language.reservations') }}
+                <a href="{{ route('catalogue') }}" class="block px-4 py-3 rounded-xl font-bold {{ request()->routeIs('catalogue') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-600 hover:bg-slate-50' }}">
+                    {{ __('language.catalogue') }}
                 </a>
-            @else
-                <button wire:click="openLoginModal" class="flex items-center w-full px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors text-left">
-                    <i class="fas fa-shopping-bag w-8"></i> {{ __('language.orders') }}
-                </button>
+                <a href="{{ route('orders') }}" class="block px-4 py-3 rounded-xl font-bold {{ request()->routeIs('orders') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-600 hover:bg-slate-50' }}">
+                    {{ __('language.orders') }}
+                </a>
+                <a href="{{ route('reservation') }}" class="block px-4 py-3 rounded-xl font-bold {{ request()->routeIs('reservation') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-600 hover:bg-slate-50' }}">
+                    {{ __('language.reservations') }}
+                </a>
             @endauth
 
-            <div class="flex items-center px-4 py-4 border-t border-gray-50 mt-2">
-                <span class="text-sm text-gray-400 mr-4">Language:</span>
-                <button wire:click="setLanguage('en')" class="px-3 py-1 rounded-md {{ app()->getLocale() === 'en' ? 'bg-red-600 text-white' : 'text-gray-600' }}">EN</button>
-                <button wire:click="setLanguage('cn')" class="px-3 py-1 rounded-md {{ app()->getLocale() === 'cn' ? 'bg-red-600 text-white' : 'text-gray-600' }} ml-2">CN</button>
+            <div class="h-px bg-slate-100 my-4"></div>
+
+            <div class="flex items-center justify-between px-4">
+                <span class="text-sm font-bold text-slate-400">Language</span>
+                <div class="flex gap-2">
+                    <button wire:click="setLanguage('en')" class="px-3 py-1 rounded-lg text-xs font-bold {{ app()->getLocale() === 'en' ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-500' }}">EN</button>
+                    <button wire:click="setLanguage('cn')" class="px-3 py-1 rounded-lg text-xs font-bold {{ app()->getLocale() === 'cn' ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-500' }}">CN</button>
+                </div>
             </div>
+
+            @guest
+                <div class="grid grid-cols-2 gap-4 mt-6">
+                    <button wire:click="openLoginModal" class="py-3 text-slate-600 font-bold border border-slate-200 rounded-xl hover:bg-slate-50">
+                        {{ __('language.login') }}
+                    </button>
+                    <button wire:click="openRegisterModal" class="py-3 bg-indigo-600 text-white font-bold rounded-xl shadow-lg hover:bg-indigo-700">
+                        {{ __('language.register') }}
+                    </button>
+                </div>
+            @endguest
         </div>
     </div>
 </nav>

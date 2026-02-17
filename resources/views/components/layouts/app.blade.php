@@ -4,16 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ optional(\App\Models\SystemConfig::first())->brand_name ?? config('app.name') }}</title>
+    
     {{-- favicon dinamis --}}
     @php
-    $brandLogo = \App\Models\SystemConfig::value('brand_logo'); // simpan nama file di DB
+    $brandLogo = \App\Models\SystemConfig::value('brand_logo');
     @endphp
 
     @if ($brandLogo)
     <link rel="icon" href="https://bbbvjqzpktarmsblmblv.supabase.co/storage/v1/object/public/chinaon/{{ $brandLogo }}?v={{ time() }}">
     @endif
-
 
     <!-- Tailwind CSS dari CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -25,6 +26,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.1/dist/apexcharts.min.js"></script>
     <script>
         // Konfigurasi Tailwind CSS custom
@@ -32,32 +34,32 @@
             theme: {
                 extend: {
                     colors: {
-                        'chinese-red': '#C41E3A', // Warna merah khas China
-                        'chinese-black': '#1A1A1A', // Warna hitam khas China
-                        'chinese-gold': '#D4AF37', // Warna emas khas China
-                        'chinese-gold-light': '#F0D878', // Warna emas terang
+                        'chinese-red': '#C41E3A',
+                        'chinese-black': '#1A1A1A',
+                        'chinese-gold': '#D4AF37',
+                        'chinese-gold-light': '#F0D878',
                     },
                     fontFamily: {
-                        'chinese': ['Noto Sans SC', 'sans-serif'], // Font untuk teks Chinese
-                        'sans': ['Inter', 'sans-serif'], // Font untuk teks umum
+                        'chinese': ['Noto Sans SC', 'sans-serif'],
+                        'sans': ['Inter', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
+    
     <style>
         [wire\:cloak] {
             display: none !important;
         }
     </style>
+    
     @livewireStyles
 </head>
 
 <body class="bg-gray-50 font-sans">
     {{-- Navbar --}}
     <livewire:navbar />
-
-
 
     <main class="relative overflow-visible">
         {{ $slot }}
@@ -70,34 +72,38 @@
     <livewire:logout-modal />
     <livewire:preview-modal />
 
-
     {{-- Alert --}}
     <livewire:alert-manager />
 
     <!-- Ai Chat Assistant -->
     <livewire:chat-assistant />
 
-    {{-- LIVEWIRE SCRIPTS WAJIB --}}
+    {{-- LIVEWIRE SCRIPTS --}}
     @fluxScripts
-    @livewireScripts
-    <!-- <script>
-        window.addEventListener('debug-modal', () => {
-            console.log('Add New Item clicked')
-        })
+@livewireScripts
 
-        document.addEventListener('livewire:init', () => {
-            Livewire.on('toast', (message) => {
-                // Tambahkan notifikasi toast sederhana
-                const toast = document.createElement('div');
-                toast.className =
-                    'fixed top-4 right-4 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg z-50';
-                toast.textContent = message;
-                document.body.appendChild(toast);
-                setTimeout(() => toast.remove(), 3000);
+<script>
+    // Intercept Livewire 419 error SEBELUM dialog muncul
+    document.addEventListener('livewire:init', () => {
+        Livewire.hook('request', ({ fail }) => {
+            fail(({ status, content, preventDefault }) => {
+                if (status === 419) {
+                    preventDefault(); // BLOCK dialog
+                    
+                    // Cek apakah user baru login (ada auth session)
+                    fetch('/check-auth')
+                        .then(r => r.json())
+                        .then(data => {
+                            if (data.authenticated) {
+                                window.location.href = '/home';
+                            } else {
+                                window.location.reload();
+                            }
+                        });
+                }
             });
         });
-    </script> -->
-
+    });
+</script>
 </body>
-
 </html>

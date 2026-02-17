@@ -1,28 +1,52 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 use App\Livewire\Pages;
 use App\Livewire\Admin;
 use App\Http\Controllers\XenditWebhookController;
 use App\Livewire\Pages\SumerizePage;
 
-// Handle GET requests to livewire/update route (should redirect or show error)
+/*
+|--------------------------------------------------------------------------
+| Livewire Guard
+|--------------------------------------------------------------------------
+*/
 Route::get('/livewire/update', function () {
-    return redirect('/')->with('error', 'Invalid request method. Please use the application properly.');
+    return redirect('/')
+        ->with('error', 'Invalid request method. Please use the application properly.');
 });
-// Public
-Route::get('/', Pages\HomePage::class)->name('home');
-Route::get('/menu', Pages\MenuPage::class)->name('menu');
+
+/*
+|--------------------------------------------------------------------------
+| Guest Only Routes (PUBLIC)
+|--------------------------------------------------------------------------
+*/
+Route::middleware('guest')->group(function () {
+    Route::get('/', Pages\LandingPage::class)->name('landing');
+
+    Route::get('/login', function () {
+        return redirect()->route('home');
+    })->name('login');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Public Routes (Accessible after login)
+|--------------------------------------------------------------------------
+*/
+Route::get('/home', Pages\HomePage::class)->name('home');
+Route::get('/catalogue', Pages\MenuPage::class)->name('catalogue');
 Route::get('/cart', Pages\CartPage::class)->name('cart');
 Route::get('/checkout', Pages\CheckoutPage::class)->name('checkout');
-Route::get('/orders', Pages\OrderHistoryPage::class)
-    ->middleware('auth')
-    ->name('orders');
 
-Route::get('/reservation', Pages\ReservationSystem::class)
-    ->middleware('auth')
-    ->name('reservation');
+/*
+|--------------------------------------------------------------------------
+| Authenticated User Routes
+|--------------------------------------------------------------------------
+*/
+Route::middleware('auth')->group(function () {
+    Route::get('/orders', Pages\OrderHistoryPage::class)->name('orders');
+    Route::get('/reservation', Pages\ReservationSystem::class)->name('reservation');
 
 // Route settings user
 Route::middleware(['auth'])->group(function () {
@@ -33,29 +57,36 @@ Route::middleware(['auth'])->group(function () {
     })->name('user.settings');
 });
 
-Route::get('/admin/notifications-history', function () {
-    $query = \App\Models\Order::query();
+/*
+|--------------------------------------------------------------------------
+| Admin Notification History (non-Livewire)
+|--------------------------------------------------------------------------
+*/
+Route::middleware('auth')->get('/admin/notifications-history', function () {
+    $ordersQuery = \App\Models\Order::query();
     $reservationsQuery = \App\Models\Reservation::query();
 
-    // Filter by date if provided
     if (request('date')) {
-        $query->whereDate('created_at', request('date'));
+        $ordersQuery->whereDate('created_at', request('date'));
         $reservationsQuery->whereDate('reservation_date', request('date'));
     }
 
-    // Show all records if 'all' parameter is set, otherwise paginate
     if (request('all')) {
-        $orders = $query->latest()->get();
+        $orders = $ordersQuery->latest()->get();
         $reservations = $reservationsQuery->latest()->get();
     } else {
-        $orders = $query->latest()->paginate(10);
+        $orders = $ordersQuery->latest()->paginate(10);
         $reservations = $reservationsQuery->latest()->paginate(10);
     }
 
     return view('livewire.Admin.notifications', compact('orders', 'reservations'));
 })->name('admin.notifications.all');
 
-// Admin
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth', 'admin'])
     ->prefix('admin')
     ->name('admin.')
@@ -67,8 +98,15 @@ Route::middleware(['auth', 'admin'])
         Route::get('/configurations', Admin\ConfigPage::class)->name('configurations');
     });
 
+/*
+|--------------------------------------------------------------------------
+| Extra Auth Routes
+|--------------------------------------------------------------------------
+*/
 require __DIR__ . '/settings.php';
 
-Route::get('/login', function () {
-    return redirect()->route('home');
-})->middleware('guest')->name('login');
+Route::get('/check-auth', function () {
+    return response()->json([
+        'authenticated' => auth()->check()
+    ]);
+});

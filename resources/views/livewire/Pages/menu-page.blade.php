@@ -1,171 +1,243 @@
-<div>
-    {{-- Category & Sort Filter --}}
-    <div class="bg-white border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-6 py-6 space-y-6">
+<div class="min-h-screen bg-slate-50 font-sans text-slate-800 selection:bg-indigo-500 selection:text-white">
 
-            {{-- Title & Search Container --}}
-            <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
-                <h2 class="text-lg md:text-xl font-semibold text-gray-800 tracking-tight">
-                    {{ __('language.browse_categories') }}
-                </h2>
+    {{-- Inline CSS --}}
+    <style>
+        @font-face {
+            font-family: 'Coolvetica';
+            src: url('/fonts/coolvetica.otf') format('opentype');
+            font-weight: normal;
+        }
 
-                {{-- Search Input - Full width di mobile --}}
-                <div class="relative w-full md:w-72">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 pointer-events-none">
-                        <i class="fas fa-search"></i>
-                    </span>
-                    <input type="text" wire:model.live.debounce.300ms="search"
-                        placeholder="{{ __('language.search_food') }}"
-                        class="w-full pl-11 pr-10 py-2.5 md:py-2 text-sm bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition shadow-sm" />
+        @font-face {
+            font-family: 'CreatoDisplay';
+            src: url('/fonts/CreatoDisplay-Regular.otf') format('opentype');
+            font-weight: normal;
+        }
 
-                    @if ($search)
-                        <button wire:click="$set('search', '')"
-                            class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    @endif
-                </div>
-            </div>
+        @font-face {
+            font-family: 'CreatoDisplay';
+            src: url('/fonts/CreatoDisplay-Bold.otf') format('opentype');
+            font-weight: bold;
+        }
 
-            {{-- Category Filter - Scroll Horizontal di Mobile --}}
-            <div class="flex overflow-x-auto pb-2 md:pb-0 md:flex-wrap gap-2 no-scrollbar -mx-6 px-6 md:mx-0 md:px-0">
-                @php
-                    $categories = [
-                        'all' => ['label' => 'language.all', 'icon' => null],
-                        'main_course' => ['label' => 'language.main_course', 'icon' => 'fa-utensils'],
-                        'snacks' => ['label' => 'language.snacks', 'icon' => 'fa-cookie-bite'],
-                        'drinks' => ['label' => 'language.drinks', 'icon' => 'fa-mug-hot'],
-                        'desserts' => ['label' => 'language.desserts', 'icon' => 'fa-ice-cream'],
-                    ];
-                @endphp
+        .font-brand {
+            font-family: 'Coolvetica', sans-serif;
+        }
 
-                @foreach ($categories as $key => $cat)
-                    <button wire:click="$set('category', '{{ $key }}')"
-                        class="whitespace-nowrap inline-flex items-center gap-2 px-5 py-2.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-200
-            {{ $category === $key
-                ? 'bg-red-500 text-white shadow-md ring-2 ring-red-500/30'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
-                        @if ($cat['icon'])
-                            <i class="fas {{ $cat['icon'] }} text-[10px] md:text-xs"></i>
-                        @endif
+        .font-body {
+            font-family: 'CreatoDisplay', sans-serif;
+        }
 
-                        {{ __($cat['label']) }}
-                    </button>
-                @endforeach
-            </div>
+        .hide-scroll::-webkit-scrollbar {
+            display: none;
+        }
 
-            {{-- Sort Filter - Scroll Horizontal di Mobile --}}
-            <div class="flex items-center gap-2 overflow-x-auto no-scrollbar -mx-6 px-6 md:mx-0 md:px-0">
-                <span class="text-xs md:text-sm text-gray-500 whitespace-nowrap">
-                    {{ __('language.sort_by') }}
-                </span>
+        .hide-scroll {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
 
-                <div class="flex gap-1 bg-gray-100 p-1 rounded-full">
-                    @php
-                        $options = [
-                            'popular' => 'language.sort_popular',
-                            'price-low' => 'language.sort_price_low',
-                            'price-high' => 'language.sort_price_high',
-                            'name' => 'language.sort_name',
-                        ];
-                    @endphp
+    {{-- Main Container --}}
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-10">
 
-                    @foreach ($options as $value => $label)
-                        <button type="button" wire:click="setSort('{{ $value }}')"
-                            class="whitespace-nowrap px-4 py-1.5 text-[10px] md:text-sm rounded-full transition-all duration-200
-                {{ $sort === $value ? 'bg-white text-red-500 font-semibold shadow-sm' : 'text-gray-600 hover:text-gray-900' }}">
-                            {{ __($label) }}
-                        </button>
-                    @endforeach
-                </div>
-            </div>
+        {{-- Mobile Title --}}
+        <div class="lg:hidden mb-4">
+            <h2 class="text-3xl font-brand text-slate-900 tracking-wide">
+                {{ __('language.browse_categories') }}
+            </h2>
         </div>
 
-    </div>
+        {{-- Layout Grid --}}
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
 
-{{-- Menu Grid --}}
-<div class="px-6 py-12 bg-gradient-to-b from-gray-50 to-amber-50/40">
-    @if ($menuItems->count() > 0)
-        {{-- Menggunakan Flex dengan lebar penuh di mobile dan menyesuaikan di desktop --}}
-        <div class="flex flex-wrap justify-center gap-x-8 gap-y-12">
-            @foreach ($menuItems as $item)
-                {{-- Card Container: w-full di mobile agar tampil satu-satu --}}
-                <div
-                    class="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-amber-100 flex flex-col h-full w-full sm:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)] xl:w-[calc(25%-2rem)] max-w-[400px] {{ !$item->is_available ? 'grayscale' : '' }}">
+            {{-- COLUMN 1: PRODUCTS LIST (LEFT) --}}
+            <div class="order-2 lg:order-1 lg:col-span-3">
 
-                    {{-- 1. Image Container (Fixed Height tetap terjaga) --}}
-                    <div class="relative h-72 md:h-64 overflow-hidden flex-shrink-0"
-                        @if ($item->is_available) wire:click="$dispatch('open-preview-modal', [{{ $item->id }}])" @endif>
+                {{-- Header Desktop --}}
+                <div class="hidden lg:flex items-end justify-between mb-6 pb-4 border-b border-slate-200">
+                    <div>
+                        <h2 class="text-4xl font-brand text-slate-900 tracking-wide">
+                            {{ __('language.product_list') }}
+                        </h2>
+                        <p class="text-slate-500 font-body mt-1 text-sm">
+                            Check out our products and find your favorite items!
+                        </p>
+                    </div>
+                </div>
 
-                        <img src="{{ $item->image_url }}" alt="{{ $item->name }}"
-                            class="w-full h-full object-cover transition-transform duration-700
-                            group-hover:scale-110 {{ $item->is_available ? 'cursor-pointer' : 'cursor-not-allowed' }}">
+                {{-- Product Grid --}}
+                <div class="relative min-h-[400px]">
+                    {{-- Background Pattern --}}
+                    <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: radial-gradient(#4F46E5 1px, transparent 1px); background-size: 20px 20px;"></div>
 
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-60"></div>
+                    @if ($menuItems->count() > 0)
+                        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 relative z-10">
+                            @foreach ($menuItems as $item)
+                                <div class="group relative bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 hover:-translate-y-1 flex flex-col {{ !$item->is_available ? 'opacity-75 grayscale-[0.8]' : '' }}">
 
-                        {{-- Status Tag --}}
-                        <div class="absolute top-4 left-4 z-20">
-                            <span
-                                class="px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold text-white shadow-lg
-                                {{ $item->is_available ? 'bg-red-600 border border-amber-400' : 'bg-gray-500' }}">
-                                {{ $item->is_available ? __('language.available') : __('language.sold_out') }}
-                            </span>
+                                    {{-- Image --}}
+                                    <div class="relative aspect-[4/3] overflow-hidden"
+                                        @if ($item->is_available) wire:click="$dispatch('open-preview-modal', [{{ $item->id }}])" @endif>
+
+                                        <img src="{{ $item->image_url }}" alt="{{ $item->name }}"
+                                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 {{ $item->is_available ? 'cursor-pointer' : 'cursor-not-allowed' }}">
+
+                                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+                                        {{-- Badge --}}
+                                        <div class="absolute top-3 left-3 z-10">
+                                            <span class="px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur-md border border-white/10
+                                            {{ $item->is_available ? 'bg-indigo-600/90' : 'bg-slate-500/90' }}">
+                                                {{ $item->is_available ? __('language.available') : __('language.sold_out') }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    {{-- Content --}}
+                                    <div class="p-5 flex flex-col flex-grow">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <h3 class="font-brand text-lg text-slate-800 group-hover:text-indigo-600 transition-colors leading-tight cursor-pointer line-clamp-2 pr-2"
+                                                @if ($item->is_available) wire:click="$dispatch('open-preview-modal', [{{ $item->id }}])" @endif>
+                                                {{ $item->name }}
+                                            </h3>
+                                            <span class="font-bold text-indigo-600 whitespace-nowrap text-sm bg-indigo-50 px-2 py-1 rounded-lg border border-indigo-100">
+                                                <span class="text-[10px] mr-0.5">Rp</span>{{ number_format($item->price, 0, ',', '.') }}
+                                            </span>
+                                        </div>
+
+                                        <p class="text-slate-500 text-xs font-body leading-relaxed line-clamp-2 mb-4 flex-grow">
+                                            {{ $item->description ?? __('language.no_description') }}
+                                        </p>
+
+                                        {{-- Action --}}
+                                        <div class="pt-4 border-t border-slate-50">
+                                            @if ($item->is_available)
+                                                <button
+                                                    wire:click="$dispatch('add-to-cart', [{{ $item->id }}, '{{ $item->name }}', {{ $item->price }}, '{{ $item->image }}']).to('cart-component')"
+                                                    class="w-full py-2.5 rounded-xl bg-slate-900 text-white hover:bg-indigo-600 transition-colors flex items-center justify-center gap-2 group/btn shadow-md shadow-slate-200">
+                                                    <span class="text-xs font-bold uppercase tracking-wider">{{ __('language.add') }}</span>
+                                                    <i class="fas fa-plus text-[10px] group-hover/btn:rotate-90 transition-transform"></i>
+                                                </button>
+                                            @else
+                                                <div class="w-full py-2.5 text-center bg-slate-100 rounded-xl border border-slate-200 cursor-not-allowed">
+                                                    <span class="text-slate-400 text-xs font-bold uppercase tracking-wider">{{ __('language.sold_out') }}</span>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
-
-                        {{-- Chinese Seal (Tetap Besar) --}}
-                        <div
-                            class="absolute top-4 right-4 w-10 h-10 rounded-full bg-red-700 text-amber-300 flex items-center justify-center text-sm font-black shadow-lg rotate-12 z-20">
-                            福
-                        </div>
-
-                        {{-- Price Tag on Image --}}
-                        <div class="absolute bottom-4 left-4 z-20">
-                            <p class="text-white font-bold text-2xl drop-shadow-md">
-                                <span class="text-amber-400 text-sm mr-1">Rp</span>{{ number_format($item->price, 0, ',', '.') }}
+                    @else
+                        {{-- Empty State --}}
+                        <div class="flex flex-col items-center justify-center py-20 text-center bg-white rounded-2xl border border-slate-100 border-dashed">
+                            <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4 text-slate-300">
+                                <i class="fas fa-search text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-brand text-slate-800 mb-1">{{ __('language.item_not_found') }}</h3>
+                            <p class="text-slate-400 font-body text-sm">
+                                Tidak ada hasil untuk pencarian <span class="text-slate-800 font-bold">"{{ $search }}"</span>
                             </p>
+                            <button wire:click="$set('search', '')" class="mt-4 text-indigo-600 text-xs font-bold hover:underline font-body uppercase tracking-wider">
+                                Clear Search
+                            </button>
+                        </div>
+                    @endif
+                </div>
+
+                {{-- Infinite Scroll --}}
+                @if ($hasMore)
+                    <div x-data x-intersect="$wire.loadMore()" class="py-8 flex justify-center">
+                        <div class="flex items-center gap-2 text-indigo-600">
+                            <i class="fas fa-circle-notch fa-spin text-lg"></i>
+                            <span class="text-sm font-bold font-body">{{ __('language.loading_more') }}</span>
                         </div>
                     </div>
+                @endif
+            </div>
 
-                    {{-- 2. Content Area --}}
-                    <div class="p-6 relative flex flex-col flex-grow">
-                        {{-- Ornament --}}
-                        <div
-                            class="absolute top-0 right-0 w-20 h-20 opacity-[0.05] pointer-events-none group-hover:opacity-[0.10] transition-opacity">
-                            <svg viewBox="0 0 100 100" class="fill-red-800">
-                                <path d="M10,40 C30,20 70,20 90,40 L90,60 C70,80 30,80 10,60 Z" />
-                            </svg>
+            {{-- COLUMN 2: SIDEBAR (RIGHT) --}}
+            <div class="order-1 space-y-6 lg:sticky lg:top-24 py-1">
+
+                {{-- Container Sticky --}}
+                <div class="space-y-6 lg:sticky lg:top-24 py-1">
+
+                    {{-- UNIFIED FILTER CARD --}}
+                    <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-xl shadow-slate-200/50">
+                        <h3 class="font-brand text-lg text-slate-800 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                            <i class="fas fa-sliders-h text-indigo-500"></i>
+                            Filter Options
+                        </h3>
+
+                        {{-- 1. SEARCH INPUT --}}
+                        <div class="mb-5">
+                            <label class="text-xs font-bold text-slate-400 uppercase tracking-wider font-body mb-2 block">
+                                {{ __('language.search') }}
+                            </label>
+                            <div class="relative group">
+                                <input type="text" wire:model.live.debounce.300ms="search"
+                                    placeholder="{{ __('language.search_item') }}"
+                                    class="w-full pl-10 pr-4 py-2.5 text-sm font-body bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all placeholder:text-slate-400" />
+                                <span class="absolute left-3 top-3 text-slate-400 group-focus-within:text-indigo-500 transition-colors">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                                @if ($search)
+                                    <button wire:click="$set('search', '')" class="absolute right-3 top-3 text-slate-400 hover:text-red-500">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                @endif
+                            </div>
                         </div>
 
-                        {{-- Judul --}}
-                        <div class="min-h-[3.5rem] flex items-start">
-                            <h3
-                                class="font-serif text-xl font-bold text-slate-800 group-hover:text-red-700 transition-colors uppercase tracking-tight leading-tight line-clamp-2">
-                                {{ $item->name }}
-                            </h3>
+                        {{-- 2. CATEGORY DROPDOWN (DYNAMIC FROM DB) --}}
+                        <div class="mb-5">
+                            <label class="text-xs font-bold text-slate-400 uppercase tracking-wider font-body mb-2 block">
+                                {{ __('language.categories') }}
+                            </label>
+                            <div class="relative">
+                                <select wire:model.live="category"
+                                    class="w-full appearance-none bg-slate-50 border border-slate-200 text-slate-700 text-sm font-bold font-body rounded-xl py-2.5 pl-4 pr-8 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer hover:bg-slate-100 transition-colors capitalize">
+
+                                    {{-- Opsi Default (All) --}}
+                                    <option value="all">{{ __('language.all_categories', ['default' => 'Semua Kategori']) }}</option>
+
+                                    {{-- Loop Data dari Database (Array of Strings) --}}
+                                    @foreach ($categories as $cat)
+                                        <option value="{{ $cat }}">
+                                            {{-- Ubah 'main_course' jadi 'Main Course' untuk tampilan --}}
+                                            {{ ucwords(str_replace('_', ' ', $cat)) }}
+                                        </option>
+                                    @endforeach
+
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500">
+                                    <i class="fas fa-chevron-down text-xs"></i>
+                                </div>
+                            </div>
                         </div>
 
-                        {{-- Divider --}}
-                        <div class="mt-3 flex items-center gap-2">
-                            <div class="h-[2px] w-12 bg-red-600 group-hover:w-20 transition-all"></div>
-                            <div class="h-[2px] w-4 bg-amber-400"></div>
-                        </div>
-
-                        {{-- Deskripsi (Tetap Tampil Penuh) --}}
-                        <div class="mt-4 flex-grow">
-                            <p class="text-gray-500 text-sm italic leading-relaxed line-clamp-2">
-                                {{ $item->description ?? __('language.no_description') }}
-                            </p>
-                        </div>
-
-                        {{-- 3. Action Area (Footer Card) --}}
-                        <div class="mt-6 flex items-center justify-between border-t border-gray-100 pt-5">
-                            <div class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
-                                <i class="fas fa-utensils mr-2 text-amber-500"></i> {{ __('language.fresh') }}
+                        {{-- 3. SORT DROPDOWN --}}
+                        <div>
+                            <label class="text-xs font-bold text-slate-400 uppercase tracking-wider font-body mb-2 block">
+                                {{ __('language.sort_by') }}
+                            </label>
+                            <div class="relative">
+                                <select wire:model.live="sort"
+                                    class="w-full appearance-none bg-slate-50 border border-slate-200 text-slate-700 text-sm font-bold font-body rounded-xl py-2.5 pl-4 pr-8 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer hover:bg-slate-100 transition-colors">
+                                    <option value="popular">{{ __('language.sort_popular') }}</option>
+                                    <option value="price-low">{{ __('language.sort_price_low') }}</option>
+                                    <option value="price-high">{{ __('language.sort_price_high') }}</option>
+                                    <option value="name">{{ __('language.sort_name') }}</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500">
+                                    <i class="fas fa-chevron-down text-xs"></i>
+                                </div>
                             </div>
 
                             @if ($item->is_available)
                                 <button
-                                    wire:click="$dispatchTo('cart-component', 'add-to-cart', [{{ $item->id }}, @js($item->name), {{ $item->price }}, @js($item->image)])"
+                                    wire:click="$dispatch('add-to-cart', [{{ $item->id }}, '{{ $item->name }}', {{ $item->price }}, '{{ $item->image }}']).to('cart-component')"
                                     class="relative overflow-hidden group/btn bg-red-700 hover:bg-red-800 text-white flex items-center gap-3 px-6 py-2.5 rounded-xl transition-all shadow-md active:scale-95">
                                     <span class="text-xs font-bold uppercase tracking-widest">{{ __('language.add') }}</span>
                                     <i class="fas fa-plus text-[10px] bg-amber-400 text-red-900 p-1 rounded-full"></i>
@@ -174,64 +246,46 @@
                                 <span class="text-gray-400 text-xs font-bold uppercase italic">{{ __('language.sold_out') }}</span>
                             @endif
                         </div>
+
                     </div>
 
-                    {{-- Sold Out Overlay --}}
-                    @if (!$item->is_available)
-                        <div class="absolute inset-0 bg-white/40 backdrop-blur-[1px] flex items-center justify-center z-10 pointer-events-none">
-                            <div class="bg-black/80 text-white px-6 py-3 rotate-12 border-2 border-amber-500 font-bold uppercase text-sm tracking-widest shadow-2xl">
-                                {{ __('language.sold_out') }}
-                            </div>
+                    {{-- Promo Banner --}}
+                    <div class="hidden lg:block bg-gradient-to-br from-indigo-600 to-violet-700 rounded-2xl p-6 text-white text-center shadow-xl shadow-indigo-500/20 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full blur-2xl -mr-10 -mt-10"></div>
+                        <div class="relative z-10">
+                            <h4 class="font-brand text-lg mb-1">{{ $storeName ?? 'Official Store' }}</h4>
+                            <p class="text-xs text-indigo-100 font-body">Temukan rasa terbaik hanya di sini.</p>
                         </div>
-                    @endif
+                    </div>
                 </div>
-            @endforeach
+            </div>
+
         </div>
-    @else
-        {{-- No items found --}}
-        <div class="text-center py-12">
-            <div class="max-w-md mx-auto">
-                <i class="fas fa-search text-gray-300 text-6xl mb-4"></i>
-                <h3 class="text-xl font-semibold text-gray-700 mb-2">{{ __('language.item_not_found') }}</h3>
-                <p class="text-gray-500 mb-6">
-                    {{ __('language.no_items_match') }} {{ $search }}.
-                </p>
+
+        {{-- Toast Notification --}}
+        <div x-data="{ show: false, message: '' }"
+            x-on:notify-success.window="show = true; message = $event.detail.message; setTimeout(() => show = false, 3000)"
+            class="fixed top-6 right-6 z-[100] w-full max-w-sm" style="display: none;" x-show="show"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 translate-y-[-10px] scale-95"
+            x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+            x-transition:leave-end="opacity-0 translate-y-[-10px] scale-95">
+
+            <div class="bg-white/95 backdrop-blur-xl border border-indigo-100 shadow-2xl shadow-indigo-500/10 rounded-2xl p-4 flex items-center gap-4">
+                <div class="flex-shrink-0 w-10 h-10 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+                <div class="flex-1">
+                    <h4 class="text-[10px] font-black font-body uppercase tracking-wider text-indigo-400">{{ __('language.cart') }}</h4>
+                    <p class="text-sm font-bold font-body text-slate-800" x-text="message"></p>
+                </div>
+                <button @click="show = false" class="text-slate-300 hover:text-slate-500 transition-colors">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
         </div>
-    @endif
-</div>
-{{-- Infinite Scroll Trigger --}}
-@if ($hasMore)
-    <div x-data x-intersect="$wire.loadMore()" class="h-10 flex justify-center items-center mt-10">
-        <span class="text-gray-400 text-sm"> {{ __('language.loading_more') }}</span>
-    </div>
-@endif
-{{-- TOAST ALERT KANAN ATAS --}}
-<div x-data="{ show: false, message: '' }"
-    x-on:notify-success.window="show = true; message = $event.detail.message; setTimeout(() => show = false, 3000)"
-    class="fixed top-6 right-6 z-[9999] w-full max-w-sm" {{-- Posisi diubah ke top dan right --}} style="display: none;" x-show="show"
-    x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-10"
-    {{-- Animasi masuk dari kanan --}} x-transition:enter-end="opacity-100 translate-x-0"
-    x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 translate-x-0"
-    x-transition:leave-end="opacity-0 translate-x-10" {{-- Animasi keluar ke arah kanan --}}>
-    <div
-        class="bg-white/90 backdrop-blur-lg border-l-4 border-green-500 shadow-2xl rounded-2xl p-4 flex items-center gap-4 border border-stone-200">
-        {{-- Ikon --}}
-        <div class="flex-shrink-0 w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
-            <i class="fas fa-cart-plus text-green-600 text-lg"></i>
-        </div>
 
-        {{-- Teks --}}
-        <div class="flex-1">
-            <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-stone-400">{{ __('language.cart') }}
-            </h4>
-            <p class="text-xs font-bold text-stone-800 leading-tight" x-text="message"></p>
-        </div>
-
-        {{-- Close --}}
-        <button @click="show = false" class="text-stone-300 hover:text-stone-600 transition-colors px-2">
-            <i class="fas fa-times"></i>
-        </button>
     </div>
-</div>
 </div>
